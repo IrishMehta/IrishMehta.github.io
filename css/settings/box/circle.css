@@ -27,8 +27,8 @@ blockquote,
 .pt-about .info .photo img {
 	object-fit: cover;
 
-	-webkit-border-radius: 50%;
-			border-radius: 50%;
+	-webkit-border-radius: 16%;
+			border-radius: 16%;
 }
 
 
