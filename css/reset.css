@@ -1,0 +1,51 @@
+/* css/reset.css */
+
+/* ===== Global Styles & Reset ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    /* Enables smooth scrolling when clicking anchor links */
+    scroll-behavior: smooth;
+    /* Improve scroll performance on some browsers */
+    scroll-padding-top: 60px; /* Offset for fixed nav, adjust as needed */
+}
+
+body {
+    /* Define base font - typography.css will handle more specifics */
+    font-family: 'Inter', sans-serif;
+    line-height: 1.7;
+    /* Base text color - ensure good contrast with initial background */
+    color: #e0e0e0; /* Light grey, good on dark purple */
+
+    /* --- Gradient Background (Set by JS, provide fallback) --- */
+    background: linear-gradient(to top right, rgb(32, 0, 44), rgb(16, 0, 22));
+    transition: background 0.2s linear;
+    overflow-x: hidden; /* Prevent horizontal scrollbars caused by animations */
+}
+
+/* ===== Theme Color Variables ===== */
+:root {
+    /* Base Theme Colors */
+    --color-dark-purple: rgb(32, 0, 44);   /* #20002c */
+    --color-dark-purple-rgb: 32, 0, 44; /* For use with opacity */
+    --color-light-lilac: rgb(203, 180, 212);/* #cbb4d4 */
+    --color-anchor-dark: rgb(16, 0, 22);   /* Darker purple for gradient */
+
+    /* Accent Colors */
+    --color-accent-light: #d9c1e3; /* Slightly lighter lilac */
+    --color-accent-medium: #b199c0; /* Muted lilac */
+    --color-text-light: #f0f0f0;
+    --color-text-dark: #333; /* For potential light backgrounds on elements */
+    --color-subtle-bg: rgba(255, 255, 255, 0.05); /* Subtle background for cards */
+    --color-subtle-border: rgba(203, 180, 212, 0.2); /* Lilac border */
+
+    /* Animation Easing Functions */
+    --ease-out-expo: cubic-bezier(.17,.67,.17,.98);
+    --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1); /* Slight overshoot */
+}

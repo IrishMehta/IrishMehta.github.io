@@ -1,0 +1,74 @@
+{
+    "nodes": [
+      { "id": "irish",            "label": "Irish Mehta",                     "type": "Person"       },
+      { "id": "Places",           "label": "Places",             "type": "Category"     },
+      { "id": "Organizations",    "label": "Companies",       "type": "Category"     },
+      { "id": "Anime",            "label": "Anime",                  "type": "Category"     },
+      { "id": "Books",            "label": "Books",                  "type": "Category"     },
+      { "id": "Dishes",           "label": "Food Dishes",                 "type": "Category"     },
+      { "id": "Movies",           "label": "Movies",                 "type": "Category"     },
+  
+      { "id": "Thailand",            "label": "Phi-phi Islands, Thailand",                    "type": "Place"        },
+      { "id": "Azerbaijan",            "label": "Baku, Azerbaijan",                   "type": "Place"        },
+      { "id": "ArunachalPradesh", "label": "Arunachal Pradesh, India",            "type": "Place"        },
+      { "id": "Sedona",           "label": "Sedona, Arizona",                      "type": "Place"        },
+    
+      { "id": "o9",      "label": "o9 Solutions",                    "type": "Organization" },
+      { "id": "hdw", "label": "Head Digital Works",              "type": "Organization" },
+  
+      { "id": "FullmetalAlchemist","label": "Fullmetal Alchemist",            "type": "Anime"        },
+      { "id": "HunterXHunter",    "label": "Hunter X Hunter",                 "type": "Anime"        },
+      { "id": "AttackOnTitan",    "label": "Attack on Titan",                 "type": "Anime"        },
+  
+      { "id": "SteveJobs",        "label": "Steve Jobs (Walter Isaacson)",    "type": "Book"         },
+      { "id": "AmericanKingpin",  "label": "American Kingpin (Nick Bilton)",  "type": "Book"         },
+      { "id": "MansSearchForMeaning", "label": "Man's Search for Meaning (Victor Frankl)", "type": "Book" },
+  
+      { "id": "Ramen",            "label": "Ramen",                           "type": "Dish"         },
+      { "id": "PaneerTikkaMasala", "label": "Paneer Tikka Masala",            "type": "Dish"         },
+      { "id": "ThaiGreenCurry",   "label": "Thai Green Curry",                "type": "Dish"         },
+      { "id": "PideFlatbread",    "label": "Pide Flatbread",                  "type": "Dish"         },
+  
+      { "id": "Inception",        "label": "Inception",                       "type": "Movie"        },
+      { "id": "TheBigShort",      "label": "The Big Short",                   "type": "Movie"        },
+      { "id": "TwelveAngryMen",   "label": "Twelve Angry Men",                "type": "Movie"        },
+      { "id": "ForrestGump",      "label": "Forrest Gump",                    "type": "Movie"        }
+    ],
+    "edges": [
+      { "from": "irish",         "to": "Places",        "label": "favorite"     },
+      { "from": "irish",         "to": "Movies",        "label": "favorite"     },
+      { "from": "irish",         "to": "Organizations", "label": "worked at"      },
+
+      { "from": "irish",         "to": "Anime",         "label": "favorite"      },
+      { "from": "irish",         "to": "Books",         "label": "favorite"      },
+      { "from": "irish",         "to": "Dishes",        "label": "favorite"     },
+  
+      { "from": "Places",        "to": "Thailand",         "label": "country"               },
+      { "from": "Places",        "to": "Azerbaijan",         "label": "country"               },
+      { "from": "Places",        "to": "ArunachalPradesh",         "label": "state"               },
+      { "from": "Places",        "to": "Sedona",           "label": "city"                 },
+      
+  
+      { "from": "Organizations", "to": "o9",   "label": "Includes"               },
+      { "from": "Organizations", "to": "hdw","label":"Includes"              },
+  
+      { "from": "Anime",         "to": "FullmetalAlchemist","label":"Includes"            },
+      { "from": "Anime",         "to": "HunterXHunter", "label": "Includes"               },
+      { "from": "Anime",         "to": "AttackOnTitan", "label": "Includes"               },
+  
+      { "from": "Books",         "to": "SteveJobs",     "label": "Includes"               },
+      { "from": "Books",         "to": "AmericanKingpin", "label": "Includes"             },
+      { "from": "Books",         "to": "MansSearchForMeaning", "label": "Includes"        },
+  
+      { "from": "Dishes",        "to": "Ramen",         "label": "Includes"               },
+      { "from": "Dishes",        "to": "PaneerTikkaMasala", "label": "Includes"           },
+      { "from": "Dishes",        "to": "ThaiGreenCurry", "label": "Includes"              },
+      { "from": "Dishes",        "to": "PideFlatbread", "label": "Includes"               },
+  
+      { "from": "Movies",        "to": "Inception",     "label": "Includes"               },
+      { "from": "Movies",        "to": "TheBigShort",   "label": "Includes"               },
+      { "from": "Movies",        "to": "TwelveAngryMen", "label": "Includes"              },
+      { "from": "Movies",        "to": "ForrestGump",   "label": "Includes"               }
+    ]
+  }
+  

@@ -1,0 +1,66 @@
+/* css/animations.css */
+
+/* ===== Animation Base States & Transitions (for Observer) ===== */
+/* EXCLUDE home typing elements if their animation is fully JS controlled or specific */
+.section-heading:not(#home-heading),
+.section-paragraph:not(#home-paragraph),
+.timeline-event, /* This is a class from your original CSS, used for scroll observer */
+.project-placeholder,
+.update-placeholder,
+.contact-links {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+
+/* Staggering */
+.section-heading:not(#home-heading) {
+    transition-delay: 0.1s;
+}
+
+.section-paragraph:not(#home-paragraph),
+.project-placeholder,
+.update-placeholder,
+.contact-links {
+    transition-delay: 0.25s;
+}
+
+/* This .timeline-event seems like it's for the main timeline items,
+   not the MDP timeline structure. Adjust if this class is not used
+   or used differently now.
+   If this applies to .timeline-state from MDP, move to timeline.css observer part.
+*/
+.timeline-event { /* If this class is specific to the MDP timeline items, move to timeline.css */
+    transition-delay: 0.15s;
+    opacity: 0; /* Base state, can be redundant if covered above */
+    /* This transition is different, so it's okay here or in timeline.css if specific */
+    transition: opacity 0.7s var(--ease-out-back), transform 0.7s var(--ease-out-back);
+}
+
+
+/* Make elements visible once 'is-visible' class is added */
+.section-heading.is-visible:not(#home-heading),
+.section-paragraph.is-visible:not(#home-paragraph),
+.timeline-event.is-visible, /* Again, check usage of .timeline-event */
+.project-placeholder.is-visible,
+.update-placeholder.is-visible,
+.contact-links.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Specific visible state for .timeline-event, check its relevance */
+.timeline-event.is-visible {
+    /* This implies .timeline-event might have other transforms (like rotate)
+       that need resetting, or it's an older style. */
+    transform: translateX(0) translateY(0) rotate(0deg);
+}
+
+
+/* --- Typing Cursor Blink Animation (can also be in home.css) --- */
+@keyframes blink {
+    from, to { background-color: transparent; }
+    50% { background-color: var(--color-accent-light); }
+}
+
+/* Reduced motion for animations is handled in responsive.css */

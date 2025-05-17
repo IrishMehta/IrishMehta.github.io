@@ -1,0 +1,198 @@
+/* css/projects.css */
+
+/* ===== Projects Section Styling ===== */
+
+.projects-container {
+    display: grid;
+    /* force exactly 3 cards per row at desktop */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+/* Project Card Wrapper (now with visible default & accent border) */
+.project-card-wrapper {
+    position: relative;
+    padding: 8px; 
+    background-color: hsl(var(--clr-bg-end) / 0.65);
+    border: 1px solid hsl(var(--clr-accent) / 0.5);
+    border-radius: 16px;
+    display: flex;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+    /* always visible by default */
+    opacity: 1 !important;
+    transform: none !important;
+
+    /* keep hover lift */
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+}
+.project-card-wrapper:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 0 20px rgba(193, 125, 255, 0.3);
+    background-color: hsl(var(--clr-bg-end) / 0.7);
+}
+
+/* Inner Card */
+.project-card {
+    background-color: hsl(var(--clr-bg-end) / 0.75);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+    flex: 1;
+}
+
+.project-image-container {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease-out;
+}
+
+/* Hover effect for image now tied to wrapper hover */
+.project-card-wrapper:hover .project-image {
+    transform: scale(1.05);
+}
+
+.project-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.project-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: hsl(var(--clr-text));
+    margin-bottom: 0.5rem;
+    position: relative;
+    transition: color 0.3s ease;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Hover effect for title now tied to wrapper hover */
+.project-card-wrapper:hover .project-title {
+    color: var(--color-accent-light, #d8a5ff);
+}
+
+.project-tech {
+    font-size: 0.88rem;
+    color: hsl(var(--clr-muted));
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.project-description {
+    font-size: 0.9rem;
+    color: hsl(var(--clr-text) / 0.9);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+    flex: 1;
+}
+
+
+/* Full-size image container */
+.project-image-container.full-size {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+}
+
+/* Make the images themselves display at full size */
+.project-image-container.full-size .project-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    max-height: none;
+}
+
+/* Optional: Add some spacing between image and content */
+.project-image-container.full-size + .project-content {
+    margin-top: 15px;
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.project-link {
+    padding: 0.5rem 1rem;
+    background-color: hsl(var(--clr-accent) / 0.5);
+    color: hsl(var(--clr-text));
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid hsl(var(--clr-accent) / 0.3);
+}
+
+.project-link:hover {
+    background-color: hsl(var(--clr-accent) / 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Move the top border to the wrapper */
+.project-card-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(
+        to right,
+        rgba(193, 125, 255, 0.7),
+        rgba(255, 128, 215, 0.7)
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    border-radius: 16px 16px 0 0; /* Match top of wrapper */
+}
+
+.project-card-wrapper:hover::before {
+    transform: scaleX(1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .projects-container {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 2rem;
+    }
+    
+    .project-card-wrapper {
+        padding: 6px; /* Smaller padding on smaller screens */
+    }
+    
+    .project-image-container {
+        height: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .projects-container {
+        grid-template-columns: 1fr;
+        width: 85%;
+    }
+    
+    .project-card-wrapper {
+        max-width: 100%;
+    }
+}

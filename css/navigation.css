@@ -1,0 +1,52 @@
+/* css/navigation.css */
+
+/* ===== Navigation Styling ===== */
+nav {
+    position: fixed;
+    inset-block-start: var(--space-md);
+    inset-inline-end: var(--space-lg);
+    z-index: 1000;
+    background-color: hsl(var(--clr-bg-end) / 0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 50px;
+    padding-block: var(--space-xs);
+    padding-inline: var(--space-md);
+    box-shadow: 0 4px 20px hsl(var(--clr-border) / 0.2);
+    border: 1px solid hsl(var(--clr-text) / 0.1);
+    transition: background-color 0.3s ease;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: var(--space-md);
+    padding: 0;
+    margin: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: hsl(var(--clr-text));
+    font-size: var(--fs-h6);
+    font-weight: 500;
+    padding-block: var(--space-xs);
+    padding-inline: var(--space-sm);
+    border-radius: 50px;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    line-height: 1;
+}
+
+nav a:hover,
+nav a:focus {
+    background-color: hsl(var(--clr-text) / 0.15);
+    color: hsl(var(--clr-text));
+    transform: translateY(-2px);
+    outline: none;
+}
+
+/* nav a.active { background-color: hsl(var(--clr-text) / 0.2); } */

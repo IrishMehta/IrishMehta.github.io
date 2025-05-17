@@ -1,0 +1,61 @@
+/* css/typography.css */
+
+/* Base typography */
+html {
+    font-family: var(--font-family-base);
+    font-size: var(--fs-base);
+    line-height: var(--line-height-body);
+}
+body {
+    color: hsl(var(--clr-text));
+}
+
+/* Headings */
+h1 {
+    font-size: var(--fs-h1);
+    margin-block: var(--space-md) 0;
+    color: hsl(var(--clr-heading));
+    letter-spacing: -0.5px;
+}
+h2 {
+    font-size: var(--fs-h2);
+    margin-block: var(--space-md) 0;
+    color: hsl(var(--clr-heading));
+    letter-spacing: -0.4px;
+}
+h3 {
+    font-size: var(--fs-h3);
+    margin-block: var(--space-md) 0;
+    color: hsl(var(--clr-heading));
+}
+h4 {
+    font-size: var(--fs-h4);
+    margin-block: var(--space-sm) 0;
+    color: hsl(var(--clr-heading));
+}
+h5 {
+    font-size: var(--fs-h5);
+    margin-block: var(--space-sm) 0;
+    color: hsl(var(--clr-heading));
+}
+h6 {
+    font-size: var(--fs-h6);
+    margin-block: var(--space-xs) 0;
+    color: hsl(var(--clr-heading));
+}
+
+/* Paragraphs and lists */
+p,
+ul,
+ol {
+    font-size: var(--fs-base);
+    max-width: 65ch;
+    margin-block-end: var(--space-md);
+    color: hsl(var(--clr-text));
+}
+
+/* Small text */
+small {
+    font-size: var(--fs-h6);
+    color: hsl(var(--clr-muted));
+}

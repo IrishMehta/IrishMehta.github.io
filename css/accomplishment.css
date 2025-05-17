@@ -1,0 +1,232 @@
+/* ===== Timeline Accomplishments Styling ===== */
+
+.timeline-accomplish-toggle {
+    background-color: rgba(40, 15, 60, 0.6);
+    color: var(--color-text-light);
+    border: 1px solid rgba(193, 125, 255, 0.2);
+    border-radius: 15px;
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    outline: none;
+    text-align: center;
+    min-width: 140px;
+    position: relative;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+}
+
+/* Update the indicator style */
+.timeline-accomplish-toggle::after {
+    content: '↓';
+    display: inline-block;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+    color: var(--color-accent-light, #d8a5ff);
+}
+
+/* Change indicator when expanded */
+.timeline-accomplish-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+    color: var(--color-accent-light, #d8a5ff);
+}
+
+.timeline-accomplish-toggle:hover,
+.timeline-accomplish-toggle:focus {
+    background-color: rgba(50, 20, 75, 0.7);
+    transform: translateY(-1px);
+    border-color: rgba(255, 128, 215, 0.9);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for the panel */
+.timeline-accomplish-panel {
+    box-sizing: border-box;
+    background-color: rgba(40, 15, 60, 0.65);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(193, 125, 255, 0.2);
+    border-radius: 10px;
+    padding: 18px 22px;
+    width: calc(100% - 40px);
+    max-width: 450px;
+    max-height: none;
+    overflow-y: visible;
+    position: absolute;
+    z-index: 10;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s, transform 0.3s ease;
+    transform: translateY(10px);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent-medium) rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Webkit scrollbar styling */
+.timeline-accomplish-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.timeline-accomplish-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+/* Match scrollbar to timeline aesthetic */
+.timeline-accomplish-panel::-webkit-scrollbar-thumb {
+    background-color: rgba(193, 125, 255, 0.8);
+    border-radius: 3px;
+}
+
+/* Enhanced visible state for panel */
+.timeline-accomplish-panel:not([hidden]) {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
+    overflow-y: auto; 
+    max-height: 300px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-accomplish-panel ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+/* Update list item styling */
+.timeline-accomplish-panel li {
+    font-size: 0.85rem;
+    color: #e0e0e0;
+    padding: 6px 0;
+    position: relative;
+    padding-left: 22px;
+    transition: transform 0.2s ease;
+}
+
+/* Match the bullet point to timeline accent colors */
+.timeline-accomplish-panel li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-accent-light, #d8a5ff);
+    font-weight: bold;
+    font-size: 1.1em;
+    text-shadow: 0 0 5px rgba(193, 125, 255, 0.4);
+}
+
+/* Add hover effect to list items */
+.timeline-accomplish-panel li:hover {
+    transform: translateX(2px);
+    color: #ffffff;
+}
+
+/* Positioning for Odd items (text on right, panel on left) */
+.timeline-state:nth-child(odd) .timeline-accomplish-toggle {
+    float: right;
+    clear: both;
+}
+
+.timeline-state:nth-child(odd) .timeline-accomplish-panel {
+    left: calc(100% + 25px);
+    right: auto;
+    top: -10px; /* Slight offset to align better with the toggle button */
+    text-align: left;
+    margin-bottom: 40px; /* Add space between panels and next timeline item */
+    margin-top: 20px; /* Add space above the panel */
+    margin-left: 20px; /* Add space to the left of the panel */
+}
+
+/* Positioning for Even items (text on left, panel on right) */
+.timeline-state:nth-child(even) .timeline-accomplish-toggle {
+    float: left;
+    clear: both;
+}
+
+.timeline-state:nth-child(even) .timeline-accomplish-panel {
+    right: calc(100% + 25px);
+    left: auto;
+    top: -10px; /* Slight offset to align better with the toggle button */
+    text-align: left;
+    margin-bottom: 40px; /* Add space between panels and next timeline item */
+    margin-top: 20px;
+    margin-right: 20px; /* Add space to the right of the panel */
+}
+
+/* Clear floats */
+.timeline-state-content::after, 
+.timeline-accomplish-toggle::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Special styling for timeline states with open panels */
+.timeline-state:has(.timeline-accomplish-toggle[aria-expanded="true"]) {
+    z-index: 15; /* Higher z-index than other timeline states */
+}
+
+.timeline-state:has(.timeline-accomplish-toggle[aria-expanded="true"]) .timeline-state-content {
+    position: relative;
+    z-index: 16;
+}
+
+/* Add special styling for active timeline nodes */
+.timeline-state:has(.timeline-accomplish-toggle[aria-expanded="true"]) .timeline-node {
+    background: linear-gradient(
+        135deg,
+        rgba(100, 40, 140, 0.95) 0%,
+        rgba(140, 60, 180, 0.95) 100%
+    );
+    box-shadow: 0 0 18px rgba(255, 128, 215, 0.7);
+    border-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Enhance active toggle button */
+.timeline-accomplish-toggle[aria-expanded="true"] {
+    background-color: rgba(50, 20, 75, 0.7);
+    border-color: rgba(255, 128, 215, 0.9);
+    transform: translateY(0);
+    box-shadow: 0 0 15px rgba(193, 125, 255, 0.5);
+    color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .timeline-accomplish-panel,
+    .timeline-state:nth-child(odd) .timeline-accomplish-panel,
+    .timeline-state:nth-child(even) .timeline-accomplish-panel {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        width: 90%; /* Slightly narrower to improve mobile appearance */
+        max-width: none;
+        margin: 15px auto 30px; /* Center the panel with good spacing */
+        float: none;
+        transform: translateY(0);
+        max-height: none; /* Allow content to flow naturally on mobile */
+    }
+
+    .timeline-state:nth-child(odd) .timeline-accomplish-toggle,
+    .timeline-state:nth-child(even) .timeline-accomplish-toggle {
+        float: none;
+        display: block;
+        margin: 15px auto;
+        max-width: 200px;
+        text-align: center; /* Ensure text is centered */
+    }
+    
+    /* Improve vertical spacing between timeline items on mobile */
+    .timeline-state {
+        margin-bottom: 60px; /* Increased from 40px to allow for accomplishment panel */
+    }
+}

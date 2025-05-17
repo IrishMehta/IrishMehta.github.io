@@ -1,0 +1,153 @@
+/* css/home.css */
+
+/* ===== Home Section Specific Styles ===== */
+section#home {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height and padding are from layout.css */
+}
+
+.home-content-wrapper {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Specific overrides for home heading and paragraph for typing animation */
+#home h1,
+#home p {
+    min-height: 1.2em; /* Ensure space during typing */
+    text-align: center;
+    /* Reset observer animation effects as typing is JS controlled */
+    opacity: 1;
+    transform: none;
+    transition: none;
+    margin-bottom: 0.5rem; /* Typing specific margin */
+}
+
+#home-paragraph {
+    line-height: 1.6;
+    min-height: 5em; /* Increased to accommodate multiple lines */
+    font-size: 1.1rem; /* Slightly larger font for better readability */
+    margin-top: var(--space-md, 1rem); /* Add consistent spacing */
+}
+
+#home h1 {
+    margin-bottom: 0.5rem; /* Reduced from 1rem for better spacing */
+    font-size: 1.2rem; /* Make it small for the welcome text */
+    font-weight: 400;
+}
+
+/* --- Typing Cursor --- */
+.typing-cursor {
+    display: inline-block;
+    width: 0.1em; /* relative to font-size */
+    height: 1em;  /* match current line-height */
+    background-color: var(--color-accent-light);
+    margin-left: 0.2em;
+    vertical-align: text-bottom;
+    opacity: 0; /* JS controlled */
+    transition: opacity 0.1s ease;
+    position: relative;
+}
+
+/* .typing-cursor.visible {
+    opacity: 1;
+} */
+
+.typing-cursor.blinking {
+    animation: none;
+}
+
+/* --- Particle/Cluster Canvas Styling --- */
+/* Assuming #particle-canvas is old and #cluster-canvas is current */
+#cluster-canvas { /* Or #particle-canvas if that's what you use */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    /* For #particle-canvas, you had opacity transitions, cluster-canvas might not need it here */
+}
+
+/* If you had specific styling for #particle-canvas like opacity transitions */
+/*
+#particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.5s ease-in;
+}
+#particle-canvas.visible {
+    opacity: 0.6;
+}
+*/
+
+.welcome-blur-box {
+    background: hsl(var(--clr-surface) / 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg, 24px);
+    box-shadow: 0 4px 24px hsl(var(--clr-border) / 0.15);
+    padding: var(--space-lg) var(--space-xl);
+    margin-bottom: var(--space-lg);
+    display: inline-block;
+    max-width: 90vw;
+    min-height: 8rem;
+}
+
+#home-heading, #home-paragraph {
+    position: relative;
+    z-index: 2;
+}
+
+/* Small welcome text */
+.welcome-small {
+    font-size: 1.2rem;
+    font-weight: 400;
+    opacity: 0.9;
+    display: block;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: font-size 0.8s ease, font-weight 0.8s ease, opacity 0.8s ease, letter-spacing 0.8s ease;
+}
+
+/* Big welcome text that will shrink */
+.welcome-big {
+    font-size: 3rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.8rem;
+    transition: font-size 0.8s ease, font-weight 0.8s ease, opacity 0.8s ease, letter-spacing 0.8s ease;
+}
+
+/* Make name larger and bolder */
+#typing-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.4;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* For the cycling titles (after the line break) */
+br + span,
+#typing-text::after {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: hsl(var(--clr-accent));
+    line-height: 1.4;
+}

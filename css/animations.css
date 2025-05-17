@@ -1,0 +1,25 @@
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* @keyframes shrink-welcome {
+    0% {
+        font-size: 3rem;
+        font-weight: 700;
+        opacity: 1;
+    }
+    70% {
+        font-size: 1.2rem;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        opacity: 0.6;
+    }
+    100% {
+        font-size: 1.2rem;
+        font-weight: 400;
+        letter-spacing: 0.1em; 
+        opacity: 0.9;
+        text-transform: uppercase;
+    }
+} */

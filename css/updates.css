@@ -1,0 +1,129 @@
+/* Styles for the Updates section */
+
+#updates {
+    padding: var(--space-xxl) var(--space-md);
+    position: relative;
+}
+
+/* Section heading with subtle accent color */
+#updates .section-heading {
+    color: hsl(var(--clr-heading));
+    margin-bottom: var(--space-sm);
+    position: relative;
+    display: inline-block;
+}
+
+/* Add a subtle underline accent to the heading */
+#updates .section-heading::after {
+    content: '';
+    position: absolute;
+    width: 40%;
+    height: 3px;
+    bottom: -8px;
+    left: 30%; /* Centers the line under the text */
+    background: linear-gradient(
+        to right,
+        hsl(var(--clr-accent) / 0.6),
+        hsl(var(--clr-accent) / 0.6)
+    );
+    border-radius: 2px;
+}
+
+#updates .section-paragraph {
+    color: hsl(var(--clr-text)); /* Use the main text color for consistency */
+    font-size: var(--fs-base);
+    margin-top: var(--space-md); /* Add more space above */
+    margin-bottom: var(--space-lg);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Container for updates with subtle background */
+#updates .updates-container {
+    max-width: 800px;
+    width: 90%;
+    margin: 0 auto;
+    padding: var(--space-lg);
+    background-color: hsl(var(--clr-surface) / 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid hsl(var(--clr-accent) / 0.3);
+}
+
+#updates .updates-list {
+    list-style-type: none;
+    line-height: 1.7;
+    font-size: var(--fs-base);
+    color: hsl(var(--clr-text));
+    
+}
+
+/* Adjust the list item padding and positioning */
+#updates .updates-list li {
+    margin-bottom: var(--space-md);
+    position: relative;
+    padding-left: 28px;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Ensure content stays left-aligned */
+    text-align: left; /* Explicitly set text alignment */
+}
+
+/* Add this to ensure the content wraps properly */
+.update-content {
+    flex: 1;
+    min-width: 0;
+    text-align: left; /* Ensure text inside stays left-aligned */
+}
+
+/* Custom bullet points matching timeline accent colors - with fixed alignment */
+#updates .updates-list li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: hsl(var(--clr-accent) / 0.9);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Subtle hover effect */
+#updates .updates-list li:hover {
+    transform: translateX(4px);
+}
+
+/* Date styling for updates */
+.update-date {
+    font-size: var(--fs-h6);
+    font-weight: 600;
+    color: hsl(var(--clr-accent));
+    margin-right: var(--space-xs);
+    /* This ensures the date doesn't break alignment */
+    display: inline-block;
+}
+
+/* Add this to ensure the content wraps properly */
+.update-content {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 768px) {
+    #updates {
+        padding: 2rem 1rem;
+    }
+    
+    #updates .updates-container {
+        width: 95%;
+        padding: 1.2rem;
+    }
+    
+    #updates .updates-list li {
+        margin-bottom: 1rem;
+    }
+}

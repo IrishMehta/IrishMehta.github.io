@@ -1,0 +1,267 @@
+/* css/responsive.css */
+
+/* ===== Responsive Design Adjustments ===== */
+
+/* --- Medium Screens (Tablets) --- */
+@media (max-width: 768px) {
+    /* Navigation */
+    nav {
+        right: 1rem;
+        top: 0.5rem;
+        padding: 0.4rem 0.8rem;
+    }
+    nav ul { gap: 0.6rem; }
+    nav a { font-size: 0.85rem; }
+
+    /* Typography */
+    h1 { font-size: 2.2rem; } /* Was: clamp(2.5rem, 6vw, 4rem) */
+    h2 { font-size: 1.9rem; } /* Was: clamp(2rem, 5vw, 3rem) */
+
+    /* MDP Timeline Responsive Adjustments */
+    .timeline-container-mdp::after {
+        left: 20px;
+        transform: none;
+    }
+
+    .timeline-state,
+    .timeline-state:nth-child(even) { /* Also applies to odd now for stacking */
+        width: 100%;
+        left: 0;
+        padding-left: 55px;
+        padding-right: 15px;
+        text-align: left !important; /* Force left align for all stacked items */
+    }
+    .timeline-state:nth-child(odd) { /* Ensure odd items also stack left */
+        text-align: left !important; /* Force left align */
+    }
+
+
+    .timeline-node,
+    .timeline-state:nth-child(odd) .timeline-node, /* Consolidate for stacked view */
+    .timeline-state:nth-child(even) .timeline-node {
+        left: 10px; /* Position relative to new line */
+        transform: translateX(-50%);
+        top: 15px; /* Adjust vertical */
+    }
+    /* Adjust hover transform for mobile - applies to both odd/even now */
+    .timeline-state:hover .timeline-node {
+        transform: translateX(-50%) scale(1.2);
+    }
+
+    /* Hover info box for main timeline content (if you re-add it) */
+    /*
+    .timeline-state-content::after,
+    .timeline-state:nth-child(odd) .timeline-state-content::after {
+        left: 0;
+        right: auto;
+        max-width: calc(100% - 20px);
+        text-align: left;
+    }
+    */
+
+    /* Node Icon position on mobile */
+    .node-icon,
+    .timeline-state:nth-child(odd) .node-icon,
+    .timeline-state:nth-child(even) .node-icon {
+        left: 35px;
+        right: auto;
+        top: 18px;
+    }
+
+    /* Accomplishments Panel and Toggle on mobile */
+    .timeline-accomplish-panel,
+    .timeline-state:nth-child(odd) .timeline-accomplish-panel,
+    .timeline-state:nth-child(even) .timeline-accomplish-panel {
+        position: relative; /* Stack below content */
+        left: auto;
+        right: auto;
+        top: auto;
+        width: calc(100% - 20px); /* Adjust width to fit within padded .timeline-state */
+        margin: 10px auto 20px auto; /* Center and add margin */
+        float: none;
+        transform: translateY(0); /* Reset transform */
+        max-width: none; /* Allow it to fill available width */
+    }
+
+    .timeline-state:nth-child(odd) .timeline-accomplish-toggle,
+    .timeline-state:nth-child(even) .timeline-accomplish-toggle {
+        float: none; /* Stack button */
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 200px; /* Or adjust as needed */
+    }
+
+    /* Older .timeline-event responsive styles from original CSS */
+    /* Review if these .timeline-event styles are still needed or conflict with .timeline-state */
+    /*
+    .timeline-container::after { // Assuming this was for a different timeline structure
+        left: 30px;
+        transform: none;
+    }
+    .timeline-event,
+    .timeline-event:nth-child(even) {
+        width: 100%;
+        left: 0;
+        padding-left: 70px;
+        padding-right: 15px;
+        text-align: left;
+        transform: translateX(-30px) translateY(20px);
+    }
+    .timeline-event:nth-child(odd) .timeline-dot,
+    .timeline-event:nth-child(even) .timeline-dot {
+        left: 21px;
+        right: auto;
+        top: 25px;
+    }
+    .timeline-event.is-visible {
+        transform: translateX(0) translateY(0);
+    }
+    */
+}
+
+/* --- Small Screens (Mobile) --- */
+@media (max-width: 480px) {
+    /* Base Body & Nav */
+    body { font-size: 15px; } /* Consider if needed, or use clamp in typography */
+    nav { padding: 0.3rem 0.6rem; }
+    nav ul { gap: 0.4rem; }
+    nav a { font-size: 0.75rem; padding: 0.2rem 0.4rem; }
+
+    /* Typography */
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    p { font-size: 0.95rem; } /* General paragraph */
+
+    /* Layout */
+    section { padding: 80px 3% 40px; }
+
+    /* MDP Timeline on small mobile */
+    .timeline-container-mdp::after {
+        left: 15px;
+    }
+    .timeline-state { /* Applies to both odd and even due to stacking */
+        padding-left: 45px; /* Less padding for smaller screens */
+        margin-bottom: 30px; /* Reduce space between items */
+    }
+     .timeline-node, /* Applies to both odd and even */
+     .timeline-state:nth-child(odd) .timeline-node,
+     .timeline-state:nth-child(even) .timeline-node {
+        left: 5px; /* Closer to the very edge for the line */
+        width: 18px;
+        height: 18px;
+        border-width: 1.5px;
+        top: 12px;
+    }
+    /* Hover transform is already translateX(-50%) scale(1.2) from 768px breakpoint */
+
+    .timeline-title { font-size: 1.05rem; }
+    .timeline-company, .timeline-skills { font-size: 0.85rem; }
+    /* .timeline-state-content::after { font-size: 0.8rem; } */ /* If hover info is re-added */
+
+    /* Node Icon position on small mobile */
+     .node-icon,
+     .timeline-state:nth-child(odd) .node-icon,
+     .timeline-state:nth-child(even) .node-icon {
+         left: 30px;
+         top: 15px;
+     }
+
+    /* Older .timeline-event small mobile styles - review necessity */
+    /*
+    .timeline-container::after { left: 20px; } // Different timeline class
+    .timeline-event { padding-left: 55px; margin-bottom: 40px; }
+    .timeline-event:nth-child(odd) .timeline-dot,
+    .timeline-event:nth-child(even) .timeline-dot { left: 11px; }
+    .timeline-content { padding: 15px 20px; } // Different timeline class
+    .timeline-title { font-size: 1.1rem; }
+    */
+}
+
+
+/* ===== Accessibility: Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  /* Turn off complex transitions and animations */
+  body,
+  nav a,
+  .timeline-state, /* Changed from .timeline-event */
+  .section-heading:not(#home-heading),
+  .section-paragraph:not(#home-paragraph),
+  .timeline-node,  /* Changed from .timeline-dot */
+  /* .timeline-content, // This is a generic class, be careful */
+  #cluster-canvas, /* Was #particle-canvas */
+  .project-placeholder,
+  .update-placeholder,
+  .contact-links,
+  .typing-cursor,
+  .slider, /* For about toggle */
+  .slider:before,
+  .about-content,
+  .graph-reset-button,
+  .timeline-accomplish-toggle,
+  .timeline-accomplish-panel
+   {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Ensure elements animated by observer are immediately visible */
+  .section-heading:not(#home-heading),
+  .section-paragraph:not(#home-paragraph),
+  .timeline-state, /* Changed from .timeline-event */
+  .project-placeholder,
+  .update-placeholder,
+  .contact-links,
+  .about-content /* Ensure about content is visible if transitions are off */
+  {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  /* If .about-content.active relies on transition for height, set it directly */
+  .about-content.active {
+      height: auto !important;
+      visibility: visible !important;
+  }
+   #knowledge-graph-enhanced-container { /* Ensure graph container is visible too */
+       opacity: 1 !important;
+       transform: none !important;
+       height: auto !important; /* Or its specific height */
+   }
+    .timeline-accomplish-panel:not([hidden]) {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+    }
+
+
+  /* Ensure timeline nodes are as intended */
+  .timeline-node { /* Changed from .timeline-dot */
+      transform: scale(1) !important; /* Reset any hover/focus scale */
+      /* If it was translateX for positioning, that needs to be preserved or handled differently */
+      box-shadow: none !important;
+  }
+   .timeline-state:nth-child(odd) .timeline-node { transform: translateX(50%) scale(1) !important; }
+   .timeline-state:nth-child(even) .timeline-node { transform: translateX(-50%) scale(1) !important; }
+
+
+  /* Ensure canvas is hidden if its visibility relies on animation/transition */
+  #cluster-canvas { /* Was #particle-canvas */
+      /* If it should be visible by default (no animation to show it), remove this.
+         If JS shows it by adding a class, then that class should set opacity to 1. */
+      opacity: 1 !important; /* Assuming it should be visible unless JS hides it */
+      /* If it was opacity: 0 and JS fades it in, then it depends on how JS handles reduced motion */
+  }
+   /* If #particle-canvas was used and had a .visible class for JS:
+   #particle-canvas.visible { opacity: 0.6 !important; }
+   #particle-canvas:not(.visible) { opacity: 0 !important; }
+   */
+
+
+  /* Ensure typing cursor is not animated and potentially hidden if it relies on animation to be seen */
+  .typing-cursor {
+      opacity: 0 !important; /* If it should not be visible at all with reduced motion */
+      animation: none !important;
+  }
+  /* If you have a "displayTypingImmediately()" JS function, it should handle showing text
+     and hiding the cursor. */
+}

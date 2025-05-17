@@ -1,0 +1,222 @@
+/* css/timeline.css */
+
+/* ===== MDP Inspired Timeline Section (#timeline) ===== */
+/* #timeline general section styles are in layout.css */
+
+.timeline-container-mdp {
+    position: relative;
+    width: 90%;
+    max-width: 700px;
+    margin-block: var(--space-xxl);
+    margin-inline: auto;
+    padding-block: var(--space-lg);
+}
+
+/* Vertical Line */
+.timeline-container-mdp::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background: linear-gradient(
+        to bottom,
+        hsl(var(--clr-accent) / 0.8) 0%,
+        hsl(var(--clr-accent) / 0.8) 100%
+    );
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    border-radius: 3px;
+    box-shadow: 0 0 15px hsl(var(--clr-accent) / 0.3);
+}
+
+/* Timeline State (item container) */
+.timeline-state {
+    position: relative;
+    width: 50%;
+    margin-block-end: var(--space-xl);
+    padding-inline: var(--space-lg);
+    padding-block-end: var(--space-xxl); /* Reserve space for accomplishments panel */
+    z-index: 2;
+    /* Observer Animation - these are base states for scroll observer */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s var(--ease-out-back), transform 0.7s var(--ease-out-back);
+    /* Note: This duplicates .timeline-event from animations.css if .timeline-state
+       is what was meant by .timeline-event. If .timeline-event is a *different*
+       element, keep them separate. If .timeline-state IS the event,
+       remove the .timeline-event rules from animations.css or consolidate.
+       For now, I'll assume .timeline-state is the primary animated item for the MDP timeline. */
+}
+
+.timeline-state.is-visible {
+     opacity: 1;
+     transform: translateY(0);
+}
+
+/* Position States */
+.timeline-state:nth-child(odd) {
+    left: 0;
+    text-align: right;
+}
+
+.timeline-state:nth-child(even) {
+    left: 50%;
+    text-align: left;
+}
+
+/* State Node (Circle) */
+.timeline-node {
+    position: absolute;
+    top: 10px;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(
+        135deg,
+        hsl(var(--clr-bg-start) / 0.95) 0%,
+        hsl(var(--clr-accent) / 0.95) 100%
+    );
+    border: 2px solid hsl(var(--clr-text) / 0.9);
+    border-radius: 50%;
+    z-index: 3;
+    box-shadow: 0 0 12px hsl(var(--clr-accent) / 0.4);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Position Nodes on the Line */
+.timeline-state:nth-child(odd) .timeline-node {
+    right: -10px; /* (Item padding - NodeWidth/2) relative to item's edge */
+    transform: translateX(50%); /* Aligns center of node to item edge */
+}
+
+.timeline-state:nth-child(even) .timeline-node {
+    left: -10px;
+    transform: translateX(-50%);
+}
+
+/* Node Hover Effect */
+/* Define --side variable for correct hover transform */
+.timeline-state:nth-child(odd) { --side: 1; }
+.timeline-state:nth-child(even) { --side: -1; }
+
+.timeline-state:nth-child(odd) .timeline-node:hover {
+    transform: translateX(50%) scale(1.25);
+    border-color: rgba(255, 128, 215, 0.9);
+    box-shadow: 0 0 18px rgba(255, 128, 215, 0.7);
+    background: linear-gradient(
+        135deg,
+        rgba(100, 40, 140, 0.95) 0%,
+        rgba(140, 60, 180, 0.95) 100%
+    );
+}
+.timeline-state:nth-child(even) .timeline-node:hover {
+    transform: translateX(-50%) scale(1.25);
+    border-color: rgba(255, 128, 215, 0.9);
+    box-shadow: 0 0 18px rgba(255, 128, 215, 0.7);
+    background: linear-gradient(
+        135deg,
+        rgba(100, 40, 140, 0.95) 0%,
+        rgba(140, 60, 180, 0.95) 100%
+    );
+}
+/* Note: The more complex hover with calc was simplified as it didn't seem to be working as intended.
+   This simpler version should work for individual side scaling. */
+
+
+/* State Content (Text) */
+.timeline-state-content {
+    position: relative;
+    padding: var(--space-sm) var(--space-md);
+    background-color: hsl(var(--clr-bg-end) / 0.6);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px hsl(var(--clr-border) / 0.15);
+    border: 1px solid hsl(var(--clr-accent) / 0.2);
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.timeline-date {
+    display: block;
+    font-size: var(--fs-h6);
+    font-weight: 600;
+    color: hsl(var(--clr-accent));
+    margin-bottom: 0.3rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.timeline-title {
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+    color: hsl(var(--clr-text));
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    transition: color 0.3s ease;
+}
+
+.timeline-company { /* Also .timeline-skills if you have that class */
+    display: block;
+    font-size: var(--fs-h6);
+    font-weight: 500;
+    color: hsl(var(--clr-text) / 0.85);
+    margin-bottom: 0.5rem;
+}
+.timeline-skills { /* From your HTML */
+    display: block;
+    font-size: var(--fs-h6);
+    font-weight: 400;
+    color: hsl(var(--clr-muted));
+    margin-bottom: 0.8rem;
+    font-style: italic;
+}
+
+
+/* Old Hover Info Reveal - you removed this part but I'm noting where it was */
+/* .timeline-state-content::after { ... } */
+/* .timeline-state:hover .timeline-state-content::after { ... } */
+
+/* Optional: Subtle bold effect on title hover */
+.timeline-state:hover .timeline-title {
+    color: var(--color-accent-light, #d8a5ff);
+    font-weight: 700; /* Or a color change */
+}
+
+/* Node Icons (if you use them) */
+.node-icon {
+  position: absolute;
+  top: 25px;
+  font-size: 0.9em;
+  color: var(--color-accent-light, #d8a5ff);
+  text-shadow: 0 0 5px rgba(193, 125, 255, 0.6);
+}
+.timeline-state:nth-child(odd) .node-icon { right: -35px; }
+.timeline-state:nth-child(even) .node-icon { left: -35px; }
+
+/* Add a subtle glow effect to the entire timeline on hover */
+.timeline-container-mdp:hover::after {
+    box-shadow: 0 0 20px rgba(193, 125, 255, 0.5);
+}
+
+/* Accomplishments Panel Styling */
+.timeline-accomplish-panel {
+    position: absolute;
+    top: calc(100% + var(--space-xs));
+    width: calc(100% - (var(--space-md) * 2));
+    background-color: hsl(var(--clr-surface));
+    padding: var(--space-md);
+    border-radius: var(--radius-md, 8px);
+    box-shadow: 0 4px 15px hsl(var(--clr-border) / 0.15);
+    z-index: 2;
+    box-sizing: border-box;
+}
+.timeline-accomplish-panel[hidden] {
+    display: none;
+}
+/* Align panel under state content based on side */
+.timeline-state:nth-child(odd) .timeline-accomplish-panel {
+    left: var(--space-md);
+}
+.timeline-state:nth-child(even) .timeline-accomplish-panel {
+    right: var(--space-md);
+    left: auto;
+}

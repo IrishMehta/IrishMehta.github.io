@@ -1,268 +1,151 @@
-/* -----------------------------------------------
-					Js Main
---------------------------------------------------
+// js/main.js
+import { startTypingSequence, displayTypingImmediately, typingStartDelay } from './animations/typing.js';
+import { init as initClustering } from './animations/clustering.js';
+import { fetchGraphDataAndRender, destroyGraph } from './visualizations/knowledgeGraph.js';
+import { initGradientScroll } from './gradientBackground.js';
+import { initScrollObserver } from './scrollObserver.js';
+import { initProjectCardsAnimation, handleProjectImageErrors } from './animations/projectCards.js';
 
-    Template Name: Baha - Personal Portfolio Template
-    Author: Malyarchuk
-    Copyright: 2019
+// Main Initialization on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM Ready - Initializing App Modules");
 
---------------------------------------------------
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-Table of Content
+    // === Initialize Features ===
 
-	1. Preloader
-	2. Sound Start
-	3. Isotope Portfolio Setup
-	4. Blogs Masonry Setup
-	5. Active Current Link
-	6. Mobile Toggle Click Setup
-	7. Testimonials OwlCarousel
-	8. Chart Setup
-	9. Portfolio Tilt Setup
-	10. Portfolio Image Link
-	11. Portfolio Video Link
-	12. Blog Video Link
-	13. Validate Contact Form
-	14. Google Map
-
------------------------------------ */
-
-$(window).on('load', function() {
-		
-	/* -----------------------------------
-				1. Preloader
-	----------------------------------- */
-	$("#preloader").delay(1000).addClass('loaded');
-	
-	/* -----------------------------------
-			  2. Sound Setup
-	----------------------------------- */
-	$('body').append('<audio loop autoplay volume="1" id="audio-player"><source src="music.mp3" type="audio/mpeg"></audio>');
-    	var audio = document.getElementById("audio-player");
-    	audio.volume = 0.2;
-	
-	if($(window).length) {
-		$('.music-bg').css({'visibility':'visible'});
-		$('body').addClass("audio-on");
-		if ($('body').hasClass('audio-off')) {
-        	$('body').removeClass('audio-on');
-		} 
-		$(".music-bg").on('click', function() {
-			$('body').toggleClass("audio-on audio-off");         
-			if ($('body').hasClass('audio-off')) {
-				audio.pause();
-			} 
-			if ($('body').hasClass('audio-on')) {
-				audio.play();
-			}
-		});
-	}
-	
-	/* -----------------------------------
-			3. Isotope Portfolio Setup
-	----------------------------------- */
-    if( $('.portfolio-items').length ) {
-        var $elements = $(".portfolio-items"),
-            $filters = $('.portfolio-filter ul li');
-        $elements.isotope();
-
-        $filters.on('click', function(){
-            $filters.removeClass('active');
-            $(this).addClass('active');
-            var selector = $(this).data('filter');
-            $(".portfolio-items").isotope({
-                filter: selector,
-                hiddenStyle: {
-                    transform: 'scale(.2) skew(30deg)',
-                    opacity: 0
-                },
-                visibleStyle: {
-                    transform: 'scale(1) skew(0deg)',
-                    opacity: 1,
-                },
-                transitionDuration: '.5s'
-            });
-        });
+    // --- Typing Animation ---
+    if (!prefersReducedMotion) {
+        // Use the exported delay constant
+        setTimeout(startTypingSequence, typingStartDelay);
+    } else {
+        displayTypingImmediately(); // Show text instantly if reduced motion
     }
-	
-	/* -----------------------------------
-			4. Blogs Masonry Setup
-	----------------------------------- */
-    $('.blog-masonry').isotope({ layoutMode: 'moduloColumns' });
-	
-});
 
-$(document).ready(function() {
-    "use strict";
-	
-	/* -----------------------------------
-			5. Active Current Link
-	----------------------------------- */
-    $('.header-main ul li a').on('click',function() {
-        if($('.header-main.on').length) {
-            $('.header-main').removeClass('on');
+    // --- Clustering Animation ---
+    if (!prefersReducedMotion && document.getElementById('cluster-canvas')) {
+         // Check if canvas exists before initializing
+         initClustering();
+    } else {
+         // Handle reduced motion for clustering if needed (e.g., hide canvas)
+         const clusterCanvas = document.getElementById('cluster-canvas');
+         if (clusterCanvas) clusterCanvas.style.display = 'none'; // Hide canvas
+    }    // --- Gradient Background ---
+    initGradientScroll();
+
+    // --- Project Cards & Animations ---
+    initProjectCardsAnimation();
+    handleProjectImageErrors();
+
+    // --- Scroll Observer ---
+    initScrollObserver();
+
+    // --- About Section Toggle & Knowledge Graph ---
+    setupAboutToggle(); // Initialize the toggle switch logic    // Initialize the timeline toggle logic
+    document.querySelectorAll('.timeline-accomplish-toggle').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const panel = this.parentElement.querySelector('.timeline-accomplish-panel');
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            
+            // Close any other open panels first
+            document.querySelectorAll('.timeline-accomplish-panel:not([hidden])').forEach(openPanel => {
+                if (openPanel !== panel) {
+                    openPanel.hidden = true;
+                    openPanel.setAttribute('aria-hidden', 'true');
+                    const associatedButton = openPanel.parentElement.querySelector('.timeline-accomplish-toggle');
+                    associatedButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+            
+            // Toggle current panel
+            this.setAttribute('aria-expanded', !expanded);
+            if (expanded) {
+                panel.hidden = true;
+                panel.setAttribute('aria-hidden', 'true');
+            } else {
+                panel.hidden = false;
+                panel.setAttribute('aria-hidden', 'false');
+                
+                // Ensure the panel is visible in the viewport
+                setTimeout(() => {
+                    const rect = panel.getBoundingClientRect();
+                    if (rect.top < 0 || rect.bottom > window.innerHeight) {
+                        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
+        });
+    });
+
+    // Add keyboard support for accomplishment toggles
+    document.querySelectorAll('.timeline-accomplish-toggle').forEach(btn => {
+        btn.addEventListener('keydown', function(e) {
+            // Toggle on Enter or Space
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+            // Close on Escape
+            if (e.key === 'Escape') {
+                const expanded = this.getAttribute('aria-expanded') === 'true';
+                if (expanded) {
+                    this.click();
+                }
+            }
+        });
+    });
+    
+    // Close accomplishment panels when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.timeline-accomplish-toggle') && 
+            !e.target.closest('.timeline-accomplish-panel')) {
+            document.querySelectorAll('.timeline-accomplish-panel:not([hidden])').forEach(panel => {
+                const toggle = panel.parentElement.querySelector('.timeline-accomplish-toggle');
+                if (toggle && toggle.getAttribute('aria-expanded') === 'true') {
+                    toggle.click();
+                }
+            });
         }
     });
-	
-	/* -----------------------------------
-		6. Mobile Toggle Click Setup
-	----------------------------------- */
-    $('.header-toggle').on('click', function() {
-        $('.header-main').toggleClass('on');
-    });
-	
-	/* -----------------------------------
-	      7. Testimonials OwlCarousel
-	----------------------------------- */
-	$(".testimonial .owl-carousel").owlCarousel({
-        loop: true,
-        margin: 30,
-        autoplay: true,
-        smartSpeed: 500,
-        responsiveClass: true,
-        dots: false,
-        autoplayHoverPause: true,
-        responsive: {
-            0: {
-                items: 1,
-            },
-            800: {
-                items: 1,
-            },
-            1000: {
-                items: 2,
-            },
-        },
-    });
-	
-	/* -----------------------------------
-	      	8. Chart Setup
-	----------------------------------- */
-	if ($('.chart').length > 0) {
-	    $('.chart').easyPieChart({
-          trackColor:'#0e0f10',
-	      scaleColor:false,
-	      easing: 'easeOutBounce',
-	      scaleLength: 4,
-	      lineCap: 'square',
-	      lineWidth:5,
-	      size:150,
-	      animate: {
-	                duration: 2500,
-	                enabled: true
-	    	}
-	 	});
-	 }
-	
-	/* -----------------------------------
-	      	9. Portfolio Tilt Setup
-	----------------------------------- */
-    $('.pt-portfolio .portfolio-items .item figure').tilt({
-        maxTilt: 3,
-        glare: true,
-        maxGlare: .6,
-        reverse: true
-    });
-	
-	/* -----------------------------------
-	      10. Portfolio Image Link
-	----------------------------------- */
-	$(".portfolio-items .image-link").magnificPopup({
-		type: "image"
-	});
-	
-	/* -----------------------------------
-	      11. Portfolio Video Link
-	----------------------------------- */
-	$(".portfolio-items .video-link").magnificPopup({
-		type: "iframe"
-	});
-	
-	/* -----------------------------------
-	      12. Blog Video Link
-	----------------------------------- */
-	$(".pt-blog .blog-item .thumbnail .btn-play").magnificPopup({
-		type: "iframe"
-	});
-	
-	/* -----------------------------------
-	    13. Validate Contact Form
-	----------------------------------- */
-	if ($("#contact-form").length) {
-        $("#contact-form").validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 2
-                },
 
-                email: "required",
-				
-            },
-
-            messages: {
-                name: "Please enter your name",
-                email: "Please enter your email address"
-            },
-
-            submitHandler: function (form) {
-                $.ajax({
-                    type: "POST",
-                    url: "/mail.php",
-                    data: $(form).serialize(),
-                    success: function () {
-                        $( "#loader").hide();
-                        $( "#success").slideDown( "slow" );
-                        setTimeout(function() {
-                        $( "#success").slideUp( "slow" );
-                        }, 3000);
-                        form.reset();
-                    },
-                    error: function() {
-                        $( "#loader").hide();
-                        $( "#error").slideDown( "slow" );
-                        setTimeout(function() {
-                        $( "#error").slideUp( "slow" );
-                        }, 3000);
-                    }
-                });
-                return false;
+    document.querySelectorAll('.accomplishments-toggle').forEach(button => {
+        button.addEventListener('click', () => {
+            const accomplishments = button.previousElementSibling; // Get the accomplishments div
+            if (accomplishments.style.maxHeight) {
+                accomplishments.style.maxHeight = null; // Collapse
+            } else {
+                accomplishments.style.maxHeight = accomplishments.scrollHeight + "px"; // Expand
             }
-
         });
-    }
-	
-	/* Google Map Setup */
-    if($('#map').length) {
-        initMap();
-     };
+    });
 
+    console.log("App Initialization Complete.");
 });
 
-/* -----------------------------------
-  		14. Google Map
------------------------------------ */
-function initMap() {
-    var latitude = $("#map").data('latitude'),
-        longitude = $("#map").data('longitude'),
-        zoom = $("#map").data('zoom'),
-        cordinates = new google.maps.LatLng(latitude, longitude);
 
-    var styles = [{"stylers":[{"saturation":-100},{"gamma":0.8},{"lightness":4},{"visibility":"on"}]},{"featureType":"landscape.natural","stylers":[{"visibility":"on"},{"color":"#5dff00"},{"gamma":4.97},{"lightness":-5},{"saturation":100}]}];
-	
-        var mapOptions = {
-        zoom: zoom,
-        center: cordinates,
-        mapTypeControl: false,
-        disableDefaultUI: true,
-        zoomControl: true,
-        scrollwheel: false,
-        styles: styles
-    };
-    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    var marker = new google.maps.Marker({
-        position: cordinates,
-        map: map,
-        title: "We are here!"
-    });
+// === Feature: About Section Knowledge Graph Loading ===
+// (Handles loading the knowledge graph directly without toggle)
+function setupAboutToggle() {
+    const textContent = document.getElementById('about-text-content');
+    const graphContainer = document.getElementById('knowledge-graph-enhanced-container');
+
+    // Check if we have the necessary elements
+    if (!textContent || !graphContainer) {
+        console.warn("About section content elements not found.");
+        return;
+    }
+
+    // Both text content and graph are visible (both have active class)
+    console.log("Initializing knowledge graph display");
+    
+    // Ensure graph is rendered if container is visible
+    if (graphContainer.classList.contains('active')) {
+        // Trigger graph rendering (it checks internally if already rendered)
+        setTimeout(() => {
+            fetchGraphDataAndRender();
+            console.log("Knowledge graph render triggered");
+        }, 300); // Small delay to ensure DOM is ready
+    }
+    
+    console.log("About section initialized with combined view.");
 }
