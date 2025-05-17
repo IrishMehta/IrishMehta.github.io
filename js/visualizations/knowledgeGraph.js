@@ -11,11 +11,20 @@ let resetButton = null;
 let container = null;
 let prefersReducedMotion = false;
 let graphRendered = false;
+let isMobileDevice = false; // Track if we're on a mobile device
+let viewCheckInterval = null; // Interval for checking/correcting view
+// Store initial state for proper reset
+let initialNodePositions = {}; // Will store node positions after stabilization
+let initialViewScale = null; // Will store initial scale after stabilization
+let initialViewPosition = null; // Will store initial center position after stabilization
 
 // --- Constants --------------------------------------------------------------
 const MIN_ZOOM_LEVEL = 0.25;
 const PREFERRED_MIN_ZOOM = 0.35;
 const MAX_ZOOM_LEVEL = 3.5;
+const MOBILE_MIN_ZOOM_LEVEL = 0.4; // Higher min zoom for mobile
+const MOBILE_PREFERRED_MIN_ZOOM = 0.5; // Higher preferred min zoom for mobile
+const MOBILE_MAX_ZOOM_LEVEL = 2.5; // Lower max zoom for mobile
 const NODE_FONT_COLOR = "hsla(260,20%,18%,0.95)";
 const EDGE_COLOR = "hsla(250,45%,82%,0.65)";
 const EDGE_HIGHLIGHT_COLOR = "hsla(280,70%,88%,0.85)";
@@ -40,8 +49,8 @@ function getDimmedAppearance(item) {
             color: {
                 background: `hsla(240, 5%, 55%, ${DIM_OPACITY})`,
                 border: `hsla(0, 0%, 60%, ${DIM_OPACITY / 2})`,
-                highlight: { background: null, border: null }, // Keep original hue on hover
-                hover: { background: null, border: null }
+                highlight: { background: "#f9f9f9", border: "#cccccc" }, // Light highlight on hover
+                hover: { background: "#f0f0f0", border: "#dddddd" }
             },
             font: { color: `hsla(240, 5%, 55%, ${DIM_OPACITY})` }
         };
@@ -51,14 +60,32 @@ function getDimmedAppearance(item) {
 
 // --- Main render entry‑point -----------------------------------------------
 function renderEnhancedKnowledgeGraph(graphData) {
+    // Clear any existing view check interval at the beginning
+    if (viewCheckInterval) {
+        clearInterval(viewCheckInterval);
+        viewCheckInterval = null;
+    }
+
     container = document.getElementById("knowledge-graph-enhanced-container");
     resetButton = document.getElementById("reset-graph-view-button");
     if (!container || !resetButton) {
         console.error("Graph container or reset button not found!");
         return;
-    }    container.innerHTML = "";
+    }
+    
+    container.innerHTML = "";
     resetButton.style.display = "block"; // Always show reset button
     isFocused = false;
+
+    // Check if we're on a mobile device
+    isMobileDevice = window.matchMedia('(max-width: 768px)').matches || 
+                     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Add a class to container if on mobile
+    if (isMobileDevice) {
+        container.classList.add('mobile-view');
+        console.log("Mobile device detected - applying optimized settings");
+    }
 
     // Remove any existing event listeners to prevent duplicates
     document.removeEventListener('click', handleDocumentClick);
@@ -66,7 +93,7 @@ function renderEnhancedKnowledgeGraph(graphData) {
     // Add reset instruction element
     const resetInstruction = document.createElement('div');
     resetInstruction.className = 'graph-reset-instruction';
-    resetInstruction.textContent = 'Click outside the graph to reset view';
+    resetInstruction.textContent = isMobileDevice ? 'Tap outside the graph to reset view' : 'Click outside the graph to reset view';
     container.appendChild(resetInstruction);
 
     if (typeof vis === "undefined" || !vis.Network) {
@@ -91,15 +118,16 @@ function renderEnhancedKnowledgeGraph(graphData) {
                 ? "hsla(0,0%,90%,0.85)"
                 : `hsla(${Math.round((baseHue + i * hueStep) % 360)},${sat}%,${light}%,${alpha})`;
     });
-    if (!dynamicTypeColors.DEFAULT) dynamicTypeColors.DEFAULT = "hsla(0,0%,90%,0.85)";    const nodes = graphData.nodes.map(node => {
+    if (!dynamicTypeColors.DEFAULT) dynamicTypeColors.DEFAULT = "hsla(0,0%,90%,0.85)";    
+    const nodes = graphData.nodes.map(node => {
         const nodeType = node.type || "DEFAULT";
         const bg = dynamicTypeColors[nodeType];
         const border = "hsla(0,0%,95%,0.3)";
         const nodeColor = {
             background: bg,
             border,
-            highlight: { background: null, border: null },
-            hover: { background: null, border: null }
+            highlight: { background: null, border: null },            
+            hover: { background: "#f0f0f0", border: "#dddddd" }
         };
         return {
             id: node.id,
@@ -121,7 +149,8 @@ function renderEnhancedKnowledgeGraph(graphData) {
                 font: clone({ color: NODE_FONT_COLOR }) // Clone font object too
             }
         };
-    });const edges = graphData.edges.map((edge, idx) => {
+    });
+    const edges = graphData.edges.map((edge, idx) => {
         const edgeColor = {
             color: EDGE_COLOR,
             opacity: 0.75,
@@ -161,75 +190,84 @@ function renderEnhancedKnowledgeGraph(graphData) {
     });
 
     graphDataGlobal.nodes = new vis.DataSet(nodes);
-    graphDataGlobal.edges = new vis.DataSet(edges);    const options = {
+    graphDataGlobal.edges = new vis.DataSet(edges);
+    
+    // Base options with physics tailored for device type
+    const options = {
         physics: {
             enabled: !prefersReducedMotion,
-            solver: "forceAtlas2Based",  // Using forceAtlas2Based for better edge distribution
+            solver: "forceAtlas2Based",
             forceAtlas2Based: {
-                gravitationalConstant: -100,  // Stronger repulsion
-                centralGravity: 0.006,        // Further reduced central gravity
-                springLength: 250,            // Further increased spring length
-                springConstant: 0.1,          // Stronger spring force
-                damping: 0.25,                // Less damping for more movement
-                avoidOverlap: 1.0             // Maximum overlap avoidance
+                gravitationalConstant: isMobileDevice ? -80 : -100, // Less repulsion on mobile
+                centralGravity: isMobileDevice ? 0.01 : 0.006,      // More central gravity on mobile
+                springLength: isMobileDevice ? 200 : 250,           // Shorter springs on mobile
+                springConstant: isMobileDevice ? 0.15 : 0.1,        // Stronger spring force on mobile
+                damping: 0.25,
+                avoidOverlap: 1.0
             },
             repulsion: {
-                nodeDistance: 100,            // Minimum distance between nodes
-                centralGravity: 0.005,
-                springLength: 200,
+                nodeDistance: isMobileDevice ? 80 : 100,            // Smaller node distance on mobile
+                centralGravity: isMobileDevice ? 0.01 : 0.005,
+                springLength: isMobileDevice ? 150 : 200,
                 springConstant: 0.05
-            },
+            },            
             stabilization: { 
                 enabled: true, 
-                iterations: 2000,             // More iterations for better stabilization
-                updateInterval: 25, 
+                iterations: isMobileDevice ? 1500 : 2000,          // Fewer iterations on mobile for performance
+                updateInterval: isMobileDevice ? 50 : 25,          // Less frequent updates on mobile
                 fit: true,
-                onlyDynamicEdges: false,
-                animationEnabled: true
+                onlyDynamicEdges: false
             }
-        },
+        },        
         interaction: {
             hover: true,
-            tooltipDelay: 150,
-            navigationButtons: true,
-            keyboard: true,
+            tooltipDelay: isMobileDevice ? 300 : 150,              // Longer delay on mobile for tap recognition
+            navigationButtons: !isMobileDevice,                     // Hide navigation buttons on mobile
+            keyboard: !isMobileDevice,                              // Disable keyboard on mobile
             zoomView: true,
             dragView: true,
+            dragNodes: true,                                        // Ensure nodes can be dragged
             hoverConnectedEdges: true,
             selectConnectedEdges: true,
-            zoomSpeed: 0.8,
-            dragSpeed: 0.8
-        },        nodes: {
+            zoomSpeed: isMobileDevice ? 0.6 : 0.8,                 // Slower zoom on mobile
+            multiselect: false,                                     // Disable multiselect for better mobile experience
+            // Mobile-specific touch options
+            hideEdgesOnDrag: isMobileDevice,                        // Hide edges while dragging on mobile for better performance
+            hideNodesOnDrag: false,
+            selectable: true
+        },
+        nodes: {
             borderWidth: 1,
-            size: 24, // Increased size
-            margin: 16, // Increased margin globally
+            size: isMobileDevice ? 20 : 24, // Slightly smaller on mobile
+            margin: isMobileDevice ? 12 : 16, // Reduced margin on mobile
             font: {
                 color: NODE_FONT_COLOR,
-                size: 12,
+                size: isMobileDevice ? 10 : 12, // Smaller font on mobile
                 face: "Inter, sans-serif",
                 bold: { mod: "bold" }
             },
-            shapeProperties: { interpolation: false, borderRadius: 4 },
+            shapeProperties: { interpolation: false, borderRadius: 4 },            
             color: {
-                highlight: { background: null, border: null },
-                hover: { background: null, border: null }
+                highlight: { background: "#f9f9f9", border: "#cccccc" },
+                hover: { background: "#f0f0f0", border: "#dddddd" }
             },
             chosen: {
                 node: function(values, id, selected, hovering) {
-                    // Highlight node on hover
-                    if (hovering) {
-                        values.shadowSize = 10;
+                    // Highlight node on hover/tap
+                    if (hovering || selected) {
+                        values.shadowSize = isMobileDevice ? 6 : 10;
                         values.shadowColor = 'rgba(0,0,0,0.2)';
                     }
                 }
             }
-        },edges: {
-            selectionWidth: 1.5,
-            hoverWidth: 1.5,
+        },
+        edges: {
+            selectionWidth: isMobileDevice ? 2 : 1.5, // Make selections more visible on mobile
+            hoverWidth: isMobileDevice ? 2 : 1.5, // Make hover more visible on mobile
             color: { highlight: EDGE_HIGHLIGHT_COLOR, hover: EDGE_HOVER_COLOR },
             font: {
                 color: EDGE_FONT_COLOR,
-                size: 9,
+                size: isMobileDevice ? 8 : 9, // Smaller font on mobile
                 face: "Inter, sans-serif",
                 align: "top",
                 vadjust: -8,
@@ -238,10 +276,16 @@ function renderEnhancedKnowledgeGraph(graphData) {
             smooth: { 
                 enabled: true, 
                 type: "curvedCW", 
-                roundness: 0.25,
+                roundness: isMobileDevice ? 0.3 : 0.25, // Increase curve on mobile to avoid overlapping
                 forceDirection: true 
             },
-            arrows: { to: { enabled: true, scaleFactor: 0.6, type: "arrow" } }
+            arrows: { 
+                to: { 
+                    enabled: true, 
+                    scaleFactor: isMobileDevice ? 0.5 : 0.6, // Smaller arrows on mobile
+                    type: "arrow" 
+                } 
+            }
         },
         layout: { 
             improvedLayout: true, 
@@ -259,46 +303,88 @@ function renderEnhancedKnowledgeGraph(graphData) {
     try {
         networkInstance?.destroy();
         networkInstance = new vis.Network(container, graphDataGlobal, options);
+        graphRendered = true;
 
-        // Set up interval to periodically check if graph is visible
-        const viewCheckInterval = setInterval(() => {
-            if (networkInstance && !isFocused) {
-                checkAndCorrectView();
-            }
-        }, 2000); // Check every 2 seconds
+        networkInstance.on("stabilizationIterationsDone", () => {
+            console.log("Graph stabilization complete. Physics will be turned off.");
+            if (!networkInstance) return;
 
-        // Store interval ID for cleanup
-        networkInstance.viewCheckInterval = viewCheckInterval;        networkInstance.once("stabilizationIterationsDone", () => {
-            console.log("Graph stabilization complete.");
-            if (!prefersReducedMotion) {
-                // Apply one final physics simulation with stronger parameters to push nodes away from edges
-                networkInstance.setOptions({
-                    physics: {
-                        enabled: true,
-                        solver: "forceAtlas2Based",
-                        forceAtlas2Based: {
-                            gravitationalConstant: -120,
-                            centralGravity: 0,
-                            springLength: 300,
-                            springConstant: 0.15,
-                            avoidOverlap: 1.0
-                        },
-                        stabilization: { iterations: 50 }
+            networkInstance.setOptions({ physics: false });
+
+            // Delay to allow graph to settle after physics off & initial fit
+            setTimeout(() => {
+                if (!networkInstance) return;
+
+                const currentScale = networkInstance.getScale();
+                let desiredScale = currentScale;
+                let adjustZoom = false;
+
+                if (isMobileDevice) {
+                    if (currentScale < MOBILE_PREFERRED_MIN_ZOOM) {
+                        desiredScale = MOBILE_PREFERRED_MIN_ZOOM;
+                        adjustZoom = true;
+                    } else if (currentScale > MOBILE_MAX_ZOOM_LEVEL) {
+                        desiredScale = MOBILE_MAX_ZOOM_LEVEL;
+                        adjustZoom = true;
                     }
-                });
-                
-                // Then disable physics after final adjustments
-                setTimeout(() => {
-                    networkInstance.setOptions({ physics: false });
-                }, 1500);
-            }
+                } else {
+                    // Optional: Desktop initial zoom adjustment if needed
+                    // if (currentScale < PREFERRED_MIN_ZOOM) {
+                    //     desiredScale = PREFERRED_MIN_ZOOM;
+                    //     adjustZoom = true;
+                    // } else if (currentScale > MAX_ZOOM_LEVEL) {
+                    //     desiredScale = MAX_ZOOM_LEVEL;
+                    //     adjustZoom = true;
+                    // }
+                }
 
-            document.addEventListener('click', handleDocumentClick);
+                const finalizeSetup = () => {
+                    storeInitialGraphState(); // Store state *after* any adjustments
+
+                    if (viewCheckInterval) { // Clear again just in case (e.g., rapid re-renders)
+                        clearInterval(viewCheckInterval);
+                    }
+                    const intervalTime = isMobileDevice ? 10000 : 2000; // 10s mobile, 2s desktop
+                    viewCheckInterval = setInterval(checkAndCorrectView, intervalTime);
+                    console.log(`View check interval set to ${intervalTime}ms (Mobile: ${isMobileDevice}). Initial state stored.`);
+                };
+
+                if (adjustZoom) {
+                    console.log(`Initial zoom adjustment: from ${currentScale.toFixed(3)} to ${desiredScale.toFixed(3)} on ${isMobileDevice ? 'mobile' : 'desktop'}`);
+                    networkInstance.moveTo({
+                        scale: desiredScale,
+                        animation: prefersReducedMotion ? false : { duration: 300, easingFunction: "easeInOutQuad" }
+                    });
+                    // Wait for animation to complete
+                    setTimeout(finalizeSetup, prefersReducedMotion ? 50 : 350);
+                } else {
+                    finalizeSetup(); // No zoom adjustment needed
+                }
+            }, 500); // 500ms delay after stabilization & physics off
         });
 
         networkInstance.on("click", handleGraphClick);
         networkInstance.on("release", checkAndCorrectView);
         networkInstance.on("dragEnd", checkAndCorrectView);
+        
+        // Add more specific handlers for mobile
+        if (isMobileDevice) {
+            networkInstance.on("afterDrawing", function() {
+                // This can be used for mobile-specific rendering optimizations if needed
+            });
+            
+            // Ensure tap events work well
+            networkInstance.on("selectNode", function(params) {
+                if (params.nodes.length && isMobileDevice) {
+                    // Ensure the node is fully visible after selection on mobile
+                    networkInstance.focus(params.nodes[0], {
+                        scale: 1,
+                        animation: { duration: 300, easingFunction: "easeOutQuad" }
+                    });
+                }
+            });
+        }
+        
         resetButton.addEventListener("click", resetGraphFocus);
     } catch (err) {
         console.error("Error creating Vis Network:", err);
@@ -347,8 +433,7 @@ function handleGraphClick(params) {
         
         const selectedId = params.nodes[0];
         const neighbours = networkInstance.getConnectedNodes(selectedId);
-        const inFocus = new Set([selectedId, ...neighbours]);
-
+        const inFocus = new Set([selectedId, ...neighbours]);        
         const nodeUpdates = [];
         const edgeUpdates = [];
 
@@ -381,6 +466,29 @@ function handleGraphClick(params) {
     }
 }
 
+// Store initial graph state for proper reset functionality
+function storeInitialGraphState() {
+    if (!networkInstance || !graphDataGlobal.nodes) return;
+    
+    // Store initial node positions
+    initialNodePositions = {};
+    const nodeIds = graphDataGlobal.nodes.getIds();
+    const positions = networkInstance.getPositions(nodeIds);
+    
+    nodeIds.forEach(id => {
+        initialNodePositions[id] = { 
+            x: positions[id].x, 
+            y: positions[id].y 
+        };
+    });
+    
+    // Store initial scale and view position
+    initialViewScale = networkInstance.getScale();
+    initialViewPosition = networkInstance.getViewPosition();
+    
+    console.log("Initial graph state stored for reset functionality");
+}
+
 // --- Reset focus & view -----------------------------------------------------
 function resetGraphFocus() {
     if (!networkInstance) return; // Return only if there's no network instance
@@ -397,12 +505,12 @@ function resetGraphFocus() {
         graphDataGlobal.nodes.forEach(n => nodeRestores.push({
             id: n.id,
             color: clone(n.originalAppearance.color),
-            font: clone(n.originalAppearance.font) // MODIFIED: Use clone
+            font: clone(n.originalAppearance.font)
         }));
         graphDataGlobal.edges.forEach(e => edgeRestores.push({
             id: e.id,
             color: clone(e.originalAppearance.color),
-            font: clone(e.originalAppearance.font), // MODIFIED: Use clone
+            font: clone(e.originalAppearance.font),
             width: e.originalAppearance.width
         }));
 
@@ -414,26 +522,196 @@ function resetGraphFocus() {
         }
     }
 
-    // Always fit the graph to view and reset the zoom
-    networkInstance.fit({
-        animation: { 
-            duration: 500, 
-            easingFunction: "easeOutQuad" 
+    // Check if we have stored initial state
+    if (initialViewPosition && initialViewScale && Object.keys(initialNodePositions).length > 0) {
+        // First restore the initial node positions if physics is disabled
+        const physics = networkInstance.physics && networkInstance.physics.options ? 
+            networkInstance.physics.options.enabled : false;
+        
+        if (!physics) {
+            // Update node positions to initial state
+            const nodeUpdates = [];
+            
+            Object.keys(initialNodePositions).forEach(id => {
+                nodeUpdates.push({
+                    id: id,
+                    x: initialNodePositions[id].x,
+                    y: initialNodePositions[id].y,
+                    fixed: { x: true, y: true } // Temporarily fix position
+                });
+            });
+            
+            if (nodeUpdates.length > 0) {
+                graphDataGlobal.nodes.update(nodeUpdates);
+            }
         }
-    });
-    
-    // After fitting, ensure zoom is at preferred level
-    if (networkInstance.getScale() < PREFERRED_MIN_ZOOM) {
-        networkInstance.moveTo({ 
-            scale: PREFERRED_MIN_ZOOM, 
+        
+        // Restore initial view position and scale with animation
+        networkInstance.moveTo({
+            position: initialViewPosition,
+            scale: initialViewScale,
             animation: { 
-                duration: 300, 
+                duration: isMobileDevice ? 300 : 500, 
                 easingFunction: "easeOutQuad" 
-            } 
+            }
         });
+        
+        // If nodes were fixed, unfix them after animation completes
+        if (!physics) {
+            setTimeout(() => {
+                const nodeUnfixes = [];
+                
+                Object.keys(initialNodePositions).forEach(id => {
+                    nodeUnfixes.push({
+                        id: id,
+                        fixed: { x: false, y: false }
+                    });
+                });
+                
+                if (nodeUnfixes.length > 0) {
+                    graphDataGlobal.nodes.update(nodeUnfixes);
+                }
+            }, isMobileDevice ? 350 : 550);
+        }
+        
+        console.log("Graph reset to initial state");
+    } else {
+        // Fallback to fit if initial state is not available
+        console.log("No initial state available, using fallback reset");
+        
+        // Always fit the graph to view and reset the zoom
+        networkInstance.fit({
+            animation: { 
+                duration: isMobileDevice ? 300 : 500, // Faster animation on mobile 
+                easingFunction: "easeOutQuad" 
+            }
+        });
+        
+        // After fitting, ensure zoom is at preferred level
+        const preferredMinZoom = isMobileDevice ? MOBILE_PREFERRED_MIN_ZOOM : PREFERRED_MIN_ZOOM;
+        
+        if (networkInstance.getScale() < preferredMinZoom) {
+            networkInstance.moveTo({ 
+                scale: preferredMinZoom, 
+                animation: { 
+                    duration: isMobileDevice ? 200 : 300, // Faster animation on mobile
+                    easingFunction: "easeOutQuad" 
+                } 
+            });
+        }
     }
     
     console.log("Graph view reset.");
+}
+
+// Update the handleDocumentClick function to handle both mouse clicks and touch events
+function handleDocumentClick(event) {
+    // Only process if we have a valid network instance and container
+    if (!networkInstance || !container) return;        
+    // Ignore events that originated from drag operations
+    if (event.type === 'touchend' && event._dragDistance > 10) {
+        return;
+    }
+    
+    // Check if the click/touch was outside the graph container and not on the reset button
+    const clickedOnGraph = event.target.closest('#knowledge-graph-enhanced-container');
+    const clickedOnResetButton = event.target.closest('.vis-reset-button, #reset-graph-view-button');
+    
+    if (!clickedOnGraph && !clickedOnResetButton) {
+        console.log("Click outside graph - resetting to default view");
+        
+        // Use the reset function to restore the graph to its original state
+        resetGraphFocus();
+    }
+}
+
+// Handle touch start for stopping page scroll while interacting with graph
+function handleTouchStart(event) {
+    if (event.target.closest('#knowledge-graph-enhanced-container')) {
+        // Add class to prevent body scroll during touch interaction
+        document.body.classList.add('graph-interaction');
+        
+        // Handle pinch zoom better on mobile
+        if (event.touches && event.touches.length === 2) {
+            event.preventDefault(); // Prevent default browser pinch
+            
+            // Get the initial distance between two fingers
+            const initialDistance = Math.hypot(
+                event.touches[0].clientX - event.touches[1].clientX,
+                event.touches[0].clientY - event.touches[1].clientY
+            );
+            
+            // Store it for use in touch move
+            container._initialPinchDistance = initialDistance;
+            container._initialScale = networkInstance.getScale();
+            
+            console.log("Pinch zoom detected");
+        }
+    }
+}
+
+// Handle touch move for better pinch-zoom experience
+function handleTouchMove(event) {
+    if (event.target.closest('#knowledge-graph-enhanced-container')) {
+        if (event.touches && event.touches.length === 2 && container._initialPinchDistance) {
+            event.preventDefault();
+            
+            // Calculate new distance
+            const currentDistance = Math.hypot(
+                event.touches[0].clientX - event.touches[1].clientX,
+                event.touches[0].clientY - event.touches[1].clientY
+            );
+            
+            // Calculate zoom factor based on finger distance change
+            const scaleFactor = currentDistance / container._initialPinchDistance;
+            
+            // Apply zoom around the center of the pinch
+            const centerX = (event.touches[0].clientX + event.touches[1].clientX) / 2;
+            const centerY = (event.touches[0].clientY + event.touches[1].clientY) / 2;
+            
+            // Calculate new scale (with constraints)
+            const newScale = Math.min(
+                Math.max(container._initialScale * scaleFactor, MOBILE_MIN_ZOOM_LEVEL),
+                MOBILE_MAX_ZOOM_LEVEL
+            );
+            
+            // Get container rect to map screen coordinates to canvas
+            const rect = container.getBoundingClientRect();
+            
+            // Apply the new scale
+            networkInstance.moveTo({
+                position: {
+                    x: centerX - rect.left,
+                    y: centerY - rect.top
+                },
+                scale: newScale,
+                animation: false // Disable animation for smoother pinch
+            });
+        }
+    }
+}
+
+// Handle touch end for cleanup
+function handleTouchEnd(event) {
+    // Reset pinch zoom tracking
+    if (container) {
+        container._initialPinchDistance = null;
+        container._initialScale = null;
+    }
+    
+    // Remove body class to allow scrolling again
+    document.body.classList.remove('graph-interaction');
+    
+    // Original click/tap handling
+    if (!event.target.closest('#knowledge-graph-enhanced-container') || 
+        event._dragDistance > 10) {
+        return;
+    }
+    
+    // If the touch didn't move much, treat it as a tap
+    if (networkInstance && !networkInstance.interactionHandler.dragStart) {
+        console.log("Touch registered as tap");
+    }
 }
 
 // --- Keep graph visible & zoom sane ----------------------------------------
@@ -441,18 +719,34 @@ function checkAndCorrectView() {
     if (!networkInstance || isFocused) return;
 
     const zoom = networkInstance.getScale();
-    if (zoom < MIN_ZOOM_LEVEL) {
-        networkInstance.moveTo({ scale: PREFERRED_MIN_ZOOM, animation: { duration: 300, easingFunction: "easeOutQuad" } });
-    } else if (zoom > MAX_ZOOM_LEVEL) {
-        networkInstance.moveTo({ scale: MAX_ZOOM_LEVEL, animation: { duration: 300, easingFunction: "easeOutQuad" } });
+    const minZoom = isMobileDevice ? MOBILE_MIN_ZOOM_LEVEL : MIN_ZOOM_LEVEL;
+    const preferredMinZoom = isMobileDevice ? MOBILE_PREFERRED_MIN_ZOOM : PREFERRED_MIN_ZOOM;
+    const maxZoom = isMobileDevice ? MOBILE_MAX_ZOOM_LEVEL : MAX_ZOOM_LEVEL;
+    
+    if (zoom < minZoom) {
+        networkInstance.moveTo({ 
+            scale: preferredMinZoom, 
+            animation: { 
+                duration: 300, 
+                easingFunction: "easeOutQuad" 
+            } 
+        });
+    } else if (zoom > maxZoom) {
+        networkInstance.moveTo({ 
+            scale: maxZoom, 
+            animation: { 
+                duration: 300, 
+                easingFunction: "easeOutQuad" 
+            } 
+        });
     }
 
+    // Check if graph is centered properly
     const ids = graphDataGlobal.nodes.getIds();
     if (!ids.length) return;
 
     const pos = networkInstance.getPositions(ids);
-    let cx = 0,
-        cy = 0;
+    let cx = 0, cy = 0;
     ids.forEach(id => {
         cx += pos[id].x;
         cy += pos[id].y;
@@ -461,22 +755,77 @@ function checkAndCorrectView() {
     cy /= ids.length;
 
     const view = networkInstance.getViewPosition();
-    const dist = Math.hypot(view.x - cx, view.y - cy);
-    const threshold = 2 * (1 / zoom) * Math.max(container.clientWidth, container.clientHeight);
+    
+    // Use a larger threshold on mobile to prevent too many recentering operations
+    const thresholdMultiplier = isMobileDevice ? 2.5 : 2.0;
+    const threshold = thresholdMultiplier * (1 / zoom) * Math.max(container.clientWidth, container.clientHeight);
     
     // If the center of the graph is too far from the center of the view, reset
-    if (dist > threshold) {
+    const dist = Math.hypot(view.x - cx, view.y - cy);
+    if (dist > threshold) {        
         console.log("Graph went out of view - resetting position");
-        networkInstance.fit({ animation: { duration: 400, easingFunction: "easeOutQuad" } });
+        
+        // Use initial positions if available, otherwise fallback to fit
+        if (initialViewPosition && initialViewScale) {
+            networkInstance.moveTo({
+                position: initialViewPosition,
+                scale: initialViewScale,
+                animation: { 
+                    duration: 400, 
+                    easingFunction: "easeOutQuad" 
+                }
+            });
+        } else {
+            networkInstance.fit({ 
+                animation: { 
+                    duration: 400, 
+                    easingFunction: "easeOutQuad" 
+                } 
+            });
+            
+            // Apply preferred min zoom after fitting
+            if (networkInstance.getScale() < preferredMinZoom) {
+                networkInstance.moveTo({ 
+                    scale: preferredMinZoom, 
+                    animation: { 
+                        duration: 300, 
+                        easingFunction: "easeOutQuad" 
+                    } 
+                });
+            }
+        }
     }
 }
 
 // --- Public API -------------------------------------------------------------
 export function fetchGraphDataAndRender() {
+    // Check if we're on a mobile device - do this check here so it's available immediately
+    isMobileDevice = window.matchMedia('(max-width: 768px)').matches || 
+                   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     if (graphRendered && networkInstance) {
         try {
             if (isFocused) resetGraphFocus();
-            networkInstance.fit({ animation: { duration: 500, easingFunction: "easeOutQuad" } });
+            
+            // Use different animation durations for mobile vs desktop
+            networkInstance.fit({ 
+                animation: { 
+                    duration: isMobileDevice ? 300 : 500, 
+                    easingFunction: "easeOutQuad" 
+                } 
+            });
+            
+            // Apply device-specific preferred zoom
+            const preferredMinZoom = isMobileDevice ? MOBILE_PREFERRED_MIN_ZOOM : PREFERRED_MIN_ZOOM;
+            if (networkInstance.getScale() < preferredMinZoom) {
+                networkInstance.moveTo({ 
+                    scale: preferredMinZoom, 
+                    animation: { 
+                        duration: isMobileDevice ? 200 : 300, 
+                        easingFunction: "easeOutQuad" 
+                    } 
+                });
+            }
         } catch (e) {
             console.warn("Couldn't refit network view on re-toggle:", e);
         }
@@ -508,65 +857,26 @@ export function fetchGraphDataAndRender() {
         });
 }
 
-// Update the handleDocumentClick function to always reset to default zoom when clicking outside
-function handleDocumentClick(event) {
-    // Only process if we have a valid network instance and container
-    if (!networkInstance || !container) return;
-    
-    // Check if the click was outside the graph container and not on the reset button
-    const clickedOnGraph = event.target.closest('#knowledge-graph-enhanced-container');
-    const clickedOnResetButton = event.target.closest('.vis-reset-button, #reset-graph-view-button');
-    
-    if (!clickedOnGraph && !clickedOnResetButton) {
-        console.log("Click outside graph - resetting to default view");
-        
-        // Reset focus if focused
-        if (isFocused) {
-            resetGraphFocus();
-        } 
-        // Even if not focused, reset to default zoom and center
-        else {
-            // Fit to view with animation
-            networkInstance.fit({
-                animation: { 
-                    duration: 500, 
-                    easingFunction: "easeOutQuad" 
-                }
-            });
-            
-            // Additionally, ensure zoom is at preferred level
-            if (networkInstance.getScale() < PREFERRED_MIN_ZOOM) {
-                networkInstance.moveTo({ 
-                    scale: PREFERRED_MIN_ZOOM, 
-                    animation: { 
-                        duration: 300, 
-                        easingFunction: "easeOutQuad" 
-                    } 
-                });
-            }
-        }
-    }
-}
-
 export function destroyGraph() {
     if (networkInstance) {
-        // Clear the view check interval
-        if (networkInstance.viewCheckInterval) {
-            clearInterval(networkInstance.viewCheckInterval);
-            networkInstance.viewCheckInterval = null;
-        }
-        
-        resetButton?.removeEventListener("click", resetGraphFocus);
         networkInstance.destroy();
         networkInstance = null;
-        
-        // Remove document click handler when destroying the graph
-        document.removeEventListener('click', handleDocumentClick);
+    }
+    // Clear the view check interval
+    if (viewCheckInterval) {
+        clearInterval(viewCheckInterval);
+        viewCheckInterval = null;
     }
     container && (container.innerHTML = "");
     resetButton && (resetButton.style.display = "none");
     graphRendered = false;
     isFocused = false;
-    graphDataGlobal = { nodes: null, edges: null }; // Reset DataSets
+    graphDataGlobal = { nodes: null, edges: null };    
+
+    // Reset stored initial state variables
+    initialNodePositions = {};
+    initialViewScale = null;
+    initialViewPosition = null;
+    
     console.log("Knowledge graph destroyed.");
 }

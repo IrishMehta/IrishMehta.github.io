@@ -1,0 +1,90 @@
+/* 
+ * Mobile-specific styles for visualizations
+ */
+
+/* Global styles for vis.js networks */
+.vis-network {
+    touch-action: pan-x pan-y !important;
+    outline: none !important;
+}
+
+/* Prevent default touch behaviors */
+.vis-network canvas {
+    touch-action: pan-x pan-y !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+    -webkit-touch-callout: none !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+/* Additional mobile styles for the knowledge graph */
+#knowledge-graph-enhanced-container.mobile-view {
+    touch-action: pan-x pan-y !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Improve touch response by preventing text selection */
+#knowledge-graph-enhanced-container {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+/* Make node and edge fonts more readable on mobile */
+.mobile-view .vis-node {
+    font-weight: bold !important;
+}
+
+/* Make the reset button more mobile-friendly */
+@media (max-width: 768px) {
+    #reset-graph-view-button {
+        padding: 12px 24px !important;
+        font-size: 1rem !important;
+        margin-top: 15px !important;
+        border-radius: 8px !important;
+        width: auto !important;
+        min-width: 200px !important;
+        max-width: 80% !important;
+        touch-action: manipulation;
+    }
+    
+    /* Improve visibility of nodes on mobile */
+    .vis-node {
+        cursor: pointer !important;
+    }
+    
+    /* Make tooltip more readable on mobile */
+    .vis-tooltip {
+        font-size: 14px !important;
+        padding: 8px 12px !important;
+        max-width: 80% !important;
+        z-index: 100 !important;
+    }
+    
+    /* Ensure graph instructions are clear and visible */
+    .graph-reset-instruction {
+        font-size: 0.75rem !important;
+        padding: 4px 10px !important;
+        background-color: rgba(0,0,0,0.7) !important;
+        color: white !important;
+        border-radius: 4px !important;
+    }
+    
+    /* Prevent scroll bleed when interacting with graph */
+    body.graph-interaction {
+        overflow: hidden;
+    }
+}
+
+/* Smaller mobile screens */
+@media (max-width: 480px) {
+    #reset-graph-view-button {
+        padding: 10px 20px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .vis-tooltip {
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+    }
+}
