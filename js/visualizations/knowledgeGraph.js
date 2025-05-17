@@ -375,12 +375,22 @@ function renderEnhancedKnowledgeGraph(graphData) {
             
             // Ensure tap events work well
             networkInstance.on("selectNode", function(params) {
-                if (params.nodes.length && isMobileDevice) {
-                    // Ensure the node is fully visible after selection on mobile
-                    networkInstance.focus(params.nodes[0], {
-                        scale: 1,
-                        animation: { duration: 300, easingFunction: "easeOutQuad" }
+                if (params.nodes.length) {
+                    const selectedId = params.nodes[0];
+                    const neighbours = networkInstance.getConnectedNodes(selectedId);
+                    const inFocus = [...new Set([selectedId, ...neighbours])];
+                    // Fit the selected node and its neighbours with mobile-friendly zoom
+                    networkInstance.fit({
+                        nodes: inFocus,
+                        animation: prefersReducedMotion ? false : { duration: 300, easingFunction: "easeOutQuad" }
                     });
+                    // After fitting, enforce minimum mobile zoom
+                    setTimeout(() => {
+                        const scale = networkInstance.getScale();
+                        if (scale < MOBILE_PREFERRED_MIN_ZOOM) {
+                            networkInstance.moveTo({ scale: MOBILE_PREFERRED_MIN_ZOOM, animation: false });
+                        }
+                    }, prefersReducedMotion ? 50 : 350);
                 }
             });
         }
@@ -821,7 +831,10 @@ export function fetchGraphDataAndRender() {
     // Check if we're on a mobile device - do this check here so it's available immediately
     isMobileDevice = window.matchMedia('(max-width: 768px)').matches || 
                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
+
+    // Skip graph entirely on mobile devices
+    if (isMobileDevice) return;
+
     if (graphRendered && networkInstance) {
         try {
             if (isFocused) resetGraphFocus();

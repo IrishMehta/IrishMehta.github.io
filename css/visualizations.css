@@ -74,6 +74,13 @@
     body.graph-interaction {
         overflow: hidden;
     }
+
+    /* Hide knowledge graph elements on mobile devices */
+    #knowledge-graph-enhanced-container, 
+    #reset-graph-view-button,
+    .desktop-only-text {
+        display: none !important;
+    }
 }
 
 /* Smaller mobile screens */
