@@ -524,83 +524,102 @@ function resetGraphFocus() {
 
     // Check if we have stored initial state
     if (initialViewPosition && initialViewScale && Object.keys(initialNodePositions).length > 0) {
-        // First restore the initial node positions if physics is disabled
-        const physics = networkInstance.physics && networkInstance.physics.options ? 
-            networkInstance.physics.options.enabled : false;
-        
-        if (!physics) {
-            // Update node positions to initial state
-            const nodeUpdates = [];
-            
-            Object.keys(initialNodePositions).forEach(id => {
-                nodeUpdates.push({
-                    id: id,
-                    x: initialNodePositions[id].x,
-                    y: initialNodePositions[id].y,
-                    fixed: { x: true, y: true } // Temporarily fix position
-                });
+        if (isMobileDevice) {
+            console.log("Mobile reset: fitting all nodes and enforcing minimum zoom");
+            const allNodeIds = Object.keys(initialNodePositions);
+            networkInstance.fit({
+                nodes: allNodeIds,
+                animation: prefersReducedMotion ? false : { duration: 300, easingFunction: "easeOutQuad" }
             });
-            
-            if (nodeUpdates.length > 0) {
-                graphDataGlobal.nodes.update(nodeUpdates);
-            }
-        }
-        
-        // Restore initial view position and scale with animation
-        networkInstance.moveTo({
-            position: initialViewPosition,
-            scale: initialViewScale,
-            animation: { 
-                duration: isMobileDevice ? 300 : 500, 
-                easingFunction: "easeOutQuad" 
-            }
-        });
-        
-        // If nodes were fixed, unfix them after animation completes
-        if (!physics) {
             setTimeout(() => {
-                const nodeUnfixes = [];
-                
+                const scale = networkInstance.getScale();
+                if (scale < MOBILE_PREFERRED_MIN_ZOOM) {
+                    networkInstance.moveTo({
+                        scale: MOBILE_PREFERRED_MIN_ZOOM,
+                        animation: prefersReducedMotion ? false : { duration: 200, easingFunction: "easeOutQuad" }
+                    });
+                }
+            }, prefersReducedMotion ? 50 : 350);
+        } else {
+            // Restore initial node positions and view for desktop
+            const physics = networkInstance.physics && networkInstance.physics.options ? 
+                networkInstance.physics.options.enabled : false;
+            
+            if (!physics) {
+                const nodeUpdates = [];
                 Object.keys(initialNodePositions).forEach(id => {
-                    nodeUnfixes.push({
+                    nodeUpdates.push({
                         id: id,
-                        fixed: { x: false, y: false }
+                        x: initialNodePositions[id].x,
+                        y: initialNodePositions[id].y,
+                        fixed: { x: true, y: true }
                     });
                 });
-                
-                if (nodeUnfixes.length > 0) {
-                    graphDataGlobal.nodes.update(nodeUnfixes);
+                if (nodeUpdates.length > 0) {
+                    graphDataGlobal.nodes.update(nodeUpdates);
                 }
-            }, isMobileDevice ? 350 : 550);
-        }
-        
-        console.log("Graph reset to initial state");
-    } else {
-        // Fallback to fit if initial state is not available
-        console.log("No initial state available, using fallback reset");
-        
-        // Always fit the graph to view and reset the zoom
-        networkInstance.fit({
-            animation: { 
-                duration: isMobileDevice ? 300 : 500, // Faster animation on mobile 
-                easingFunction: "easeOutQuad" 
             }
-        });
-        
-        // After fitting, ensure zoom is at preferred level
-        const preferredMinZoom = isMobileDevice ? MOBILE_PREFERRED_MIN_ZOOM : PREFERRED_MIN_ZOOM;
-        
-        if (networkInstance.getScale() < preferredMinZoom) {
-            networkInstance.moveTo({ 
-                scale: preferredMinZoom, 
+            
+            networkInstance.moveTo({
+                position: initialViewPosition,
+                scale: initialViewScale,
                 animation: { 
-                    duration: isMobileDevice ? 200 : 300, // Faster animation on mobile
+                    duration: isMobileDevice ? 300 : 500, 
                     easingFunction: "easeOutQuad" 
-                } 
+                }
             });
+            
+            if (!physics) {
+                setTimeout(() => {
+                    const nodeUnfixes = [];
+                    Object.keys(initialNodePositions).forEach(id => {
+                        nodeUnfixes.push({
+                            id: id,
+                            fixed: { x: false, y: false }
+                        });
+                    });
+                    if (nodeUnfixes.length > 0) {
+                        graphDataGlobal.nodes.update(nodeUnfixes);
+                    }
+                }, isMobileDevice ? 350 : 550);
+            }
+        }
+    } else {
+        // Fallback if no initial state
+        if (isMobileDevice) {
+            console.log("Mobile fallback reset: fitting all nodes and enforcing minimum zoom");
+            networkInstance.fit({
+                animation: prefersReducedMotion ? false : { duration: 300, easingFunction: "easeOutQuad" }
+            });
+            setTimeout(() => {
+                const scale2 = networkInstance.getScale();
+                if (scale2 < MOBILE_PREFERRED_MIN_ZOOM) {
+                    networkInstance.moveTo({
+                        scale: MOBILE_PREFERRED_MIN_ZOOM,
+                        animation: prefersReducedMotion ? false : { duration: 200, easingFunction: "easeOutQuad" }
+                    });
+                }
+            }, prefersReducedMotion ? 50 : 350);
+        } else {
+            console.log("No initial state available, using fallback reset");
+            networkInstance.fit({
+                animation: { 
+                    duration: isMobileDevice ? 300 : 500, 
+                    easingFunction: "easeOutQuad" 
+                }
+            });
+            const preferredMinZoom = isMobileDevice ? MOBILE_PREFERRED_MIN_ZOOM : PREFERRED_MIN_ZOOM;
+            if (networkInstance.getScale() < preferredMinZoom) {
+                networkInstance.moveTo({ 
+                    scale: preferredMinZoom, 
+                    animation: { 
+                        duration: isMobileDevice ? 200 : 300, 
+                        easingFunction: "easeOutQuad" 
+                    } 
+                });
+            }
         }
     }
-    
     console.log("Graph view reset.");
 }
 
