@@ -232,7 +232,7 @@ function renderEnhancedKnowledgeGraph(graphData) {
             zoomSpeed: isMobileDevice ? 0.6 : 0.8,                 // Slower zoom on mobile
             multiselect: false,                                     // Disable multiselect for better mobile experience
             // Mobile-specific touch options
-            hideEdgesOnDrag: isMobileDevice,                        // Hide edges while dragging on mobile for better performance
+            hideEdgesOnDrag: false,                                // Always show edges while dragging on mobile to avoid disappearance glitches
             hideNodesOnDrag: false,
             selectable: true
         },
