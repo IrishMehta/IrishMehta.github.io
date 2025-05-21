@@ -4,7 +4,8 @@
 nav {
     position: fixed;
     inset-block-start: var(--space-md);
-    inset-inline-end: var(--space-lg);
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1000;
     background-color: hsl(var(--clr-bg-end) / 0.6);
     backdrop-filter: blur(12px);
