@@ -234,7 +234,8 @@ function renderEnhancedKnowledgeGraph(graphData) {
             // Mobile-specific touch options
             hideEdgesOnDrag: false,                                // Always show edges while dragging on mobile to avoid disappearance glitches
             hideNodesOnDrag: false,
-            selectable: true
+            selectable: true,
+            mouseWheel: false                                      // Disable scroll-based zoom
         },
         nodes: {
             borderWidth: 1,

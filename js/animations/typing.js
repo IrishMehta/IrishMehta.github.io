@@ -65,36 +65,26 @@ function typeHeading() {
     charIndex = 0;
     cursorEl.classList.add('blinking');
 
-    // Step 1: Type 'Welcome' in big size
-    headingEl.innerHTML = '<span class="welcome-big"></span>';
-    const bigSpan = headingEl.querySelector('.welcome-big');
-    typeNextChar(welcomeSmallText, bigSpan, () => {
-        // Add delay here before starting the shrink animation
-        setTimeout(() => {
-            // Step 2: Shrink welcome to small size
-            bigSpan.classList.add('shrink-to-small');
-            bigSpan.classList.remove('welcome-big');
-            bigSpan.classList.add('welcome-small');
+    // Display welcome text directly in small size
+    headingEl.innerHTML = '<span class="welcome-small"></span>';
+    const smallSpan = headingEl.querySelector('.welcome-small');
+    typeNextChar(welcomeSmallText, smallSpan, () => {
+        // After typing welcome text, proceed to type the name
+        isTypingHeading = false;
+        charIndex = 0;
+        // Prepare name and title spans along with inline cursor
+        typingTextEl.innerHTML = '<span class="name-text"></span><br><span class="title-text"></span><span class="typing-cursor blinking visible"></span>';
+        const nameSpan = typingTextEl.querySelector('.name-text');
+        const titleSpan = typingTextEl.querySelector('.title-text');
+        // Update cursorEl to the new inline cursor
+        cursorEl = typingTextEl.querySelector('.typing-cursor');
 
-            // After shrink animation completes, type the name
-            setTimeout(() => {
-                isTypingHeading = false;
-                charIndex = 0;
-                // Prepare name and title spans along with inline cursor
-                typingTextEl.innerHTML = '<span class="name-text"></span><br><span class="title-text"></span><span class="typing-cursor blinking visible"></span>';
-                const nameSpan = typingTextEl.querySelector('.name-text');
-                const titleSpan = typingTextEl.querySelector('.title-text');
-                // Update cursorEl to the new inline cursor
-                cursorEl = typingTextEl.querySelector('.typing-cursor');
-
-                // Type the name
-                typeNextChar(nameText, nameSpan, () => {
-                    // Step 3: Start cycling titles in titleSpan
-                    currentPhraseIndex = 0;
-                    typeTitle(titleSpan);
-                });
-            }, 1000); // allow shrink animation
-        }, 1000); // Add a 2-second delay before shrinking - adjust this value as needed
+        // Type the name
+        typeNextChar(nameText, nameSpan, () => {
+            // Step 3: Start cycling titles in titleSpan
+            currentPhraseIndex = 0;
+            typeTitle(titleSpan);
+        });
     });
 }
 
