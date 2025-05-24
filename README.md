@@ -20,3 +20,8 @@
 - Expandable accomplishment panels with smooth animations
 - Mobile-optimized stacked view with preserved functionality
 - Interactive nodes with hover effects and visual feedback
+
+
+## Disclaimer
+
+This project was developed with significant assistance from AI tools, with approximately 80% of the website being generated or modified by AI
