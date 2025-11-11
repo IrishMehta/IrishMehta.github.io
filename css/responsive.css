@@ -6,12 +6,24 @@
 @media (max-width: 768px) {
     /* Navigation */
     nav {
+        left: auto;
         right: 1rem;
         top: 0.5rem;
+        transform: none;
         padding: 0.4rem 0.8rem;
+        max-width: calc(100% - 2rem);
     }
-    nav ul { gap: 0.6rem; }
-    nav a { font-size: 0.85rem; }
+    nav ul { 
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    nav a { 
+        font-size: 0.75rem; 
+        padding: 0.2rem 0.5rem;
+        height: auto;
+        min-height: 36px;
+    }
 
     /* Typography */
     h1 { font-size: 2.2rem; } /* Was: clamp(2.5rem, 6vw, 4rem) */
@@ -124,9 +136,26 @@
 @media (max-width: 480px) {
     /* Base Body & Nav */
     body { font-size: 15px; } /* Consider if needed, or use clamp in typography */
-    nav { padding: 0.3rem 0.6rem; }
-    nav ul { gap: 0.4rem; }
-    nav a { font-size: 0.75rem; padding: 0.2rem 0.4rem; }
+    nav { 
+        left: auto;
+        right: 0.5rem;
+        top: 0.5rem;
+        transform: none;
+        padding: 0.3rem 0.5rem;
+        max-width: calc(100% - 1rem);
+        border-radius: 25px;
+    }
+    nav ul { 
+        gap: 0.25rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    nav a { 
+        font-size: 0.7rem; 
+        padding: 0.15rem 0.35rem;
+        height: auto;
+        min-height: 32px;
+    }
 
     /* Typography */
     h1 { font-size: 2rem; }
