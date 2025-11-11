@@ -145,6 +145,28 @@ section#home {
     margin-bottom: 1rem;
 }
 
+/* About section headshot image (moved from inline styles) */
+#about .about-headshot {
+    display: block;
+    margin: 1rem auto 1.25rem;
+    width: clamp(160px, 22vw, 260px);
+    /* aspect-ratio: 4 / 5; portrait rounded-rectangle */
+    object-fit: cover;
+    border-radius:20%;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+    /* Match About section observer animation base state */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+    transition-delay: 0.2s; /* Stagger after heading */
+}
+
+/* Become visible when the About heading becomes visible (no JS changes needed) */
+#about .section-heading.is-visible ~ .about-headshot {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* For the cycling titles (after the line break) */
 br + span,
 #typing-text::after {
@@ -159,3 +181,5 @@ br + span,
 .welcome-blur-box #home-paragraph {
     text-align: left;
 }
+
+
