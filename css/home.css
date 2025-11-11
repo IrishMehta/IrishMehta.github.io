@@ -102,10 +102,12 @@ section#home {
     border-radius: var(--radius-lg, 24px);
     box-shadow: 0 4px 24px hsl(var(--clr-border) / 0.15);
     padding: var(--space-lg) var(--space-xl);
-    margin-bottom: var(--space-lg);
-    display: inline-block;
+    margin-bottom: var(--space-sm); /* smallest margin */
+    display: block;
+    width: clamp(320px, 60vw, 450px); /* Fix width responsively to avoid jumps */
     max-width: 90vw;
-    min-height: 8rem;
+    min-height: 17rem; /* Reserve vertical space for name + title lines */
+    text-align: left; /* Left-align content inside the box */
 }
 
 #home-heading, #home-paragraph {
@@ -115,13 +117,13 @@ section#home {
 
 /* Small welcome text */
 .welcome-small {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 400;
     opacity: 0.9;
     display: block;
     margin-bottom: 0.8rem;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
+    text-transform: none; /* Preserve 'Hey!' capitalization */
     transition: font-size 0.8s ease, font-weight 0.8s ease, opacity 0.8s ease, letter-spacing 0.8s ease;
 }
 
@@ -150,4 +152,10 @@ br + span,
     font-weight: 500;
     color: hsl(var(--clr-accent));
     line-height: 1.4;
+}
+
+/* Ensure left alignment overrides section defaults inside the blur box */
+.welcome-blur-box #home-heading,
+.welcome-blur-box #home-paragraph {
+    text-align: left;
 }

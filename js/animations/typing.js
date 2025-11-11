@@ -1,9 +1,9 @@
 // js/animations/typing.js
 
 // Constants
-export const typingStartDelay = 500; // ms delay before typing starts
-const typingSpeed = 100; // ms between characters
-const erasingSpeed = 20; // ms between characters when erasing
+export const typingStartDelay = 400; // ms delay before typing starts
+const typingSpeed = 35; // ms between characters
+const erasingSpeed = 15; // ms between characters when erasing
 const pauseBetweenPhrases = 800; // ms pause at end of phrase
 const pauseBeforeErasing = 1200; // ms pause before erasing starts
 
@@ -13,7 +13,7 @@ let typingTextEl;
 let cursorEl;
 
 // Phrases for title cycling
-const welcomeSmallText = "HELLO!";
+const welcomeSmallText = "Hey!";
 const nameText = "I'm Irish Mehta";
 const titlePhrases = [
     "A Data Scientist",
