@@ -6,28 +6,86 @@
 @media (max-width: 768px) {
     /* Navigation */
     nav {
-        left: auto;
-        right: 1rem;
+        left: 50%;
+        right: auto;
         top: 0.5rem;
-        transform: none;
-        padding: 0.4rem 0.8rem;
-        max-width: calc(100% - 2rem);
+        transform: translateX(-50%);
+        width: min(92vw, 42rem);
+        padding: 0.55rem 0.9rem;
+        max-width: calc(100% - 1rem);
     }
     nav ul { 
-        gap: 0.4rem;
+        gap: 0.35rem 0.55rem;
         flex-wrap: wrap;
         justify-content: center;
+        width: 100%;
     }
     nav a { 
         font-size: 0.75rem; 
-        padding: 0.2rem 0.5rem;
+        padding: 0.2rem 0.45rem;
         height: auto;
         min-height: 36px;
+        justify-content: center;
     }
 
     /* Typography */
     h1 { font-size: 2.2rem; } /* Was: clamp(2.5rem, 6vw, 4rem) */
     h2 { font-size: 1.9rem; } /* Was: clamp(2rem, 5vw, 3rem) */
+
+    /* Layout */
+    section {
+        min-height: auto;
+        padding: 7.5rem 4.5% 3.5rem;
+    }
+
+    #home {
+        min-height: 100svh;
+        justify-content: flex-start;
+        padding-top: 8.75rem;
+        padding-bottom: 2.5rem;
+    }
+
+    .home-content-wrapper {
+        width: 100%;
+    }
+
+    .welcome-blur-box {
+        width: min(100%, 34rem);
+        max-width: 100%;
+        min-height: 15rem;
+        padding: 1.5rem 1.35rem;
+        border-radius: 22px;
+    }
+
+    #home-paragraph {
+        min-height: 4.6em;
+    }
+
+    #typing-text {
+        font-size: clamp(2.55rem, 9vw, 4.2rem);
+        line-height: 0.78;
+    }
+
+    #typing-text .title-text {
+        font-size: clamp(1.05rem, 0.96rem + 0.65vw, 1.2rem);
+        letter-spacing: 0.1em;
+        line-height: 1.35;
+    }
+
+    #about-text-content,
+    #updates .updates-container,
+    .social-links-container,
+    .projects-container {
+        width: min(100%, 42rem);
+    }
+
+    #about .section-paragraph,
+    #updates .updates-list li,
+    .project-description,
+    .timeline-company,
+    .timeline-skills {
+        overflow-wrap: anywhere;
+    }
 
     /* MDP Timeline Responsive Adjustments */
     .timeline-container-mdp::after {
@@ -95,6 +153,18 @@
         max-width: none; /* Allow it to fill available width */
     }
 
+    .timeline-state {
+        padding-block-end: 0;
+    }
+
+    .timeline-state-content {
+        padding: 0.95rem 1rem;
+    }
+
+    .timeline-accomplish-panel ul {
+        padding-left: 1rem;
+    }
+
     .timeline-state:nth-child(odd) .timeline-accomplish-toggle,
     .timeline-state:nth-child(even) .timeline-accomplish-toggle {
         float: none; /* Stack button */
@@ -137,33 +207,88 @@
     /* Base Body & Nav */
     body { font-size: 15px; } /* Consider if needed, or use clamp in typography */
     nav { 
-        left: auto;
-        right: 0.5rem;
+        left: 50%;
+        right: auto;
         top: 0.5rem;
-        transform: none;
-        padding: 0.3rem 0.5rem;
+        transform: translateX(-50%);
+        width: min(95vw, 28rem);
+        padding: 0.45rem 0.6rem;
         max-width: calc(100% - 1rem);
         border-radius: 25px;
     }
     nav ul { 
-        gap: 0.25rem;
-        flex-wrap: wrap;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.2rem 0.35rem;
+        width: 100%;
     }
+    nav li { min-width: 0; }
     nav a { 
-        font-size: 0.7rem; 
-        padding: 0.15rem 0.35rem;
+        font-size: 0.68rem; 
+        padding: 0.2rem 0.25rem;
         height: auto;
-        min-height: 32px;
+        min-height: 30px;
+        width: 100%;
+        text-align: center;
+        letter-spacing: 0.12em;
     }
 
     /* Typography */
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.75rem; }
+    h1 { font-size: 3rem; }
+    h2 { font-size: 3rem; }
     p { font-size: 0.95rem; } /* General paragraph */
 
     /* Layout */
-    section { padding: 80px 3% 40px; }
+    section {
+        padding: 7rem 4% 2.75rem;
+    }
+
+    #home {
+        min-height: 100svh;
+        padding-top: 8.5rem;
+        padding-bottom: 2rem;
+    }
+
+    .welcome-blur-box {
+        width: min(100%, 25.75rem);
+        min-height: 13.75rem;
+        padding: 1.35rem 1.15rem;
+        border-radius: 20px;
+    }
+
+    #home h1 {
+        margin-bottom: 0.2rem;
+    }
+
+    #home-paragraph {
+        min-height: 4.1em;
+        margin-top: 0.75rem;
+    }
+
+    #typing-text {
+        font-size: clamp(3rem, 11vw, 3.35rem);
+        line-height: 0.8;
+        margin-bottom: 0.25rem;
+    }
+
+    #typing-text .title-text {
+        display: inline-block;
+        font-size: clamp(1.1rem, 4.2vw, 1.05rem);
+        letter-spacing: 0.08em;
+        line-height: 1.45;
+    }
+
+    #about .about-headshot {
+        width: clamp(145px, 42vw, 200px);
+    }
+
+    #about-text-content,
+    #updates .updates-container,
+    .social-links-container,
+    .projects-container,
+    .timeline-container-mdp {
+        width: 100%;
+    }
 
     /* MDP Timeline on small mobile */
     .timeline-container-mdp::after {
@@ -186,6 +311,10 @@
 
     .timeline-title { font-size: 1.05rem; }
     .timeline-company, .timeline-skills { font-size: 0.85rem; }
+    .timeline-date { font-size: 0.68rem; }
+    .timeline-state-content { padding: 0.85rem 0.9rem; }
+    .timeline-accomplish-panel { width: calc(100% - 8px); padding: 0.85rem; }
+    .timeline-accomplish-toggle { width: 100%; max-width: none; }
     /* .timeline-state-content::after { font-size: 0.8rem; } */ /* If hover info is re-added */
 
     /* Node Icon position on small mobile */
@@ -195,6 +324,79 @@
          left: 30px;
          top: 15px;
      }
+
+    .projects-container {
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+    }
+
+    .project-card-wrapper {
+        width: 100%;
+        max-width: none;
+    }
+
+    .project-content {
+        padding: 1rem;
+    }
+
+    .project-title {
+        font-size: clamp(1.45rem, 7vw, 1.8rem);
+    }
+
+    .project-tech {
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+    }
+
+    .project-description {
+        font-size: 0.94rem;
+        line-height: 1.6;
+    }
+
+    .project-links {
+        flex-wrap: wrap;
+        gap: 0.65rem;
+    }
+
+    .project-link {
+        width: 100%;
+        text-align: center;
+    }
+
+    #updates .updates-container {
+        padding: 1rem 0.9rem;
+        border-radius: 14px;
+    }
+
+    #updates .updates-list {
+        font-size: 0.94rem;
+    }
+
+    #updates .updates-list li {
+        padding-left: 22px;
+        margin-bottom: 0.9rem;
+    }
+
+    #updates .updates-list li::before {
+        top: 0.8em;
+        transform: none;
+    }
+
+    .social-links-container {
+        gap: 0.9rem;
+        justify-content: space-between;
+    }
+
+    .social-link {
+        width: calc(33.333% - 0.65rem);
+        min-width: 72px;
+    }
+
+    .social-name {
+        font-size: 0.66rem;
+        letter-spacing: 0.06em;
+        overflow-wrap: anywhere;
+    }
 
     /* Older .timeline-event small mobile styles - review necessity */
     /*
