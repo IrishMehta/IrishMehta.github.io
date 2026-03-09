@@ -16,9 +16,9 @@ let cursorEl;
 const welcomeSmallText = "";
 const nameText = "I'm Irish Mehta";
 const titlePhrases = [
+    "A Machine Learning Engineer",
     "A Data Scientist",
-    "A Developer",
-    "A Machine Learning Engineer"
+    "A Developer"
 ];
 
 // State
@@ -51,7 +51,7 @@ function init() {
  */
 export function startTypingSequence() {
     if (!init()) return;
-    
+
     // First, type the welcome message in the heading
     typeHeading();
 }
@@ -73,7 +73,7 @@ function typeHeading() {
         isTypingHeading = false;
         charIndex = 0;
         // Prepare name and title spans along with inline cursor
-        typingTextEl.innerHTML = '<span class="name-text"></span><br><span class="title-text"></span><span class="typing-cursor blinking visible"></span>';
+        typingTextEl.innerHTML = '<span class="name-text"></span><br><span class="title-text"></span>';
         const nameSpan = typingTextEl.querySelector('.name-text');
         const titleSpan = typingTextEl.querySelector('.title-text');
         // Update cursorEl to the new inline cursor
@@ -136,18 +136,6 @@ function typeTitle(titleSpan) {
 }
 
 /**
- * Type a full phrase with callback when complete
- */
-function typeFullPhrase(phrase, callback) {
-    charIndex = 0;
-    // Only clear text if we're not typing the initial name
-    if (phrase !== nameText || typingTextEl.textContent === '') {
-        typingTextEl.textContent = '';
-    }
-    typeNextChar(phrase, typingTextEl, callback);
-}
-
-/**
  * Erase the current phrase character by character
  */
 function erasePhrase(titleSpan) {
@@ -174,7 +162,7 @@ function typeNextChar(phrase, element, callback) {
     if (charIndex < phrase.length) {
         // Add the next character
         if (element === typingTextEl && element.innerHTML.includes('<br>')) {
-            // If we're typing after a line break, append to innerHTML 
+            // If we're typing after a line break, append to innerHTML
             const currentHTML = element.innerHTML;
             element.innerHTML = currentHTML + phrase.charAt(charIndex);
         } else {
@@ -199,12 +187,12 @@ function typeNextChar(phrase, element, callback) {
  */
 export function displayTypingImmediately() {
     if (!init()) return;
-    
+
     // Show all text at once
     headingEl.innerHTML = '<span class="welcome-small">' + welcomeSmallText + '</span>';
-    typingTextEl.innerHTML = `<span style="font-size: 2.5rem; font-weight: 700;">${nameText}</span><br>
-                             <span style="font-size: 1.6rem; color: hsl(var(--clr-accent));">${titlePhrases.join(' • ')}</span>`;
-    
-    // Keep the cursor visible but not blinking
-    cursorEl.classList.add('visible');
+    typingTextEl.innerHTML = `<span class="name-text">${nameText}</span><br>
+                             <span class="title-text">${titlePhrases.join(' • ')}</span>`;
+
+    // Keep the cursor hidden when motion is reduced.
+    cursorEl.classList.remove('visible', 'blinking');
 }

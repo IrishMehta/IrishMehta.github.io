@@ -45,17 +45,6 @@ section#home {
 }
 
 /* --- Typing Cursor --- */
-.typing-cursor {
-    display: inline-block;
-    width: 0.1em; /* relative to font-size */
-    height: 1em;  /* match current line-height */
-    background-color: var(--color-accent-light);
-    margin-left: 0.2em;
-    vertical-align: text-bottom;
-    opacity: 0; /* JS controlled */
-    transition: opacity 0.1s ease;
-    position: relative;
-}
 
 /* .typing-cursor.visible {
     opacity: 1;
@@ -120,6 +109,18 @@ section#home {
     margin-inline: 0;
 }
 
+.seo-heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /* Small welcome text */
 .welcome-small {
     font-family: var(--font-family-ui);
@@ -145,12 +146,11 @@ section#home {
     transition: font-size 0.8s ease, font-weight 0.8s ease, opacity 0.8s ease, letter-spacing 0.8s ease;
 }
 
-/* Make name larger and bolder */
 #typing-text {
     font-family: var(--font-family-display);
     font-size: clamp(3.1rem, 7vw, 5.4rem);
     font-weight: 600;
-    line-height: 0.6;
+    line-height: 0.70;
     display: block;
     margin-bottom: 0.5rem;
     letter-spacing: -0.035em;
@@ -162,15 +162,12 @@ section#home {
 }
 
 #typing-text .title-text {
-    /* display: inline-block; */
-    /* margin-top: 0.08rem; */
     font-family: var(--font-family-ui);
     font-size: clamp(1.35rem, 0.96rem + 0.68vw, 1.42rem);
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: hsl(var(--clr-accent));
-    /* line-height: 1.35; */
 }
 
 /* About section headshot image (moved from inline styles) */
