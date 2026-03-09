@@ -13,7 +13,7 @@ let typingTextEl;
 let cursorEl;
 
 // Phrases for title cycling
-const welcomeSmallText = "Hey!";
+const welcomeSmallText = "";
 const nameText = "I'm Irish Mehta";
 const titlePhrases = [
     "A Data Scientist",

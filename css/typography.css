@@ -5,9 +5,14 @@ html {
     font-family: var(--font-family-base);
     font-size: var(--fs-base);
     line-height: var(--line-height-body);
+    text-rendering: optimizeLegibility;
 }
 body {
+    font-family: var(--font-family-base);
     color: hsl(var(--clr-text));
+    letter-spacing: var(--letter-spacing-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Headings */
@@ -15,33 +20,55 @@ h1 {
     font-size: var(--fs-h1);
     margin-block: var(--space-md) 0;
     color: hsl(var(--clr-heading));
-    letter-spacing: -0.5px;
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    line-height: var(--line-height-heading);
+    letter-spacing: -0.03em;
+    text-wrap: balance;
 }
 h2 {
     font-size: var(--fs-h2);
     margin-block: var(--space-md) 0;
     color: hsl(var(--clr-heading));
-    letter-spacing: -0.4px;
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    line-height: var(--line-height-heading);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
 }
 h3 {
     font-size: var(--fs-h3);
     margin-block: var(--space-md) 0;
     color: hsl(var(--clr-heading));
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
 }
 h4 {
     font-size: var(--fs-h4);
     margin-block: var(--space-sm) 0;
     color: hsl(var(--clr-heading));
+    font-family: var(--font-family-base);
+    font-weight: 700;
+    line-height: 1.1;
 }
 h5 {
     font-size: var(--fs-h5);
     margin-block: var(--space-sm) 0;
     color: hsl(var(--clr-heading));
+    font-family: var(--font-family-base);
+    font-weight: 700;
+    line-height: 1.2;
 }
 h6 {
     font-size: var(--fs-h6);
     margin-block: var(--space-xs) 0;
     color: hsl(var(--clr-heading));
+    font-family: var(--font-family-base);
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 /* Paragraphs and lists */
@@ -49,9 +76,25 @@ p,
 ul,
 ol {
     font-size: var(--fs-base);
-    max-width: 65ch;
+    max-width: var(--measure-body);
     margin-block-end: var(--space-md);
-    color: hsl(var(--clr-text));
+    color: hsl(var(--clr-text) / 0.92);
+    line-height: var(--line-height-body);
+    text-wrap: pretty;
+}
+
+.section-heading {
+    max-width: 14ch;
+    margin-inline: auto;
+}
+
+.section-paragraph {
+    font-size: clamp(1rem, 0.98rem + 0.25vw, 1.08rem);
+}
+
+strong,
+b {
+    font-weight: 700;
 }
 
 /* Small text */

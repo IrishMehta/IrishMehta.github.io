@@ -73,10 +73,13 @@
 }
 
 .project-title {
-    font-size: 1.25rem;
+    font-size: clamp(1.7rem, 1.45rem + 0.9vw, 2.1rem);
+    font-family: var(--font-family-display);
     font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
     color: hsl(var(--clr-text));
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.7rem;
     position: relative;
     transition: color 0.3s ease;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
@@ -88,17 +91,20 @@
 }
 
 .project-tech {
-    font-size: 0.88rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: hsl(var(--clr-muted));
     margin-bottom: 1rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 .project-description {
-    font-size: 0.9rem;
+    font-size: 0.98rem;
     color: hsl(var(--clr-text) / 0.9);
     margin-bottom: 1.25rem;
-    line-height: 1.5;
+    line-height: 1.7;
     flex: 1;
 }
 
@@ -135,8 +141,10 @@
     color: hsl(var(--clr-text));
     text-decoration: none;
     border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     transition: all 0.3s ease;
     border: 1px solid hsl(var(--clr-accent) / 0.3);
 }

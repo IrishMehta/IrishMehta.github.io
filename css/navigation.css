@@ -30,8 +30,11 @@ nav ul {
 nav a {
     text-decoration: none;
     color: hsl(var(--clr-text));
-    font-size: var(--fs-h6);
-    font-weight: 500;
+    font-family: var(--font-family-ui);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
     padding-block: var(--space-xs);
     padding-inline: var(--space-sm);
     border-radius: 50px;

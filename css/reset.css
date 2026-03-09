@@ -18,7 +18,7 @@ html {
 
 body {
     /* Define base font - typography.css will handle more specifics */
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-family-base);
     line-height: 1.7;
     /* Base text color - ensure good contrast with initial background */
     color: #e0e0e0; /* Light grey, good on dark purple */

@@ -138,17 +138,22 @@
 
 .timeline-date {
     display: block;
-    font-size: var(--fs-h6);
-    font-weight: 600;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: hsl(var(--clr-accent));
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .timeline-title {
-    font-size: var(--fs-h3);
+    font-size: clamp(1.8rem, 1.45rem + 1vw, 2.4rem);
+    font-family: var(--font-family-display);
     font-weight: 600;
-    margin-bottom: var(--space-xs);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.35rem;
     color: hsl(var(--clr-text));
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     transition: color 0.3s ease;
@@ -156,18 +161,21 @@
 
 .timeline-company { /* Also .timeline-skills if you have that class */
     display: block;
-    font-size: var(--fs-h6);
-    font-weight: 500;
+    font-size: 0.96rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
     color: hsl(var(--clr-text) / 0.85);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
 }
 .timeline-skills { /* From your HTML */
     display: block;
-    font-size: var(--fs-h6);
-    font-weight: 400;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: hsl(var(--clr-muted));
     margin-bottom: 0.8rem;
-    font-style: italic;
+    font-style: normal;
 }
 
 

@@ -54,8 +54,8 @@
 
 #updates .updates-list {
     list-style-type: none;
-    line-height: 1.7;
-    font-size: var(--fs-base);
+    line-height: 1.8;
+    font-size: 1rem;
     color: hsl(var(--clr-text));
     
 }
@@ -99,8 +99,10 @@
 
 /* Date styling for updates */
 .update-date {
-    font-size: var(--fs-h6);
-    font-weight: 600;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: hsl(var(--clr-accent));
     margin-right: var(--space-xs);
     /* This ensures the date doesn't break alignment */

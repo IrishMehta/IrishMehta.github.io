@@ -259,6 +259,29 @@ function startClusterMoving() { currentState = STATE.CLUSTER_MOVING; stateStartT
 function startSettling() { currentState = STATE.SETTLING; stateStartTime = Date.now(); settlingProgress = 0; clusters.forEach(c => { c.x = c.targetX; c.y = c.targetY; }); }
 function startScattering() { currentState = STATE.SCATTERING; stateStartTime = Date.now(); scatteringProgress = 0; prepareScatteringAndTransition(); }
 function startClusterTransitioning() { currentState = STATE.CLUSTER_TRANSITIONING; stateStartTime = Date.now(); clusterTransitionProgress = 0; }
+function startInitialScattering() {
+    calculateClusterCentroids();
+    clusters.forEach(cluster => {
+        cluster.x = cluster.targetX;
+        cluster.y = cluster.targetY;
+        cluster.initialX = cluster.x;
+        cluster.initialY = cluster.y;
+    });
+
+    for (const point of points) {
+        const cluster = point.clusterId !== null ? clusters[point.clusterId] : null;
+        if (!cluster) continue;
+
+        // Start from a compact grouped state so the first visible motion is the scatter phase.
+        point.x = cluster.x + (Math.random() - 0.5) * 10;
+        point.y = cluster.y + (Math.random() - 0.5) * 10;
+        point.initialX = point.x;
+        point.initialY = point.y;
+        point.displayColorRGBA = { ...cluster.colorRGBA };
+    }
+
+    startScattering();
+}
 function startNextSimulation() {
     currentState = STATE.CLUSTERING; stateStartTime = Date.now(); clusteringProgress = 0;
     for (const cluster of clusters) {
@@ -344,8 +367,7 @@ export function init() {
     initPoints();
     initClusters();
     assignPointsToClusters();
-    currentState = STATE.CLUSTERING;
-    stateStartTime = Date.now();
+    startInitialScattering();
 
     // Attach click listener if not already attached
     if (!homeSection.dataset.clusteringListenerAttached) {
