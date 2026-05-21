@@ -425,10 +425,7 @@
   .update-placeholder,
   .contact-links,
   /* .typing-cursor, */
-  .slider, /* For about toggle */
-  .slider:before,
   .about-content,
-  .graph-reset-button,
   .timeline-accomplish-toggle,
   .timeline-accomplish-panel
    {
@@ -453,11 +450,6 @@
       height: auto !important;
       visibility: visible !important;
   }
-   #knowledge-graph-enhanced-container { /* Ensure graph container is visible too */
-       opacity: 1 !important;
-       transform: none !important;
-       height: auto !important; /* Or its specific height */
-   }
     .timeline-accomplish-panel:not([hidden]) {
         opacity: 1 !important;
         transform: none !important;

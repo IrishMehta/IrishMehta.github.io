@@ -1,7 +1,6 @@
 // js/main.js
 import { startTypingSequence, displayTypingImmediately, typingStartDelay } from './animations/typing.js';
 import { init as initClustering } from './animations/clustering.js';
-import { fetchGraphDataAndRender, destroyGraph } from './visualizations/knowledgeGraph.js';
 import { initGradientScroll } from './gradientBackground.js';
 import { initScrollObserver } from './scrollObserver.js';
 import { initProjectCardsAnimation, handleProjectImageErrors } from './animations/projectCards.js';
@@ -40,8 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Scroll Observer ---
     initScrollObserver();
 
-    // --- About Section Toggle & Knowledge Graph ---
-    setupAboutToggle(); // Initialize the toggle switch logic    // Initialize the timeline toggle logic
+    // --- Timeline toggle logic ---
     document.querySelectorAll('.timeline-accomplish-toggle').forEach(btn => {
         btn.addEventListener('click', function() {
             const panel = this.parentElement.querySelector('.timeline-accomplish-panel');
@@ -121,31 +119,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("App Initialization Complete.");
 });
-
-
-// === Feature: About Section Knowledge Graph Loading ===
-// (Handles loading the knowledge graph directly without toggle)
-function setupAboutToggle() {
-    const textContent = document.getElementById('about-text-content');
-    const graphContainer = document.getElementById('knowledge-graph-enhanced-container');
-
-    // Check if we have the necessary elements
-    if (!textContent || !graphContainer) {
-        console.warn("About section content elements not found.");
-        return;
-    }
-
-    // Both text content and graph are visible (both have active class)
-    console.log("Initializing knowledge graph display");
-    
-    // Ensure graph is rendered if container is visible
-    if (graphContainer.classList.contains('active')) {
-        // Trigger graph rendering (it checks internally if already rendered)
-        setTimeout(() => {
-            fetchGraphDataAndRender();
-            console.log("Knowledge graph render triggered");
-        }, 300); // Small delay to ensure DOM is ready
-    }
-    
-    console.log("About section initialized with combined view.");
-}

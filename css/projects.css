@@ -49,8 +49,9 @@
 
 .project-image-container {
     position: relative;
-    height: 180px;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
+    background-color: hsl(var(--clr-bg-start) / 0.45);
 }
 
 .project-image {
@@ -111,22 +112,61 @@
 
 /* Full-size image container */
 .project-image-container.full-size {
-    height: auto;
-    max-height: none;
-    overflow: visible;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
 }
 
-/* Make the images themselves display at full size */
+/* Keep "full-size" cards visually consistent with the rest of the grid */
 .project-image-container.full-size .project-image {
     width: 100%;
-    height: auto;
-    object-fit: contain;
-    max-height: none;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Optional: Add some spacing between image and content */
-.project-image-container.full-size + .project-content {
-    margin-top: 15px;
+.project-image-placeholder {
+    display: flex;
+    align-items: flex-end;
+    padding: 1.1rem;
+    background:
+        radial-gradient(circle at top right, rgba(255, 162, 231, 0.2), transparent 34%),
+        radial-gradient(circle at left center, rgba(193, 125, 255, 0.18), transparent 42%),
+        linear-gradient(145deg, rgba(28, 24, 46, 0.98), rgba(57, 34, 73, 0.94));
+}
+
+.project-image-placeholder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent 78%);
+}
+
+.project-placeholder-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    max-width: 80%;
+}
+
+.project-placeholder-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: hsl(var(--clr-muted));
+}
+
+.project-placeholder-title {
+    font-family: var(--font-family-display);
+    font-size: clamp(2rem, 1.7rem + 1vw, 2.8rem);
+    line-height: 0.95;
+    color: hsl(var(--clr-text));
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 .project-links {
@@ -190,7 +230,11 @@
     }
     
     .project-image-container {
-        height: 160px;
+        aspect-ratio: 16 / 10;
+    }
+
+    .project-image-container.full-size {
+        aspect-ratio: 16 / 10;
     }
 }
 
