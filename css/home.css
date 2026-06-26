@@ -21,6 +21,7 @@ section#home {
 
 /* Specific overrides for home heading and paragraph for typing animation */
 #home h1,
+#home-heading,
 #home p {
     min-height: 1.2em; /* Ensure space during typing */
     text-align: center;
@@ -38,7 +39,8 @@ section#home {
     margin-top: var(--space-md, 1rem); /* Add consistent spacing */
 }
 
-#home h1 {
+#home h1,
+#home-heading {
     margin: 0 0 0.35rem;
     font-size: clamp(0.95rem, 0.88rem + 0.45vw, 1.1rem);
     font-weight: 600;
@@ -197,5 +199,4 @@ section#home {
 .welcome-blur-box #home-paragraph {
     text-align: left;
 }
-
 

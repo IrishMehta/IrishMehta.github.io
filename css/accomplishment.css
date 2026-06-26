@@ -52,7 +52,7 @@
     border: 1px solid rgba(193, 125, 255, 0.2);
     border-radius: 10px;
     padding: 18px 22px;
-    width: calc(100% - 40px);
+    width: calc(100% - (var(--space-lg) * 2));
     max-width: 450px;
     max-height: none;
     overflow-y: visible;
@@ -68,17 +68,17 @@
 }
 
 /* Webkit scrollbar styling */
-.timeline-accomplish-panel::-webkit-scrollbar {
+.timeline-accomplish-panel ul::-webkit-scrollbar {
     width: 6px;
 }
 
-.timeline-accomplish-panel::-webkit-scrollbar-track {
+.timeline-accomplish-panel ul::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
 }
 
 /* Match scrollbar to timeline aesthetic */
-.timeline-accomplish-panel::-webkit-scrollbar-thumb {
+.timeline-accomplish-panel ul::-webkit-scrollbar-thumb {
     background-color: rgba(193, 125, 255, 0.8);
     border-radius: 3px;
 }
@@ -89,15 +89,23 @@
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
-    overflow-y: auto; 
-    max-height: 300px;
+    overflow: hidden;
+    max-height: none;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .timeline-accomplish-panel ul {
     list-style-type: none;
     padding-left: 0;
+    padding-right: 18px;
     margin-bottom: 0;
+    max-height: calc(300px - 36px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-wrap: anywhere;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent-medium) rgba(255, 255, 255, 0.1);
 }
 
 /* Update list item styling */
@@ -136,13 +144,13 @@
 }
 
 .timeline-state:nth-child(odd) .timeline-accomplish-panel {
-    left: calc(100% + 25px);
+    left: calc(100% + var(--space-lg));
     right: auto;
     top: -10px; /* Slight offset to align better with the toggle button */
     text-align: left;
     margin-bottom: 40px; /* Add space between panels and next timeline item */
     margin-top: 20px; /* Add space above the panel */
-    margin-left: 20px; /* Add space to the left of the panel */
+    margin-left: 0;
 }
 
 /* Positioning for Even items (text on left, panel on right) */
@@ -152,13 +160,13 @@
 }
 
 .timeline-state:nth-child(even) .timeline-accomplish-panel {
-    right: calc(100% + 25px);
+    right: calc(100% + var(--space-lg));
     left: auto;
     top: -10px; /* Slight offset to align better with the toggle button */
     text-align: left;
     margin-bottom: 40px; /* Add space between panels and next timeline item */
     margin-top: 20px;
-    margin-right: 20px; /* Add space to the right of the panel */
+    margin-right: 0;
 }
 
 /* Clear floats */
@@ -172,6 +180,7 @@
 /* Special styling for timeline states with open panels */
 .timeline-state:has(.timeline-accomplish-toggle[aria-expanded="true"]) {
     z-index: 15; /* Higher z-index than other timeline states */
+    padding-block-end: calc(var(--space-xxl) + var(--space-xl) + var(--space-lg));
 }
 
 .timeline-state:has(.timeline-accomplish-toggle[aria-expanded="true"]) .timeline-state-content {
@@ -223,6 +232,15 @@
         margin: 15px auto;
         max-width: 200px;
         text-align: center; /* Ensure text is centered */
+    }
+
+    .timeline-accomplish-panel ul {
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .timeline-state:has(.timeline-accomplish-toggle[aria-expanded="true"]) {
+        padding-block-end: 0;
     }
     
     /* Improve vertical spacing between timeline items on mobile */

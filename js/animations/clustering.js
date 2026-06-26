@@ -73,7 +73,7 @@ class Point {
                     this.clusterTargetX = cluster.initialX; this.clusterTargetY = cluster.initialY;
                     this.displayColorRGBA = cluster.colorRGBA;
                     easedProgress = easing.easeInOutQuad(clusteringProgress);
-                    targetProg = Math.min(easedProgress * this.speedFactor, 1.0);
+                    targetProg = easedProgress;
                     this.x = this.initialX + (this.clusterTargetX - this.initialX) * targetProg;
                     this.y = this.initialY + (this.clusterTargetY - this.initialY) * targetProg;
                 } else { this.displayColorRGBA = { ...this.defaultColorRGBA }; }
@@ -259,6 +259,16 @@ function startClusterMoving() { currentState = STATE.CLUSTER_MOVING; stateStartT
 function startSettling() { currentState = STATE.SETTLING; stateStartTime = Date.now(); settlingProgress = 0; clusters.forEach(c => { c.x = c.targetX; c.y = c.targetY; }); }
 function startScattering() { currentState = STATE.SCATTERING; stateStartTime = Date.now(); scatteringProgress = 0; prepareScatteringAndTransition(); }
 function startClusterTransitioning() { currentState = STATE.CLUSTER_TRANSITIONING; stateStartTime = Date.now(); clusterTransitionProgress = 0; }
+function collapsePointsToClusterCenters() {
+    for (const point of points) {
+        const cluster = point.clusterId !== null ? clusters[point.clusterId] : null;
+        if (!cluster) continue;
+
+        point.x = cluster.x;
+        point.y = cluster.y;
+        point.displayColorRGBA = { ...cluster.colorRGBA };
+    }
+}
 function startInitialScattering() {
     calculateClusterCentroids();
     clusters.forEach(cluster => {
@@ -307,7 +317,7 @@ function drawBackground() {
 function updateSimulation() {
     const currentTime = Date.now(); const elapsed = currentTime - stateStartTime;
     switch (currentState) {
-        case STATE.CLUSTERING: clusteringProgress = Math.min(elapsed / CLUSTERING_DURATION, 1); calculateClusterCentroids(); if (clusteringProgress >= 1) { startClusterMoving(); } break;
+        case STATE.CLUSTERING: clusteringProgress = Math.min(elapsed / CLUSTERING_DURATION, 1); calculateClusterCentroids(); if (clusteringProgress >= 1) { collapsePointsToClusterCenters(); startScattering(); } break;
         case STATE.CLUSTER_MOVING: clusterMoveProgress = Math.min(elapsed / CLUSTER_MOVE_DURATION, 1); if (clusterMoveProgress >= 1) { startSettling(); } break;
         case STATE.SETTLING: settlingProgress = Math.min(elapsed / SETTLING_DURATION, 1); if (settlingProgress >= 1) { startScattering(); } break;
         case STATE.SCATTERING: scatteringProgress = Math.min(elapsed / SCATTERING_DURATION, 1); if (scatteringProgress >= 1) { startClusterTransitioning(); } break;

@@ -17,6 +17,7 @@ const welcomeSmallText = "";
 const nameText = "I'm Irish Mehta";
 const titlePhrases = [
     "A Machine Learning Engineer",
+    "An Applied Scientist",
     "A Data Scientist",
     "A Developer"
 ];
