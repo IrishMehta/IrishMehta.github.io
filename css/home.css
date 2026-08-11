@@ -64,34 +64,33 @@ section#home {
     height: 100%;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.17;
-    mix-blend-mode: screen;
+    opacity: 0.26;
     transition: opacity 0.9s ease;
     will-change: opacity;
 }
 
 #cluster-canvas[data-cluster-section="home"] {
-    opacity: 0.52;
+    opacity: 0.68;
 }
 
 #cluster-canvas[data-cluster-section="about"] {
-    opacity: 0.2;
+    opacity: 0.32;
 }
 
 #cluster-canvas[data-cluster-section="timeline"] {
-    opacity: 0.16;
+    opacity: 0.26;
 }
 
 #cluster-canvas[data-cluster-section="projects"] {
-    opacity: 0.22;
+    opacity: 0.34;
 }
 
 #cluster-canvas[data-cluster-section="updates"] {
-    opacity: 0.18;
+    opacity: 0.29;
 }
 
 #cluster-canvas[data-cluster-section="contact"] {
-    opacity: 0.28;
+    opacity: 0.38;
 }
 
 /* If you had specific styling for #particle-canvas like opacity transitions */

@@ -10,6 +10,17 @@ main > section {
     z-index: 1;
 }
 
+body.is-scrolling nav,
+body.is-scrolling .welcome-blur-box,
+body.is-scrolling .timeline-state-content,
+body.is-scrolling .timeline-accomplish-toggle,
+body.is-scrolling .timeline-accomplish-panel,
+body.is-scrolling .updates-archive,
+body.is-scrolling .contact-network {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
 main > section:not(#home) {
     min-height: auto;
     margin-top: clamp(1.5rem, 3vw, 3rem);

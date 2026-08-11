@@ -14,6 +14,7 @@ html {
     scroll-behavior: auto;
     /* Improve scroll performance on some browsers */
     scroll-padding-top: 60px; /* Offset for fixed nav, adjust as needed */
+    background: rgb(16, 0, 22);
 }
 
 body {
@@ -23,9 +24,7 @@ body {
     /* Base text color - ensure good contrast with initial background */
     color: #e0e0e0; /* Light grey, good on dark purple */
 
-    /* --- Gradient Background (Set by JS, provide fallback) --- */
-    background: linear-gradient(to top right, rgb(32, 0, 44), rgb(16, 0, 22));
-    transition: background 0.08s linear;
+    background: transparent;
     overflow-x: hidden; /* Prevent horizontal scrollbars caused by animations */
 }
 

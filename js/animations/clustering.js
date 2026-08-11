@@ -6,9 +6,13 @@ const canvas = document.getElementById('cluster-canvas');
 if (!canvas) console.error("Canvas element #cluster-canvas not found!");
 const ctx = canvas ? canvas.getContext('2d') : null;
 
-let POINT_COUNT = 200;
-const MAX_POINTS = 500;
+let POINT_COUNT = window.innerWidth < 768 ? 105 : 140;
+const MAX_POINTS = 220;
 const INITIAL_CLUSTER_COUNT = 6;
+const NORMAL_FPS = 36;
+const SCROLLING_FPS = 26;
+const CENTROID_INTERVAL = 100;
+const SPRITE_CACHE_LIMIT = 256;
 
 const CLUSTERING_DURATION = 8000;
 const CLUSTER_MOVE_DURATION = 2000;
@@ -34,9 +38,65 @@ let stateStartTime = Date.now();
 let clusteringProgress = 0, clusterMoveProgress = 0, settlingProgress = 0, scatteringProgress = 0, clusterTransitionProgress = 0;
 let animationFrameId = null;
 let scrollColorFrameId = null;
+let lastRenderTime = 0;
+let lastCentroidCalculation = 0;
 let currentClusterCount = INITIAL_CLUSTER_COUNT;
 let isInitialized = false; // Module-specific flag
+let isScrolling = false;
 let scrollColor = { ...SCROLL_COLOR_STOPS[0].color };
+const glowSpriteCache = new Map();
+
+function quantizeChannel(value) {
+    return Math.max(0, Math.min(255, Math.round(value / 64) * 64));
+}
+
+function createGlowSprite(r, g, b, type) {
+    const size = type === 'cluster' ? 128 : 48;
+    const surface = typeof OffscreenCanvas === 'function'
+        ? new OffscreenCanvas(size, size)
+        : document.createElement('canvas');
+
+    surface.width = size;
+    surface.height = size;
+
+    const spriteContext = surface.getContext('2d');
+    const center = size / 2;
+    const gradient = spriteContext.createRadialGradient(center, center, 0, center, center, center);
+
+    if (type === 'cluster') {
+        gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 1)`);
+        gradient.addColorStop(0.13, `rgba(${r}, ${g}, ${b}, 0.94)`);
+        gradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, 0.26)`);
+        gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+    } else {
+        gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 1)`);
+        gradient.addColorStop(0.18, `rgba(${r}, ${g}, ${b}, 0.92)`);
+        gradient.addColorStop(0.44, `rgba(${r}, ${g}, ${b}, 0.3)`);
+        gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+    }
+
+    spriteContext.fillStyle = gradient;
+    spriteContext.fillRect(0, 0, size, size);
+    return surface;
+}
+
+function getGlowSprite(r, g, b, type) {
+    const red = quantizeChannel(r);
+    const green = quantizeChannel(g);
+    const blue = quantizeChannel(b);
+    const key = `${type}-${red}-${green}-${blue}`;
+
+    if (!glowSpriteCache.has(key)) {
+        if (glowSpriteCache.size >= SPRITE_CACHE_LIMIT) glowSpriteCache.clear();
+        glowSpriteCache.set(key, createGlowSprite(red, green, blue, type));
+    }
+
+    return glowSpriteCache.get(key);
+}
+
+export function setScrollingState(active) {
+    isScrolling = Boolean(active);
+}
 
 function interpolateScrollColor(progress) {
     const boundedProgress = Math.max(0, Math.min(1, progress));
@@ -101,11 +161,11 @@ class Point {
         this.scatterStartX = x; this.scatterStartY = y;
         this.scatterTargetX = x; this.scatterTargetY = y;
         this.clusterId = null;
-        this.defaultColorString = 'rgba(255, 255, 255, 0.5)';
-        this.defaultColorRGBA = parseColor(this.defaultColorString) || { r: 255, g: 255, b: 255, a: 0.5 };
+        this.defaultColorString = 'rgba(255, 255, 255, 0.7)';
+        this.defaultColorRGBA = parseColor(this.defaultColorString) || { r: 255, g: 255, b: 255, a: 0.7 };
         this.displayColorRGBA = { ...this.defaultColorRGBA };
         this.preScatterColorRGBA = { ...this.defaultColorRGBA };
-        this.size = Math.random() * 2.5 + 1.5;
+        this.size = Math.random() * 2.6 + 2.1;
         this.speedFactor = Math.random() * 0.4 + 0.8;
         this.settleMagnitude = Math.random() * 0.3 + 0.1;
         this.phase = Math.random() * Math.PI * 2;
@@ -175,13 +235,12 @@ class Point {
 
          if (!ctx || !this.displayColorRGBA) return;
         const { r, g, b, a } = getScrollTintedColor(this.displayColorRGBA);
-        const displayColorString = `rgba(${r}, ${g}, ${b}, ${a})`;
-        const glowColorString = `rgba(${r}, ${g}, ${b}, ${a * 0.20})`;
-        const glow = this.size * 3.0;
+        const sprite = getGlowSprite(r, g, b, 'point');
+        const spriteSize = this.size * 8;
 
-        // Draw Glow & Point
-        ctx.beginPath(); ctx.arc(this.x, this.y, glow, 0, Math.PI * 2); ctx.fillStyle = glowColorString; ctx.fill();
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = displayColorString; ctx.fill();
+        ctx.globalAlpha = a;
+        ctx.drawImage(sprite, this.x - spriteSize / 2, this.y - spriteSize / 2, spriteSize, spriteSize);
+        ctx.globalAlpha = 1;
 
         // Draw Lines
         if ((currentState === STATE.CLUSTERING || currentState === STATE.CLUSTER_MOVING || currentState === STATE.SETTLING) && this.clusterId !== null && this.clusterId < clusters.length) {
@@ -213,11 +272,11 @@ class Point {
 
 // --- Cluster Class ---
 class Cluster {
-     constructor(x, y) { this.x = x; this.y = y; this.initialX = x; this.initialY = y; this.targetX = x; this.targetY = y; this.transitionStartX = x; this.transitionStartY = y; this.nextInitialX = x; this.nextInitialY = y; this.colorString = this.generateColor(); this.colorRGBA = parseColor(this.colorString) || { r: 255, g: 0, b: 255, a: 0.7 }; this.nextColorString = this.colorString; this.nextColorRGBA = { ...this.colorRGBA }; this.transitionStartColorString = this.colorString; this.transitionStartColorRGBA = { ...this.colorRGBA }; this.size = 8; this.opacity = 1; this.pulse = 1; }
-     generateColor() { const complementaryColors = ['rgba(190, 160, 240, 0.75)', 'rgba(255, 180, 220, 0.75)', 'rgba(140, 230, 210, 0.75)', 'rgba(255, 190, 150, 0.75)', 'rgba(170, 215, 255, 0.75)', 'rgba(240, 240, 160, 0.75)', 'rgba(160, 240, 160, 0.75)']; let newColor = this.colorString; while(newColor === this.colorString) { newColor = complementaryColors[Math.floor(Math.random() * complementaryColors.length)]; } return newColor; }
-     setNextColor() { this.nextColorString = this.generateColor(); this.nextColorRGBA = parseColor(this.nextColorString) || { r: 0, g: 255, b: 255, a: 0.7 }; }
+     constructor(x, y) { this.x = x; this.y = y; this.initialX = x; this.initialY = y; this.targetX = x; this.targetY = y; this.transitionStartX = x; this.transitionStartY = y; this.nextInitialX = x; this.nextInitialY = y; this.colorString = this.generateColor(); this.colorRGBA = parseColor(this.colorString) || { r: 255, g: 0, b: 255, a: 0.9 }; this.nextColorString = this.colorString; this.nextColorRGBA = { ...this.colorRGBA }; this.transitionStartColorString = this.colorString; this.transitionStartColorRGBA = { ...this.colorRGBA }; this.size = 8; this.opacity = 1; this.pulse = 1; }
+     generateColor() { const complementaryColors = ['rgba(205, 165, 255, 0.9)', 'rgba(255, 145, 215, 0.9)', 'rgba(105, 235, 205, 0.9)', 'rgba(255, 165, 105, 0.9)', 'rgba(125, 205, 255, 0.9)', 'rgba(245, 225, 105, 0.9)', 'rgba(115, 235, 145, 0.9)']; let newColor = this.colorString; while(newColor === this.colorString) { newColor = complementaryColors[Math.floor(Math.random() * complementaryColors.length)]; } return newColor; }
+     setNextColor() { this.nextColorString = this.generateColor(); this.nextColorRGBA = parseColor(this.nextColorString) || { r: 0, g: 255, b: 255, a: 0.9 }; }
      update(time) { let easedProgress; switch (currentState) { case STATE.CLUSTERING: this.x = this.initialX; this.y = this.initialY; this.opacity = 1; this.pulse = 1 + Math.sin(time * 0.0015 + this.initialX) * 0.08; break; case STATE.CLUSTER_MOVING: easedProgress = easing.easeInOutQuad(clusterMoveProgress); this.x = this.initialX + (this.targetX - this.initialX) * easedProgress; this.y = this.initialY + (this.targetY - this.initialY) * easedProgress; this.opacity = 1; this.pulse = 1 + Math.sin(time * 0.002 + this.initialY) * 0.1 * (1 - clusterMoveProgress); break; case STATE.SETTLING: this.x = this.targetX; this.y = this.targetY; this.opacity = 1; this.pulse = 1 + Math.sin(time * 0.0025 + this.x) * 0.15 * (1 - settlingProgress); break; case STATE.SCATTERING: this.x = this.targetX; this.y = this.targetY; this.opacity = 1; this.pulse = 1; break; case STATE.CLUSTER_TRANSITIONING: easedProgress = easing.easeInOutCubic(clusterTransitionProgress); this.x = this.transitionStartX + (this.nextInitialX - this.transitionStartX) * easedProgress; this.y = this.transitionStartY + (this.nextInitialY - this.transitionStartY) * easedProgress; this.colorRGBA = blendParsedColors(this.transitionStartColorRGBA, this.nextColorRGBA, easedProgress); this.opacity = 1; this.pulse = 1; break; } }
-     draw() { if (!ctx || this.opacity <= 0 || !this.colorRGBA) return; const currentSize = this.size * this.pulse; const { r, g, b, a } = getScrollTintedColor(this.colorRGBA); const baseAlpha = a; const gradient = ctx.createRadialGradient(this.x, this.y, currentSize*0.2, this.x, this.y, currentSize*5); gradient.addColorStop(0, `rgba(${r},${g},${b},${baseAlpha*0.5*this.opacity})`); gradient.addColorStop(0.5, `rgba(${r},${g},${b},${baseAlpha*0.2*this.opacity})`); gradient.addColorStop(1,`rgba(${r},${g},${b},0)`); ctx.beginPath(); ctx.arc(this.x, this.y, currentSize*5, 0, Math.PI*2); ctx.fillStyle = gradient; ctx.fill(); ctx.beginPath(); ctx.arc(this.x, this.y, currentSize, 0, Math.PI*2); ctx.fillStyle = `rgba(${r},${g},${b},${baseAlpha*this.opacity})`; ctx.fill(); ctx.strokeStyle = `rgba(255,255,255,${0.3*this.opacity})`; ctx.lineWidth = 1; ctx.stroke(); }
+     draw() { if (!ctx || this.opacity <= 0 || !this.colorRGBA) return; const currentSize = this.size * this.pulse; const { r, g, b, a } = getScrollTintedColor(this.colorRGBA); const sprite = getGlowSprite(r, g, b, 'cluster'); const spriteSize = currentSize * 10; ctx.globalAlpha = a * this.opacity; ctx.drawImage(sprite, this.x - spriteSize / 2, this.y - spriteSize / 2, spriteSize, spriteSize); ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(this.x, this.y, currentSize, 0, Math.PI * 2); ctx.strokeStyle = `rgba(255,255,255,${0.36*this.opacity})`; ctx.lineWidth = 1; ctx.stroke(); }
 }
 
 // --- Simulation Logic ---
@@ -352,6 +411,7 @@ function startInitialScattering() {
 }
 function startNextSimulation() {
     currentState = STATE.CLUSTERING; stateStartTime = Date.now(); clusteringProgress = 0;
+    lastCentroidCalculation = 0;
     for (const cluster of clusters) {
         cluster.x = cluster.nextInitialX; cluster.y = cluster.nextInitialY; cluster.initialX = cluster.x; cluster.initialY = cluster.y; cluster.targetX = cluster.x; cluster.targetY = cluster.y; cluster.colorRGBA = cluster.nextColorRGBA || parseColor(cluster.generateColor()); cluster.colorString = cluster.nextColorString; cluster.opacity = 1; cluster.pulse = 1;
     }
@@ -372,10 +432,10 @@ function drawBackground() {
         ctx.fill();
     }
 }
-function updateSimulation() {
-    const currentTime = Date.now(); const elapsed = currentTime - stateStartTime;
+function updateSimulation(currentTime) {
+    const elapsed = currentTime - stateStartTime;
     switch (currentState) {
-        case STATE.CLUSTERING: clusteringProgress = Math.min(elapsed / CLUSTERING_DURATION, 1); calculateClusterCentroids(); if (clusteringProgress >= 1) { collapsePointsToClusterCenters(); startScattering(); } break;
+        case STATE.CLUSTERING: clusteringProgress = Math.min(elapsed / CLUSTERING_DURATION, 1); if (currentTime - lastCentroidCalculation >= CENTROID_INTERVAL) { calculateClusterCentroids(); lastCentroidCalculation = currentTime; } if (clusteringProgress >= 1) { collapsePointsToClusterCenters(); startScattering(); } break;
         case STATE.CLUSTER_MOVING: clusterMoveProgress = Math.min(elapsed / CLUSTER_MOVE_DURATION, 1); if (clusterMoveProgress >= 1) { startSettling(); } break;
         case STATE.SETTLING: settlingProgress = Math.min(elapsed / SETTLING_DURATION, 1); if (settlingProgress >= 1) { startScattering(); } break;
         case STATE.SCATTERING: scatteringProgress = Math.min(elapsed / SCATTERING_DURATION, 1); if (scatteringProgress >= 1) { startClusterTransitioning(); } break;
@@ -384,12 +444,19 @@ function updateSimulation() {
 }
 function updateObjects() { const time = Date.now(); clusters.forEach(cluster => cluster.update(time)); points.forEach(point => point.update(time)); }
 function draw() { if (!ctx) return; drawBackground(); points.forEach(point => point.draw()); clusters.forEach(cluster => cluster.draw()); }
-function animate() {
+function animate(timestamp = performance.now()) {
     if (!canvas || !ctx) { console.warn("Clustering canvas/context lost."); if (animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId = null; return; }
-    updateSimulation();
+
+    animationFrameId = requestAnimationFrame(animate);
+    const targetFps = isScrolling ? SCROLLING_FPS : NORMAL_FPS;
+    const frameInterval = 1000 / targetFps;
+    const elapsedSinceRender = timestamp - lastRenderTime;
+    if (elapsedSinceRender < frameInterval) return;
+
+    lastRenderTime = timestamp - (elapsedSinceRender % frameInterval);
+    updateSimulation(Date.now());
     updateObjects();
     draw();
-    animationFrameId = requestAnimationFrame(animate);
 }
 
 // --- Interaction ---
@@ -451,6 +518,8 @@ export function init() {
     window.addEventListener('resize', resizeCanvas); // Handle resize
 
     currentClusterCount = INITIAL_CLUSTER_COUNT;
+    lastRenderTime = 0;
+    lastCentroidCalculation = 0;
     clusteringProgress = 0; clusterMoveProgress = 0; settlingProgress = 0; scatteringProgress = 0; clusterTransitionProgress = 0;
     initPoints();
     initClusters();
@@ -489,6 +558,8 @@ export function stop() {
     // Reset state
     points = [];
     clusters = [];
+    glowSpriteCache.clear();
+    isScrolling = false;
     isInitialized = false;
     console.log("Clustering animation stopped.");
 }

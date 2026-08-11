@@ -1,5 +1,6 @@
 /* css/theme.css */
 :root {
+    --gradient-progress: 0;
     /* Color Palette */
     --clr-bg-start: 260 50% 5%;        /* Darker purple for gradient start */
     --clr-bg-end: 280 40% 15%;         /* Medium purple for gradient end */
@@ -43,10 +44,29 @@
 
 /* Apply continuous background gradient globally */
 body {
-    /* Single, fixed background with gradient that extends through the entire page */
-    background: linear-gradient(135deg, 
-                hsl(var(--clr-bg-start)) 0%,
-                hsl(var(--clr-bg-end)) 100%) fixed;
+    position: relative;
+    isolation: isolate;
+    background: transparent;
     color: hsl(var(--clr-text));
     min-height: 100vh;
+}
+
+body::before,
+body::after {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    content: "";
+    pointer-events: none;
+}
+
+body::before {
+    background: linear-gradient(to top right, var(--color-dark-purple), var(--color-anchor-dark));
+}
+
+body::after {
+    z-index: -1;
+    background: linear-gradient(to top right, rgb(218, 198, 226), var(--color-anchor-dark));
+    opacity: var(--gradient-progress);
+    will-change: opacity;
 }

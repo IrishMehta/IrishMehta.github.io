@@ -1,9 +1,25 @@
 // js/main.js
 import { startTypingSequence, displayTypingImmediately, typingStartDelay } from './animations/typing.js';
-import { init as initClustering } from './animations/clustering.js';
+import { init as initClustering, setScrollingState } from './animations/clustering.js';
 import { initGradientScroll } from './gradientBackground.js';
 import { initScrollObserver } from './scrollObserver.js';
 import { initProjectGroups, initProjectCardsAnimation, initProjectDialog, handleProjectImageErrors } from './animations/projectCards.js';
+
+function initScrollPerformanceState() {
+    let scrollEndTimer = null;
+
+    window.addEventListener('scroll', () => {
+        document.body.classList.add('is-scrolling');
+        setScrollingState(true);
+
+        if (scrollEndTimer !== null) clearTimeout(scrollEndTimer);
+        scrollEndTimer = window.setTimeout(() => {
+            document.body.classList.remove('is-scrolling');
+            setScrollingState(false);
+            scrollEndTimer = null;
+        }, 140);
+    }, { passive: true });
+}
 
 function initFastAnchorNavigation(prefersReducedMotion) {
     const anchorLinks = document.querySelectorAll('nav a[href^="#"]');
@@ -79,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
          if (clusterCanvas) clusterCanvas.style.display = 'none'; // Hide canvas
     }    // --- Gradient Background ---
     initGradientScroll();
+    initScrollPerformanceState();
     initFastAnchorNavigation(prefersReducedMotion);
 
     // --- Project Cards & Animations ---
