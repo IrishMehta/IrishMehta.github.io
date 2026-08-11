@@ -1,47 +1,147 @@
 // js/animations/projectCards.js
 
-/**
- * Handles the staggered entrance animations for project cards
- */
+const STAGGER_DELAY = 110;
 
-// --- Configuration ---
-const STAGGER_DELAY = 150; // milliseconds between each card animation
+const PROJECT_GROUPS = {
+    "SudoHint": "ai-engineering",
+    "AutoFrame": "ai-engineering",
+    "DishCovery": "ai-engineering",
+    "Earnings Call RAG": "ai-engineering",
+    "CounterEcho AI": "ai-engineering",
+    "Prompt Engineering": "ai-engineering",
+    "Silkot Silicones": "ai-engineering",
+    "MOMO": "machine-learning",
+    "Mars-Bench": "machine-learning",
+    "Adaptive Learning Platform": "machine-learning",
+    "Candidate Recommendation System": "machine-learning",
+    "Machine Learning from Scratch": "machine-learning",
+    "Multi-ATS Job Intelligence Platform": "data-science",
+    "Auto Storage Categorization": "data-science",
+    "Movie Recommendation System": "data-science",
+    "Predictive Modelling for Composites": "data-science"
+};
 
-// --- Animation Functions ---
+const PROJECT_GROUP_LABELS = {
+    "ai-engineering": "AI Engineering",
+    "machine-learning": "Machine Learning",
+    "data-science": "Data Science"
+};
+
+/** Move the existing cards into their three curated gallery groups. */
+export function initProjectGroups() {
+    const source = document.getElementById('project-source');
+    const groups = document.getElementById('project-groups');
+
+    if (!source || !groups) return;
+
+    const cards = [...source.querySelectorAll('.project-card-wrapper')];
+
+    cards.forEach(card => {
+        const title = card.querySelector('.project-title')?.textContent.trim();
+        const group = PROJECT_GROUPS[title] || 'machine-learning';
+        const target = groups.querySelector(`[data-project-group="${group}"] .project-group-grid`);
+
+        if (target) {
+            card.dataset.projectCategory = group;
+            target.appendChild(card);
+        }
+    });
+
+    source.remove();
+    groups.hidden = false;
+}
+
+/** Handles the entrance animations for cards after they have been grouped. */
 export function initProjectCardsAnimation() {
     const projectCards = document.querySelectorAll('.project-card');
-    
-    if (projectCards.length === 0) {
-        console.warn("No project cards found for animation.");
-        return;
-    }
-    
-    // Add staggered delay to each card
+
     projectCards.forEach((card, index) => {
         card.style.transitionDelay = `${index * STAGGER_DELAY}ms`;
     });
-    
-    console.log(`Project cards animation initialized for ${projectCards.length} cards.`);
+}
+
+function openProjectDialog(card, dialog) {
+    const title = card.querySelector('.project-title')?.textContent.trim() || 'Project';
+    const image = card.querySelector('.project-image');
+    const tech = card.querySelector('.project-tech');
+    const description = card.querySelector('.project-description');
+    const links = card.querySelector('.project-links');
+    const category = PROJECT_GROUP_LABELS[card.dataset.projectCategory] || 'Project';
+
+    document.getElementById('project-dialog-title').textContent = title;
+    document.getElementById('project-dialog-category').textContent = category;
+    document.getElementById('project-dialog-tech').textContent = tech?.textContent.trim() || '';
+    document.getElementById('project-dialog-description').textContent = description?.textContent.trim() || '';
+
+    const dialogImage = document.getElementById('project-dialog-image');
+    dialogImage.src = image?.src || '';
+    dialogImage.alt = image?.alt || title;
+
+    const dialogLinks = document.getElementById('project-dialog-links');
+    dialogLinks.innerHTML = links?.innerHTML || '';
+    dialogLinks.querySelectorAll('a').forEach(link => {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+    });
+
+    dialog.showModal();
+}
+
+/** Adds keyboard and pointer access to every compact project card. */
+export function initProjectDialog() {
+    const dialog = document.getElementById('project-dialog');
+    const closeButton = dialog?.querySelector('.project-dialog-close');
+    const projectCards = document.querySelectorAll('.project-card-wrapper');
+
+    if (!dialog || projectCards.length === 0) return;
+
+    let lastFocusedCard = null;
+
+    projectCards.forEach(card => {
+        const title = card.querySelector('.project-title')?.textContent.trim() || 'project';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-haspopup', 'dialog');
+        card.setAttribute('aria-label', `View details for ${title}`);
+
+        card.addEventListener('click', event => {
+            if (event.target.closest('a')) return;
+            lastFocusedCard = card;
+            openProjectDialog(card, dialog);
+        });
+
+        card.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                lastFocusedCard = card;
+                openProjectDialog(card, dialog);
+            }
+        });
+    });
+
+    closeButton?.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('click', event => {
+        if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('close', () => {
+        lastFocusedCard?.focus();
+    });
 }
 
 // --- Project Image Fallback ---
 export function handleProjectImageErrors() {
     const projectImages = document.querySelectorAll('.project-image');
-    
+
     projectImages.forEach(img => {
         img.addEventListener('error', function() {
-            // If image fails to load, set a gradient background as fallback
             this.style.display = 'none';
             const container = this.parentElement;
-            container.style.background = `linear-gradient(135deg, 
-                rgba(75, 30, 110, 0.9) 0%, 
-                rgba(120, 50, 160, 0.9) 100%)`;
-                
-            // Add a nice pattern to the background
+            container.style.background = 'linear-gradient(135deg, rgba(75, 30, 110, 0.9), rgba(120, 50, 160, 0.9))';
             container.style.backgroundImage = `
                 radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 20%)
-            `;
+                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 20%)`;
         });
     });
 }

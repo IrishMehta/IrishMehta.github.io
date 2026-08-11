@@ -53,8 +53,25 @@ function init() {
 export function startTypingSequence() {
     if (!init()) return;
 
-    // First, type the welcome message in the heading
-    typeHeading();
+    // The HTML already contains the first stable state. Keep it intact so
+    // the page does not flash a full list before the rotation starts.
+    const nameSpan = typingTextEl.querySelector('.name-text');
+    const titleSpan = typingTextEl.querySelector('.title-text');
+
+    if (!nameSpan || !titleSpan) return;
+
+    isTypingHeading = false;
+    isErasing = false;
+    currentPhraseIndex = 0;
+    nameSpan.textContent = nameText;
+    titleSpan.textContent = titlePhrases[currentPhraseIndex];
+    cursorEl.classList.add('blinking');
+
+    // Hold the first phrase briefly, then begin the normal rotation.
+    setTimeout(() => {
+        isErasing = true;
+        erasePhrase(titleSpan);
+    }, pauseBeforeErasing);
 }
 
 /**

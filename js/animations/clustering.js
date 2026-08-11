@@ -16,6 +16,15 @@ const SETTLING_DURATION = 700;
 const SCATTERING_DURATION = 2000;
 const CLUSTER_TRANSITION_DURATION = 1500;
 
+const SCROLL_COLOR_STOPS = [
+    { at: 0, color: { r: 255, g: 175, b: 220 } },
+    { at: 0.2, color: { r: 170, g: 205, b: 255 } },
+    { at: 0.42, color: { r: 140, g: 225, b: 205 } },
+    { at: 0.64, color: { r: 255, g: 190, b: 145 } },
+    { at: 0.82, color: { r: 220, g: 165, b: 255 } },
+    { at: 1, color: { r: 255, g: 165, b: 198 } }
+];
+
 const STATE = { CLUSTERING: 'clustering', CLUSTER_MOVING: 'cluster_moving', SETTLING: 'settling', SCATTERING: 'scattering', CLUSTER_TRANSITIONING: 'cluster_transitioning' };
 
 let points = [];
@@ -24,8 +33,57 @@ let currentState = STATE.CLUSTERING;
 let stateStartTime = Date.now();
 let clusteringProgress = 0, clusterMoveProgress = 0, settlingProgress = 0, scatteringProgress = 0, clusterTransitionProgress = 0;
 let animationFrameId = null;
+let scrollColorFrameId = null;
 let currentClusterCount = INITIAL_CLUSTER_COUNT;
 let isInitialized = false; // Module-specific flag
+let scrollColor = { ...SCROLL_COLOR_STOPS[0].color };
+
+function interpolateScrollColor(progress) {
+    const boundedProgress = Math.max(0, Math.min(1, progress));
+    let start = SCROLL_COLOR_STOPS[0];
+    let end = SCROLL_COLOR_STOPS[SCROLL_COLOR_STOPS.length - 1];
+
+    for (let i = 0; i < SCROLL_COLOR_STOPS.length - 1; i++) {
+        const next = SCROLL_COLOR_STOPS[i + 1];
+        if (boundedProgress <= next.at) {
+            start = SCROLL_COLOR_STOPS[i];
+            end = next;
+            break;
+        }
+    }
+
+    const span = end.at - start.at || 1;
+    const localProgress = (boundedProgress - start.at) / span;
+
+    return {
+        r: Math.round(start.color.r + (end.color.r - start.color.r) * localProgress),
+        g: Math.round(start.color.g + (end.color.g - start.color.g) * localProgress),
+        b: Math.round(start.color.b + (end.color.b - start.color.b) * localProgress)
+    };
+}
+
+function updateScrollColor() {
+    const scrollableHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    scrollColor = interpolateScrollColor(window.scrollY / scrollableHeight);
+}
+
+function scheduleScrollColorUpdate() {
+    if (scrollColorFrameId !== null) return;
+
+    scrollColorFrameId = window.requestAnimationFrame(() => {
+        updateScrollColor();
+        scrollColorFrameId = null;
+    });
+}
+
+function getScrollTintedColor(color, strength = 0.38) {
+    return {
+        r: Math.round(color.r + (scrollColor.r - color.r) * strength),
+        g: Math.round(color.g + (scrollColor.g - color.g) * strength),
+        b: Math.round(color.b + (scrollColor.b - color.b) * strength),
+        a: color.a
+    };
+}
 
 // --- Canvas Resize ---
 function resizeCanvas() {
@@ -116,7 +174,7 @@ class Point {
 
 
          if (!ctx || !this.displayColorRGBA) return;
-        const { r, g, b, a } = this.displayColorRGBA;
+        const { r, g, b, a } = getScrollTintedColor(this.displayColorRGBA);
         const displayColorString = `rgba(${r}, ${g}, ${b}, ${a})`;
         const glowColorString = `rgba(${r}, ${g}, ${b}, ${a * 0.20})`;
         const glow = this.size * 3.0;
@@ -159,7 +217,7 @@ class Cluster {
      generateColor() { const complementaryColors = ['rgba(190, 160, 240, 0.75)', 'rgba(255, 180, 220, 0.75)', 'rgba(140, 230, 210, 0.75)', 'rgba(255, 190, 150, 0.75)', 'rgba(170, 215, 255, 0.75)', 'rgba(240, 240, 160, 0.75)', 'rgba(160, 240, 160, 0.75)']; let newColor = this.colorString; while(newColor === this.colorString) { newColor = complementaryColors[Math.floor(Math.random() * complementaryColors.length)]; } return newColor; }
      setNextColor() { this.nextColorString = this.generateColor(); this.nextColorRGBA = parseColor(this.nextColorString) || { r: 0, g: 255, b: 255, a: 0.7 }; }
      update(time) { let easedProgress; switch (currentState) { case STATE.CLUSTERING: this.x = this.initialX; this.y = this.initialY; this.opacity = 1; this.pulse = 1 + Math.sin(time * 0.0015 + this.initialX) * 0.08; break; case STATE.CLUSTER_MOVING: easedProgress = easing.easeInOutQuad(clusterMoveProgress); this.x = this.initialX + (this.targetX - this.initialX) * easedProgress; this.y = this.initialY + (this.targetY - this.initialY) * easedProgress; this.opacity = 1; this.pulse = 1 + Math.sin(time * 0.002 + this.initialY) * 0.1 * (1 - clusterMoveProgress); break; case STATE.SETTLING: this.x = this.targetX; this.y = this.targetY; this.opacity = 1; this.pulse = 1 + Math.sin(time * 0.0025 + this.x) * 0.15 * (1 - settlingProgress); break; case STATE.SCATTERING: this.x = this.targetX; this.y = this.targetY; this.opacity = 1; this.pulse = 1; break; case STATE.CLUSTER_TRANSITIONING: easedProgress = easing.easeInOutCubic(clusterTransitionProgress); this.x = this.transitionStartX + (this.nextInitialX - this.transitionStartX) * easedProgress; this.y = this.transitionStartY + (this.nextInitialY - this.transitionStartY) * easedProgress; this.colorRGBA = blendParsedColors(this.transitionStartColorRGBA, this.nextColorRGBA, easedProgress); this.opacity = 1; this.pulse = 1; break; } }
-     draw() { if (!ctx || this.opacity <= 0 || !this.colorRGBA) return; const currentSize = this.size * this.pulse; const { r, g, b, a } = this.colorRGBA; const baseAlpha = a; const gradient = ctx.createRadialGradient(this.x, this.y, currentSize*0.2, this.x, this.y, currentSize*5); gradient.addColorStop(0, `rgba(${r},${g},${b},${baseAlpha*0.5*this.opacity})`); gradient.addColorStop(0.5, `rgba(${r},${g},${b},${baseAlpha*0.2*this.opacity})`); gradient.addColorStop(1,`rgba(${r},${g},${b},0)`); ctx.beginPath(); ctx.arc(this.x, this.y, currentSize*5, 0, Math.PI*2); ctx.fillStyle = gradient; ctx.fill(); ctx.beginPath(); ctx.arc(this.x, this.y, currentSize, 0, Math.PI*2); ctx.fillStyle = `rgba(${r},${g},${b},${baseAlpha*this.opacity})`; ctx.fill(); ctx.strokeStyle = `rgba(255,255,255,${0.3*this.opacity})`; ctx.lineWidth = 1; ctx.stroke(); }
+     draw() { if (!ctx || this.opacity <= 0 || !this.colorRGBA) return; const currentSize = this.size * this.pulse; const { r, g, b, a } = getScrollTintedColor(this.colorRGBA); const baseAlpha = a; const gradient = ctx.createRadialGradient(this.x, this.y, currentSize*0.2, this.x, this.y, currentSize*5); gradient.addColorStop(0, `rgba(${r},${g},${b},${baseAlpha*0.5*this.opacity})`); gradient.addColorStop(0.5, `rgba(${r},${g},${b},${baseAlpha*0.2*this.opacity})`); gradient.addColorStop(1,`rgba(${r},${g},${b},0)`); ctx.beginPath(); ctx.arc(this.x, this.y, currentSize*5, 0, Math.PI*2); ctx.fillStyle = gradient; ctx.fill(); ctx.beginPath(); ctx.arc(this.x, this.y, currentSize, 0, Math.PI*2); ctx.fillStyle = `rgba(${r},${g},${b},${baseAlpha*this.opacity})`; ctx.fill(); ctx.strokeStyle = `rgba(255,255,255,${0.3*this.opacity})`; ctx.lineWidth = 1; ctx.stroke(); }
 }
 
 // --- Simulation Logic ---
@@ -361,11 +419,31 @@ export function init() {
     console.log("Initializing K-Means Clustering Animation...");
 
     if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
+    updateScrollColor();
+    window.addEventListener('scroll', scheduleScrollColorUpdate, { passive: true });
+    window.addEventListener('resize', scheduleScrollColorUpdate);
 
     const homeSection = document.getElementById('home');
     if (!homeSection) {
         console.error("#home section not found! Cannot attach clustering click listener.");
         return;
+    }
+
+    const pageSections = document.querySelectorAll('main > section');
+    if (pageSections.length > 0 && !canvas.dataset.sectionObserverAttached) {
+        const sectionObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    canvas.dataset.clusterSection = entry.target.id;
+                }
+            });
+        }, {
+            rootMargin: '-42% 0px -42% 0px',
+            threshold: 0
+        });
+
+        pageSections.forEach(section => sectionObserver.observe(section));
+        canvas.dataset.sectionObserverAttached = 'true';
     }
 
     // Setup canvas size and initial state
@@ -397,6 +475,12 @@ export function stop() {
     }
     // Remove listeners if needed
     window.removeEventListener('resize', resizeCanvas);
+    window.removeEventListener('resize', scheduleScrollColorUpdate);
+    window.removeEventListener('scroll', scheduleScrollColorUpdate);
+    if (scrollColorFrameId !== null) {
+        cancelAnimationFrame(scrollColorFrameId);
+        scrollColorFrameId = null;
+    }
     const homeSection = document.getElementById('home');
      if (homeSection && homeSection.dataset.clusteringListenerAttached) {
         homeSection.removeEventListener('click', handleCanvasClick);

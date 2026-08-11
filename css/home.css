@@ -58,14 +58,40 @@ section#home {
 
 /* --- Cluster Canvas Styling --- */
 #cluster-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    inset: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
     pointer-events: none;
-    will-change: contents;
+    opacity: 0.17;
+    mix-blend-mode: screen;
+    transition: opacity 0.9s ease;
+    will-change: opacity;
+}
+
+#cluster-canvas[data-cluster-section="home"] {
+    opacity: 0.52;
+}
+
+#cluster-canvas[data-cluster-section="about"] {
+    opacity: 0.2;
+}
+
+#cluster-canvas[data-cluster-section="timeline"] {
+    opacity: 0.16;
+}
+
+#cluster-canvas[data-cluster-section="projects"] {
+    opacity: 0.22;
+}
+
+#cluster-canvas[data-cluster-section="updates"] {
+    opacity: 0.18;
+}
+
+#cluster-canvas[data-cluster-section="contact"] {
+    opacity: 0.28;
 }
 
 /* If you had specific styling for #particle-canvas like opacity transitions */
@@ -199,4 +225,3 @@ section#home {
 .welcome-blur-box #home-paragraph {
     text-align: left;
 }
-

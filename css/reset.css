@@ -10,8 +10,8 @@
 }
 
 html {
-    /* Enables smooth scrolling when clicking anchor links */
-    scroll-behavior: smooth;
+    /* Anchor navigation uses a short, controlled animation in main.js. */
+    scroll-behavior: auto;
     /* Improve scroll performance on some browsers */
     scroll-padding-top: 60px; /* Offset for fixed nav, adjust as needed */
 }
@@ -25,7 +25,7 @@ body {
 
     /* --- Gradient Background (Set by JS, provide fallback) --- */
     background: linear-gradient(to top right, rgb(32, 0, 44), rgb(16, 0, 22));
-    transition: background 0.2s linear;
+    transition: background 0.08s linear;
     overflow-x: hidden; /* Prevent horizontal scrollbars caused by animations */
 }
 

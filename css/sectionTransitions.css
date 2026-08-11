@@ -1,0 +1,32 @@
+/* css/sectionTransitions.css */
+
+/* Give each major section breathing room while preserving the page gradient. */
+main {
+    position: relative;
+    isolation: isolate;
+}
+
+main > section {
+    z-index: 1;
+}
+
+main > section:not(#home) {
+    min-height: auto;
+    margin-top: clamp(1.5rem, 3vw, 3rem);
+    padding-block: clamp(2.75rem, 5vw, 4.75rem);
+}
+
+main > section:not(#home) + section:not(#home) {
+    margin-top: clamp(2rem, 4vw, 4rem);
+}
+
+@media (max-width: 768px) {
+    main > section:not(#home) {
+        margin-top: 1.5rem;
+        padding-block: 3.25rem;
+    }
+
+    main > section:not(#home) + section:not(#home) {
+        margin-top: 2.5rem;
+    }
+}

@@ -1,230 +1,312 @@
 /* css/timeline.css */
 
-/* ===== MDP Inspired Timeline Section (#timeline) ===== */
-/* #timeline general section styles are in layout.css */
+/* ===== Experience Timeline ===== */
+
+#timeline {
+    align-items: stretch;
+    text-align: left;
+    padding-inline: 5%;
+}
+
+.timeline-intro {
+    width: min(100%, 760px);
+    margin-inline: auto;
+    text-align: center;
+}
+
+.timeline-eyebrow {
+    display: inline-block;
+    margin-bottom: 0.9rem;
+    color: hsl(var(--clr-accent));
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+#timeline .section-heading {
+    max-width: none;
+    margin-inline: auto;
+    font-size: clamp(2.7rem, 2.2rem + 2vw, 4.5rem);
+    text-align: center;
+}
+
+.timeline-summary {
+    max-width: 58ch;
+    margin: 1.25rem auto 0;
+    color: hsl(var(--clr-text) / 0.76);
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
+    line-height: 1.7;
+    text-align: center;
+}
 
 .timeline-container-mdp {
     position: relative;
-    width: 90%;
-    max-width: 700px;
-    margin-block: var(--space-xxl);
-    margin-inline: auto;
-    padding-block: var(--space-lg);
+    width: min(100%, 1020px);
+    margin: clamp(3rem, 7vw, 6rem) auto 0;
+    padding-block: 0.5rem;
 }
 
-/* Vertical Line */
+/* The rail stays quiet so the cards remain the main focus. */
 .timeline-container-mdp::after {
-    content: '';
+    content: "";
     position: absolute;
-    width: 4px;
+    top: 1.35rem;
+    bottom: 1.35rem;
+    left: 13px;
+    width: 1px;
     background: linear-gradient(
         to bottom,
-        hsl(var(--clr-accent) / 0.8) 0%,
-        hsl(var(--clr-accent) / 0.8) 100%
+        transparent,
+        hsl(var(--clr-accent) / 0.72) 8%,
+        hsl(var(--clr-accent) / 0.72) 92%,
+        transparent
     );
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    border-radius: 3px;
-    box-shadow: 0 0 15px hsl(var(--clr-accent) / 0.3);
+    box-shadow: 0 0 14px hsl(var(--clr-accent) / 0.22);
 }
 
-/* Timeline State (item container) */
 .timeline-state {
     position: relative;
-    width: 50%;
-    margin-block-end: var(--space-xl);
-    padding-inline: var(--space-lg);
-    padding-block-end: var(--space-xxl); /* Reserve space for accomplishments panel */
-    z-index: 2;
-    /* Observer Animation - these are base states for scroll observer */
+    left: 0 !important;
+    z-index: 1;
+    display: block;
+    width: 100% !important;
+    margin: 0 0 2.2rem;
+    padding-left: 42px !important;
+    text-align: left !important;
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s var(--ease-out-back), transform 0.7s var(--ease-out-back);
-    /* Note: This duplicates .timeline-event from animations.css if .timeline-state
-       is what was meant by .timeline-event. If .timeline-event is a *different*
-       element, keep them separate. If .timeline-state IS the event,
-       remove the .timeline-event rules from animations.css or consolidate.
-       For now, I'll assume .timeline-state is the primary animated item for the MDP timeline. */
+    transform: translateY(28px);
+    transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+}
+
+.timeline-state:last-child {
+    margin-bottom: 0;
 }
 
 .timeline-state.is-visible {
-     opacity: 1;
-     transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
 
-/* Position States */
-.timeline-state:nth-child(odd) {
-    left: 0;
-    text-align: right;
-}
-
-.timeline-state:nth-child(even) {
-    left: 50%;
-    text-align: left;
-}
-
-/* State Node (Circle) */
 .timeline-node {
     position: absolute;
-    top: 10px;
-    width: 22px;
-    height: 22px;
-    background: linear-gradient(
-        135deg,
-        hsl(var(--clr-bg-start) / 0.95) 0%,
-        hsl(var(--clr-accent) / 0.95) 100%
-    );
-    border: 2px solid hsl(var(--clr-text) / 0.9);
+    top: 1.35rem;
+    left: 13px;
+    width: 13px;
+    height: 13px;
+    border: 3px solid hsl(var(--clr-bg-start));
     border-radius: 50%;
-    z-index: 3;
-    box-shadow: 0 0 12px hsl(var(--clr-accent) / 0.4);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Position Nodes on the Line */
-.timeline-state:nth-child(odd) .timeline-node {
-    right: -10px; /* (Item padding - NodeWidth/2) relative to item's edge */
-    transform: translateX(50%); /* Aligns center of node to item edge */
-}
-
-.timeline-state:nth-child(even) .timeline-node {
-    left: -10px;
+    background: hsl(var(--clr-accent));
+    box-shadow: 0 0 0 1px hsl(var(--clr-accent) / 0.72), 0 0 16px hsl(var(--clr-accent) / 0.45);
     transform: translateX(-50%);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    z-index: 2;
 }
 
-/* Node Hover Effect */
-/* Define --side variable for correct hover transform */
-.timeline-state:nth-child(odd) { --side: 1; }
-.timeline-state:nth-child(even) { --side: -1; }
-
-.timeline-state:nth-child(odd) .timeline-node:hover {
-    transform: translateX(50%) scale(1.25);
-    border-color: rgba(255, 128, 215, 0.9);
-    box-shadow: 0 0 18px rgba(255, 128, 215, 0.7);
-    background: linear-gradient(
-        135deg,
-        rgba(100, 40, 140, 0.95) 0%,
-        rgba(140, 60, 180, 0.95) 100%
-    );
+.timeline-state:hover .timeline-node {
+    background: hsl(var(--clr-text));
+    box-shadow: 0 0 0 1px hsl(var(--clr-text) / 0.7), 0 0 20px hsl(var(--clr-accent) / 0.75);
+    transform: translateX(-50%) scale(1.22);
 }
-.timeline-state:nth-child(even) .timeline-node:hover {
-    transform: translateX(-50%) scale(1.25);
-    border-color: rgba(255, 128, 215, 0.9);
-    box-shadow: 0 0 18px rgba(255, 128, 215, 0.7);
-    background: linear-gradient(
-        135deg,
-        rgba(100, 40, 140, 0.95) 0%,
-        rgba(140, 60, 180, 0.95) 100%
-    );
-}
-/* Note: The more complex hover with calc was simplified as it didn't seem to be working as intended.
-   This simpler version should work for individual side scaling. */
 
-
-/* State Content (Text) */
 .timeline-state-content {
-    position: relative;
-    padding: var(--space-sm) var(--space-md);
-    background-color: hsl(var(--clr-bg-end) / 0.6);
-    border-radius: 10px;
-    box-shadow: 0 4px 15px hsl(var(--clr-border) / 0.15);
-    border: 1px solid hsl(var(--clr-accent) / 0.2);
-    backdrop-filter: blur(5px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    min-width: 0;
+    padding: 1.65rem 1.8rem 1.45rem;
+    border: 1px solid hsl(var(--clr-accent) / 0.25);
+    border-radius: 18px;
+    background: linear-gradient(135deg, hsl(var(--clr-surface) / 0.72), hsl(var(--clr-bg-end) / 0.58));
+    box-shadow: 0 12px 30px hsl(var(--clr-bg-start) / 0.24), inset 0 1px 0 hsl(var(--clr-text) / 0.06);
+    backdrop-filter: blur(10px);
+    text-align: left;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.timeline-state:hover .timeline-state-content {
+    border-color: hsl(var(--clr-accent) / 0.58);
+    box-shadow: 0 16px 36px hsl(var(--clr-bg-start) / 0.3), 0 0 22px hsl(var(--clr-accent) / 0.1);
+    transform: translateY(-3px);
 }
 
 .timeline-date {
     display: block;
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    padding-top: 0;
+    margin-bottom: 0.8rem;
     color: hsl(var(--clr-accent));
-    margin-bottom: 0.5rem;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    font-size: 0.83rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    line-height: 1.55;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.timeline-company {
+    display: block;
+    margin-bottom: 1.1rem;
+    color: hsl(var(--clr-text) / 0.82);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
 }
 
 .timeline-title {
-    font-size: clamp(1.8rem, 1.45rem + 1vw, 2.4rem);
-    font-family: var(--font-family-display);
-    font-weight: 600;
-    line-height: 0.98;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.35rem;
+    margin: 0 0 0.25rem;
     color: hsl(var(--clr-text));
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    font-family: var(--font-family-display);
+    font-size: clamp(2rem, 1.7rem + 0.8vw, 2.8rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    text-shadow: 0 1px 3px hsl(var(--clr-bg-start) / 0.42);
     transition: color 0.3s ease;
 }
 
-.timeline-company { /* Also .timeline-skills if you have that class */
-    display: block;
-    font-size: 0.96rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    color: hsl(var(--clr-text) / 0.85);
-    margin-bottom: 0.6rem;
-}
-.timeline-skills { /* From your HTML */
-    display: block;
-    font-size: 0.76rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: hsl(var(--clr-muted));
-    margin-bottom: 0.8rem;
-    font-style: normal;
-}
-
-
-/* Old Hover Info Reveal - you removed this part but I'm noting where it was */
-/* .timeline-state-content::after { ... } */
-/* .timeline-state:hover .timeline-state-content::after { ... } */
-
-/* Optional: Subtle bold effect on title hover */
 .timeline-state:hover .timeline-title {
-    color: var(--color-accent-light, #d8a5ff);
-    font-weight: 700; /* Or a color change */
+    color: hsl(var(--clr-heading));
 }
 
-/* Node Icons (if you use them) */
-.node-icon {
-  position: absolute;
-  top: 25px;
-  font-size: 0.9em;
-  color: var(--color-accent-light, #d8a5ff);
-  text-shadow: 0 0 5px rgba(193, 125, 255, 0.6);
-}
-.timeline-state:nth-child(odd) .node-icon { right: -35px; }
-.timeline-state:nth-child(even) .node-icon { left: -35px; }
-
-/* Add a subtle glow effect to the entire timeline on hover */
-.timeline-container-mdp:hover::after {
-    box-shadow: 0 0 20px rgba(193, 125, 255, 0.5);
+.timeline-skills {
+    margin: 0;
+    color: hsl(var(--clr-muted));
+    font-size: 0.79rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    text-transform: uppercase;
 }
 
-/* Accomplishments Panel Styling */
-.timeline-accomplish-panel {
-    position: absolute;
-    top: calc(100% + var(--space-xs));
-    width: calc(100% - (var(--space-md) * 2));
-    background-color: hsl(var(--clr-surface));
-    padding: var(--space-md);
-    border-radius: var(--radius-md, 8px);
-    box-shadow: 0 4px 15px hsl(var(--clr-border) / 0.15);
-    z-index: 2;
-    box-sizing: border-box;
+/* Keep the graduate-course list from overwhelming the first card. */
+.timeline-state:first-child .timeline-skills {
+    font-size: 0;
+    letter-spacing: 0;
 }
-.timeline-accomplish-panel[hidden] {
+
+.timeline-state:first-child .timeline-skills::after {
+    color: hsl(var(--clr-muted));
+    content: "Computer Vision · NLP · Generative AI · Robotics";
+    font-size: 0.79rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+}
+
+/* Accomplishments are now part of the reading flow instead of hidden popovers. */
+.timeline-accomplish-toggle {
+    display: none !important;
+}
+
+.timeline-accomplish-panel,
+.timeline-accomplish-panel[hidden],
+.timeline-state:nth-child(odd) .timeline-accomplish-panel,
+.timeline-state:nth-child(even) .timeline-accomplish-panel {
+    position: static !important;
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: -1.15rem 1.8rem 0;
+    padding: 1.15rem 1.8rem 0.2rem;
+    border: 0;
+    border-top: 1px solid hsl(var(--clr-accent) / 0.17);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    text-align: left;
+}
+
+.timeline-accomplish-panel::before {
     display: none;
 }
-/* Align panel under state content based on side */
-.timeline-state:nth-child(odd) .timeline-accomplish-panel {
-    left: var(--space-md);
+
+.timeline-accomplish-panel ul {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
-.timeline-state:nth-child(even) .timeline-accomplish-panel {
-    right: var(--space-md);
-    left: auto;
+
+.timeline-accomplish-panel li {
+    position: relative;
+    margin: 0;
+    padding: 0.42rem 0 0.42rem 1.25rem;
+    color: hsl(var(--clr-text) / 0.82);
+    font-size: 0.94rem;
+    line-height: 1.65;
+}
+
+.timeline-accomplish-panel li::before {
+    position: absolute;
+    top: 0.95rem;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: hsl(var(--clr-accent));
+    box-shadow: 0 0 8px hsl(var(--clr-accent) / 0.55);
+    content: "";
+}
+
+@media (max-width: 768px) {
+    #timeline {
+        padding-inline: 4.5%;
+    }
+
+    .timeline-container-mdp {
+        width: 100%;
+        margin-top: 3.25rem;
+        padding-left: 0.1rem;
+    }
+
+    .timeline-container-mdp::after {
+        top: 1rem;
+        bottom: 1rem;
+        left: 0.35rem;
+    }
+
+    .timeline-state {
+        margin-bottom: 2rem;
+        padding-left: 1.35rem !important;
+    }
+
+    .timeline-node {
+        top: 1.05rem;
+        left: 0.35rem;
+    }
+
+    .timeline-date {
+        display: block;
+        padding: 0 0 0.65rem;
+        text-align: left;
+    }
+
+    .timeline-state-content {
+        padding: 1.25rem 1.15rem 1.1rem;
+    }
+
+    .timeline-title {
+        font-size: clamp(1.85rem, 7vw, 2.35rem);
+    }
+
+    .timeline-accomplish-panel,
+    .timeline-state:nth-child(odd) .timeline-accomplish-panel,
+    .timeline-state:nth-child(even) .timeline-accomplish-panel {
+        margin: -0.8rem 1.15rem 0;
+        padding: 1rem 1.15rem 0.15rem;
+    }
+
+    .timeline-accomplish-panel li {
+        font-size: 0.9rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .timeline-state,
+    .timeline-state-content,
+    .timeline-node,
+    .timeline-state:hover .timeline-node {
+        transition: none !important;
+    }
 }

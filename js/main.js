@@ -3,7 +3,55 @@ import { startTypingSequence, displayTypingImmediately, typingStartDelay } from 
 import { init as initClustering } from './animations/clustering.js';
 import { initGradientScroll } from './gradientBackground.js';
 import { initScrollObserver } from './scrollObserver.js';
-import { initProjectCardsAnimation, handleProjectImageErrors } from './animations/projectCards.js';
+import { initProjectGroups, initProjectCardsAnimation, initProjectDialog, handleProjectImageErrors } from './animations/projectCards.js';
+
+function initFastAnchorNavigation(prefersReducedMotion) {
+    const anchorLinks = document.querySelectorAll('nav a[href^="#"]');
+    let animationFrameId = null;
+
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', event => {
+            const targetId = link.getAttribute('href')?.slice(1);
+            const target = targetId ? document.getElementById(targetId) : null;
+            if (!target) return;
+
+            event.preventDefault();
+
+            if (animationFrameId !== null) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+
+            const startY = window.scrollY;
+            const targetY = Math.max(0, target.getBoundingClientRect().top + startY - 60);
+            const distance = Math.abs(targetY - startY);
+
+            history.pushState(null, '', link.getAttribute('href'));
+
+            if (prefersReducedMotion || distance < 4) {
+                window.scrollTo(0, targetY);
+                return;
+            }
+
+            const duration = Math.min(360, Math.max(140, distance / 3));
+            const animationStart = performance.now();
+
+            const step = now => {
+                const progress = Math.min(1, (now - animationStart) / duration);
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                window.scrollTo(0, startY + (targetY - startY) * easedProgress);
+
+                if (progress < 1) {
+                    animationFrameId = requestAnimationFrame(step);
+                } else {
+                    animationFrameId = null;
+                }
+            };
+
+            animationFrameId = requestAnimationFrame(step);
+        });
+    });
+}
 
 // Main Initialization on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -31,9 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
          if (clusterCanvas) clusterCanvas.style.display = 'none'; // Hide canvas
     }    // --- Gradient Background ---
     initGradientScroll();
+    initFastAnchorNavigation(prefersReducedMotion);
 
     // --- Project Cards & Animations ---
+    initProjectGroups();
     initProjectCardsAnimation();
+    initProjectDialog();
     handleProjectImageErrors();
 
     // --- Scroll Observer ---

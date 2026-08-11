@@ -1,49 +1,257 @@
 /* css/about.css */
 
-/* ===== About Section Specific Styles ===== */
+/* ===== About Section ===== */
+
 #about {
-    position: relative;
-    /* General section styling from layout.css */
-    text-align: center;
-}
-
-/* --- About Content Container Styling --- */
-.about-content {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    text-align: center;
-}
-
-.about-content.active {
-    opacity: 1;
-    pointer-events: auto;
-    position: relative; /* Take up space in the document flow */
-}
-
-.about-content .section-paragraph {
+    align-items: stretch;
+    padding-inline: 5%;
     text-align: left;
-    margin-inline: auto;
 }
 
-#about-text-content {
+/* Hide the previous copy while the original markup remains available for cleanup. */
+#about > .section-heading,
+#about > .about-headshot,
+#about > .about-content {
+    display: none !important;
+}
+
+.about-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.5fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    width: min(100%, 1120px);
+    margin: 0 auto;
+    align-items: center;
+}
+
+.about-profile {
+    min-width: 0;
+}
+
+.about-eyebrow {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: hsl(var(--clr-accent));
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.about-image-frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 1px solid hsl(var(--clr-accent) / 0.42);
+    border-radius: 24px;
+    background: hsl(var(--clr-surface) / 0.6);
+    box-shadow: 0 20px 50px hsl(var(--clr-bg-start) / 0.32), 0 0 28px hsl(var(--clr-accent) / 0.1);
+}
+
+.about-image-frame::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, hsl(var(--clr-bg-start) / 0.72), transparent 45%);
+    content: "";
+    pointer-events: none;
+}
+
+#about .about-headshot-new {
+    display: block;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 0;
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
+    transition: none;
+}
+
+.about-image-caption {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 1;
+    color: hsl(var(--clr-text) / 0.85);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.about-profile-note {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    text-align: left;
-    width: 100%;
-    margin-inline: auto;
-    max-width: 800px; /* Limit width for better readability */
-    padding-bottom: 1.5rem;
+    gap: 0.45rem;
+    margin-top: 1rem;
+    padding: 1rem 1.1rem;
+    border-left: 2px solid hsl(var(--clr-accent) / 0.7);
+    background: hsl(var(--clr-surface) / 0.32);
 }
 
-@media (max-width: 768px) {
-    #about-text-content {
-        width: 95%;
+.about-profile-note span {
+    color: hsl(var(--clr-muted));
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.about-profile-note strong {
+    color: hsl(var(--clr-text) / 0.9);
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.about-copy {
+    min-width: 0;
+}
+
+.about-section-label {
+    display: block;
+    margin-bottom: 0.9rem;
+    color: hsl(var(--clr-accent));
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.about-copy .section-heading {
+    max-width: 22ch;
+    margin: 0;
+    color: hsl(var(--clr-heading));
+    font-size: clamp(2.25rem, 1.95rem + 1.55vw, 3.9rem);
+    line-height: 0.98;
+    text-align: left;
+}
+
+.about-lede {
+    max-width: 48ch;
+    margin: 1.6rem 0 0;
+    color: hsl(var(--clr-text));
+    font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.about-body {
+    max-width: 64ch;
+    margin: 1rem 0 0;
+    color: hsl(var(--clr-text) / 0.78);
+    font-size: 0.98rem;
+    line-height: 1.75;
+}
+
+.about-automation {
+    margin-top: 1.5rem;
+    padding: 1.15rem 1.25rem;
+    border: 1px solid hsl(var(--clr-accent) / 0.28);
+    border-radius: 16px;
+    background: linear-gradient(135deg, hsl(var(--clr-surface) / 0.58), hsl(var(--clr-bg-end) / 0.35));
+}
+
+.about-automation span {
+    display: block;
+    color: hsl(var(--clr-accent));
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.about-automation p {
+    margin: 0.55rem 0 0;
+    color: hsl(var(--clr-text) / 0.72);
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+.about-proof-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    width: min(100%, 1120px);
+    margin: clamp(2rem, 4vw, 3.5rem) auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid hsl(var(--clr-text) / 0.16);
+}
+
+.about-proof-row div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.about-proof-row strong {
+    color: hsl(var(--clr-text));
+    font-family: var(--font-family-display);
+    font-size: clamp(1.55rem, 1.3rem + 0.75vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.about-proof-row span {
+    color: hsl(var(--clr-muted));
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+    .about-layout {
+        grid-template-columns: minmax(180px, 0.65fr) minmax(0, 1.35fr);
+        gap: 2.5rem;
+    }
+
+    .about-copy .section-heading {
+        font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    }
+
+}
+
+@media (max-width: 640px) {
+    #about {
+        padding-inline: 4.5%;
+    }
+
+    .about-layout {
+        display: block;
+    }
+
+    .about-profile {
+        width: min(100%, 260px);
+        margin: 0 auto 2.5rem;
+    }
+
+    .about-eyebrow {
+        display: block;
+        text-align: center;
+    }
+
+    .about-copy .section-heading {
+        max-width: 22ch;
+        font-size: clamp(2.2rem, 9vw, 3.2rem);
+    }
+
+    .about-proof-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-image-frame,
+    .about-automation {
+        transition: none !important;
     }
 }

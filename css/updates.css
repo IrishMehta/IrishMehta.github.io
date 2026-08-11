@@ -1,131 +1,274 @@
-/* Styles for the Updates section */
+/* css/updates.css */
+
+/* ===== Updates Board ===== */
 
 #updates {
-    padding: var(--space-xxl) var(--space-md);
-    position: relative;
+    align-items: stretch;
+    padding-inline: 5%;
+    text-align: left;
 }
 
-/* Section heading with subtle accent color */
-#updates .section-heading {
-    color: hsl(var(--clr-heading));
-    margin-bottom: var(--space-sm);
-    position: relative;
+.updates-intro {
+    width: min(100%, 760px);
+    margin-inline: auto;
+    text-align: center;
+}
+
+.updates-eyebrow {
     display: inline-block;
+    margin-bottom: 0.9rem;
+    color: hsl(var(--clr-accent));
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
 }
 
-/* Add a subtle underline accent to the heading */
-#updates .section-heading::after {
-    content: '';
-    position: absolute;
-    width: 40%;
-    height: 3px;
-    bottom: -8px;
-    left: 30%; /* Centers the line under the text */
-    background: linear-gradient(
-        to right,
-        hsl(var(--clr-accent) / 0.6),
-        hsl(var(--clr-accent) / 0.6)
-    );
-    border-radius: 2px;
+#updates .section-heading {
+    max-width: none;
+    margin-inline: auto;
+    font-size: clamp(2.7rem, 2.2rem + 2vw, 4.5rem);
+    text-align: center;
 }
 
-#updates .section-paragraph {
-    color: hsl(var(--clr-text)); /* Use the main text color for consistency */
-    font-size: var(--fs-base);
-    margin-top: var(--space-md); /* Add more space above */
-    margin-bottom: var(--space-lg);
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+.updates-summary {
+    max-width: 56ch;
+    margin: 1.25rem auto 0;
+    color: hsl(var(--clr-text) / 0.76);
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
+    line-height: 1.7;
+    text-align: center;
 }
 
-/* Container for updates with subtle background */
-#updates .updates-container {
-    max-width: 800px;
-    width: 90%;
-    margin: 0 auto;
-    padding: var(--space-lg);
-    background-color: hsl(var(--clr-surface) / 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    border: 1px solid hsl(var(--clr-accent) / 0.3);
+.updates-board {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(340px, 0.82fr);
+    gap: 1.4rem;
+    width: min(100%, 1120px);
+    margin: clamp(2.25rem, 4vw, 3.5rem) auto 0;
 }
 
-#updates .updates-list {
-    list-style-type: none;
-    line-height: 1.8;
-    font-size: 1rem;
-    color: hsl(var(--clr-text));
-    
+.updates-highlights {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
 }
 
-/* Adjust the list item padding and positioning */
-#updates .updates-list li {
-    margin-bottom: var(--space-md);
+.update-highlight {
     position: relative;
-    padding-left: 28px;
-    transition: transform 0.2s ease;
     display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    justify-content: flex-start; /* Ensure content stays left-aligned */
-    text-align: left; /* Explicitly set text alignment */
+    min-height: 210px;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.35rem;
+    overflow: hidden;
+    border: 1px solid hsl(var(--clr-accent) / 0.28);
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 90% 0%, hsl(var(--clr-accent) / 0.23), transparent 42%),
+        linear-gradient(145deg, hsl(var(--clr-surface) / 0.9), hsl(var(--clr-bg-end) / 0.66));
+    box-shadow: 0 14px 32px hsl(var(--clr-bg-start) / 0.24);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* Add this to ensure the content wraps properly */
-.update-content {
-    flex: 1;
-    min-width: 0;
-    text-align: left; /* Ensure text inside stays left-aligned */
-}
-
-/* Custom bullet points matching timeline accent colors - with fixed alignment */
-#updates .updates-list li::before {
-    content: '▹';
+.update-highlight::before {
     position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    color: hsl(var(--clr-accent) / 0.9);
-    font-weight: bold;
-    font-size: 1.2em;
+    top: -4rem;
+    right: -2rem;
+    width: 10rem;
+    height: 10rem;
+    border: 1px solid hsl(var(--clr-accent) / 0.24);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.3rem hsl(var(--clr-accent) / 0.06), 0 0 0 2.6rem hsl(var(--clr-accent) / 0.04);
+    content: "";
+    pointer-events: none;
 }
 
-/* Subtle hover effect */
-#updates .updates-list li:hover {
-    transform: translateX(4px);
+.update-highlight:hover {
+    border-color: hsl(var(--clr-accent) / 0.65);
+    box-shadow: 0 20px 40px hsl(var(--clr-bg-start) / 0.3), 0 0 24px hsl(var(--clr-accent) / 0.1);
+    transform: translateY(-4px);
 }
 
-/* Date styling for updates */
-.update-date {
-    font-size: 0.74rem;
-    font-weight: 700;
+.update-highlight--primary {
+    grid-row: span 2;
+    min-height: 440px;
+    padding: 1.8rem;
+    background:
+        radial-gradient(circle at 85% 5%, hsl(290 75% 72% / 0.3), transparent 36%),
+        radial-gradient(circle at 10% 100%, hsl(320 70% 68% / 0.16), transparent 42%),
+        linear-gradient(145deg, hsl(var(--clr-surface) / 0.94), hsl(var(--clr-bg-end) / 0.72));
+}
+
+.update-highlight-date {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0.7rem;
+    color: hsl(var(--clr-accent));
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.update-highlight-label {
+    position: relative;
+    z-index: 1;
+    align-self: flex-start;
+    margin-bottom: 1rem;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid hsl(var(--clr-accent) / 0.35);
+    border-radius: 999px;
+    color: hsl(var(--clr-text) / 0.8);
+    font-size: 0.65rem;
+    font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+}
+
+.update-highlight h3 {
+    position: relative;
+    z-index: 1;
+    max-width: 18ch;
+    margin: 0;
+    color: hsl(var(--clr-text));
+    font-family: var(--font-family-display);
+    font-size: clamp(1.65rem, 1.35rem + 1vw, 2.45rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+}
+
+.update-highlight--primary h3 {
+    max-width: 14ch;
+    font-size: clamp(2.05rem, 1.7rem + 1.2vw, 3.15rem);
+    overflow-wrap: break-word;
+}
+
+.update-highlight p {
+    position: relative;
+    z-index: 1;
+    max-width: 38ch;
+    margin: 0.8rem 0 0;
+    color: hsl(var(--clr-text) / 0.76);
+    font-size: 0.94rem;
+    line-height: 1.65;
+}
+
+.updates-archive {
+    align-self: stretch;
+    padding: 1.4rem 1.5rem 0.5rem;
+    border: 1px solid hsl(var(--clr-text) / 0.14);
+    border-radius: 18px;
+    background: hsl(var(--clr-surface) / 0.48);
+    box-shadow: 0 14px 32px hsl(var(--clr-bg-start) / 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.updates-archive-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid hsl(var(--clr-text) / 0.14);
+}
+
+.updates-archive-heading h3 {
+    margin: 0;
+    color: hsl(var(--clr-heading));
+    font-family: var(--font-family-display);
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.updates-archive-heading span {
+    color: hsl(var(--clr-muted));
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.updates-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.updates-list li {
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid hsl(var(--clr-text) / 0.1);
+}
+
+.updates-list li:last-child {
+    border-bottom: 0;
+}
+
+.updates-list time {
+    padding-top: 0.18rem;
     color: hsl(var(--clr-accent));
-    margin-right: var(--space-xs);
-    /* This ensures the date doesn't break alignment */
-    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1.35;
+    text-transform: uppercase;
 }
 
-/* Add this to ensure the content wraps properly */
-.update-content {
-    flex: 1;
-    min-width: 0;
+.updates-list p {
+    margin: 0;
+    color: hsl(var(--clr-text) / 0.82);
+    font-size: 0.88rem;
+    line-height: 1.55;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+    .updates-board {
+        grid-template-columns: 1fr;
+    }
+
+    .updates-archive {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
     #updates {
-        padding: 2rem 1rem;
+        padding-inline: 4.5%;
     }
-    
-    #updates .updates-container {
-        width: 95%;
-        padding: 1.2rem;
+
+    .updates-highlights {
+        display: block;
     }
-    
-    #updates .updates-list li {
+
+    .update-highlight,
+    .update-highlight--primary {
+        min-height: 260px;
         margin-bottom: 1rem;
+        padding: 1.35rem;
+    }
+
+    .update-highlight--primary h3 {
+        font-size: clamp(2.3rem, 11vw, 3.3rem);
+    }
+
+    .updates-archive {
+        padding-inline: 1rem;
+    }
+
+    .updates-list li {
+        grid-template-columns: 58px minmax(0, 1fr);
+        gap: 0.8rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .update-highlight {
+        transition: none !important;
     }
 }

@@ -7,12 +7,12 @@
 @import url('navigation.css');
 @import url('animation.css');
 @import url('home.css');
-@import url('about.css');
-@import url('timeline.css');
-@import url('accomplishment.css');
-@import url('projects.css');
-@import url('updates.css');
-@import url('contact.css');
 @import url('styles.css');
 /* Add other component CSS files here if you create more, e.g., contact.css */
 @import url('responsive.css');
+@import url('timeline.css');
+@import url('projects.css');
+@import url('updates.css');
+@import url('about.css');
+@import url('contact.css');
+@import url('sectionTransitions.css');
