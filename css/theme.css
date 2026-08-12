@@ -1,6 +1,7 @@
 /* css/theme.css */
 :root {
     --gradient-progress: 0;
+    --gradient-light-layer: rgb(218, 198, 226);
     /* Color Palette */
     --clr-bg-start: 260 50% 5%;        /* Darker purple for gradient start */
     --clr-bg-end: 280 40% 15%;         /* Medium purple for gradient end */
@@ -66,7 +67,13 @@ body::before {
 
 body::after {
     z-index: -1;
-    background: linear-gradient(to top right, rgb(218, 198, 226), var(--color-anchor-dark));
+    background: linear-gradient(to top right, var(--gradient-light-layer), var(--color-anchor-dark));
     opacity: var(--gradient-progress);
     will-change: opacity;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --gradient-light-layer: rgb(198, 174, 207);
+    }
 }

@@ -32,19 +32,10 @@
     text-align: center;
 }
 
-.timeline-summary {
-    max-width: 58ch;
-    margin: 1.25rem auto 0;
-    color: hsl(var(--clr-text) / 0.76);
-    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
-    line-height: 1.7;
-    text-align: center;
-}
-
 .timeline-container-mdp {
     position: relative;
     width: min(100%, 1020px);
-    margin: clamp(3rem, 7vw, 6rem) auto 0;
+    margin: clamp(2.25rem, 5vw, 4rem) auto 0;
     padding-block: 0.5rem;
 }
 
@@ -72,7 +63,7 @@
     z-index: 1;
     display: block;
     width: 100% !important;
-    margin: 0 0 2.2rem;
+    margin: 0 0 1.6rem;
     padding-left: 42px !important;
     text-align: left !important;
     opacity: 0;
@@ -112,7 +103,7 @@
 
 .timeline-state-content {
     min-width: 0;
-    padding: 1.65rem 1.8rem 1.45rem;
+    padding: 1.35rem 1.55rem 1.25rem;
     border: 1px solid hsl(var(--clr-accent) / 0.25);
     border-radius: 18px;
     background: linear-gradient(135deg, hsl(var(--clr-surface) / 0.72), hsl(var(--clr-bg-end) / 0.58));
@@ -176,21 +167,6 @@
     text-transform: uppercase;
 }
 
-/* Keep the graduate-course list from overwhelming the first card. */
-.timeline-state:first-child .timeline-skills {
-    font-size: 0;
-    letter-spacing: 0;
-}
-
-.timeline-state:first-child .timeline-skills::after {
-    color: hsl(var(--clr-muted));
-    content: "Computer Vision · NLP · Generative AI · Robotics";
-    font-size: 0.79rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    line-height: 1.8;
-}
-
 /* Accomplishments are now part of the reading flow instead of hidden popovers. */
 .timeline-accomplish-toggle {
     display: none !important;
@@ -231,10 +207,10 @@
 .timeline-accomplish-panel li {
     position: relative;
     margin: 0;
-    padding: 0.42rem 0 0.42rem 1.25rem;
+    padding: 0.34rem 0 0.34rem 1.25rem;
     color: hsl(var(--clr-text) / 0.82);
     font-size: 0.94rem;
-    line-height: 1.65;
+    line-height: 1.55;
 }
 
 .timeline-accomplish-panel li::before {

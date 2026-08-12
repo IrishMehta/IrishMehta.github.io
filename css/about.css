@@ -8,13 +8,6 @@
     text-align: left;
 }
 
-/* Hide the previous copy while the original markup remains available for cleanup. */
-#about > .section-heading,
-#about > .about-headshot,
-#about > .about-content {
-    display: none !important;
-}
-
 .about-layout {
     display: grid;
     grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.5fr);
@@ -26,16 +19,6 @@
 
 .about-profile {
     min-width: 0;
-}
-
-.about-eyebrow {
-    display: inline-block;
-    margin-bottom: 1rem;
-    color: hsl(var(--clr-accent));
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
 }
 
 .about-image-frame {
@@ -81,30 +64,6 @@
     font-weight: 800;
     letter-spacing: 0.13em;
     text-transform: uppercase;
-}
-
-.about-profile-note {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    margin-top: 1rem;
-    padding: 1rem 1.1rem;
-    border-left: 2px solid hsl(var(--clr-accent) / 0.7);
-    background: hsl(var(--clr-surface) / 0.32);
-}
-
-.about-profile-note span {
-    color: hsl(var(--clr-muted));
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-}
-
-.about-profile-note strong {
-    color: hsl(var(--clr-text) / 0.9);
-    font-size: 0.88rem;
-    line-height: 1.45;
 }
 
 .about-copy {
@@ -172,41 +131,6 @@
     line-height: 1.65;
 }
 
-.about-proof-row {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
-    width: min(100%, 1120px);
-    margin: clamp(2rem, 4vw, 3.5rem) auto 0;
-    padding-top: 1.5rem;
-    border-top: 1px solid hsl(var(--clr-text) / 0.16);
-}
-
-.about-proof-row div {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 0.35rem;
-}
-
-.about-proof-row strong {
-    color: hsl(var(--clr-text));
-    font-family: var(--font-family-display);
-    font-size: clamp(1.55rem, 1.3rem + 0.75vw, 2.2rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1;
-}
-
-.about-proof-row span {
-    color: hsl(var(--clr-muted));
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    line-height: 1.4;
-    text-transform: uppercase;
-}
-
 @media (max-width: 900px) {
     .about-layout {
         grid-template-columns: minmax(180px, 0.65fr) minmax(0, 1.35fr);
@@ -233,19 +157,9 @@
         margin: 0 auto 2.5rem;
     }
 
-    .about-eyebrow {
-        display: block;
-        text-align: center;
-    }
-
     .about-copy .section-heading {
         max-width: 22ch;
         font-size: clamp(2.2rem, 9vw, 3.2rem);
-    }
-
-    .about-proof-row {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.5rem 1rem;
     }
 }
 
