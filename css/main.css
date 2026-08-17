@@ -7,8 +7,6 @@
 @import url('navigation.css');
 @import url('animation.css');
 @import url('home.css');
-@import url('styles.css');
-/* Add other component CSS files here if you create more, e.g., contact.css */
 @import url('responsive.css');
 @import url('timeline.css');
 @import url('projects.css');

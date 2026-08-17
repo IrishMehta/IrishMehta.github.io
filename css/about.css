@@ -84,26 +84,47 @@
     max-width: 22ch;
     margin: 0;
     color: hsl(var(--clr-heading));
-    font-size: clamp(2.25rem, 1.95rem + 1.55vw, 3.9rem);
-    line-height: 0.98;
+    font-size: clamp(2.15rem, 1.9rem + 1.25vw, 3.35rem);
+    line-height: 1.02;
     text-align: left;
 }
 
 .about-lede {
-    max-width: 48ch;
-    margin: 1.6rem 0 0;
+    max-width: 58ch;
+    margin: 1.4rem 0 0;
     color: hsl(var(--clr-text));
-    font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
+    font-size: clamp(1.08rem, 1.02rem + 0.3vw, 1.28rem);
     font-weight: 600;
-    line-height: 1.5;
+    line-height: 1.55;
 }
 
-.about-body {
-    max-width: 64ch;
-    margin: 1rem 0 0;
+.about-topics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+    margin-top: 1.5rem;
+}
+
+.about-topic {
+    min-width: 0;
+}
+
+.about-topic h3 {
+    margin: 0 0 0.55rem;
+    color: hsl(var(--clr-accent));
+    font-family: var(--font-family-ui);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.about-topic p {
+    margin: 0;
     color: hsl(var(--clr-text) / 0.78);
-    font-size: 0.98rem;
-    line-height: 1.75;
+    font-size: 0.92rem;
+    line-height: 1.65;
 }
 
 .about-automation {
@@ -138,7 +159,7 @@
     }
 
     .about-copy .section-heading {
-        font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+        font-size: clamp(2.1rem, 4.2vw, 3rem);
     }
 
 }
@@ -159,7 +180,12 @@
 
     .about-copy .section-heading {
         max-width: 22ch;
-        font-size: clamp(2.2rem, 9vw, 3.2rem);
+        font-size: clamp(2.05rem, 8.5vw, 2.85rem);
+    }
+
+    .about-topics {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
     }
 }
 

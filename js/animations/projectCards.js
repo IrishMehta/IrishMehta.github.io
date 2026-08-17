@@ -74,7 +74,7 @@ function openProjectDialog(card, dialog) {
     document.getElementById('project-dialog-description').textContent = description?.textContent.trim() || '';
 
     const dialogImage = document.getElementById('project-dialog-image');
-    dialogImage.src = image?.src || '';
+    dialogImage.src = image?.dataset.fullSrc || image?.src || '';
     dialogImage.alt = image?.alt || title;
 
     const dialogLinks = document.getElementById('project-dialog-links');
