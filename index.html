@@ -218,7 +218,7 @@
           "@type": "ItemList",
           "@id": "https://irishmehta.github.io/#projects",
           "name": "Irish Mehta - Selected Projects",
-          "numberOfItems": 16,
+          "numberOfItems": 19,
           "itemListOrder": "https://schema.org/ItemListOrderAscending",
           "itemListElement": [
             {
@@ -239,7 +239,7 @@
               "@type": "SoftwareApplication",
               "@id": "https://irishmehta.github.io/#project-multi-ats-job-intelligence-platform",
               "name": "Multi-ATS Job Intelligence Platform",
-              "description": "A multi-ATS job intelligence platform that ingests postings across 8.6K+ companies and 7 ATS platforms, filters 3.2K+ relevant ML and data roles, and publishes a searchable dashboard for daily job discovery using LLM-based relevance scoring and structured metadata extraction.",
+              "description": "A multi-ATS job intelligence platform that ingests postings across 9K+ companies and 7 ATS platforms, filters relevant ML and data roles, and publishes a searchable dashboard for daily job discovery.",
               "url": "https://irishmehta.github.io/daily-job-board/",
               "image": "https://irishmehta.github.io/img/projects/full/job_board_v2-1400.webp",
               "creator": {
@@ -428,7 +428,7 @@
               "@type": "SoftwareSourceCode",
               "@id": "https://irishmehta.github.io/#project-movie-recommendation-system",
               "name": "Movie Recommendation System",
-              "description": "Hybrid recommender merging content clues, ratings, and composite ranking.",
+              "description": "A content-based movie recommender that combines metadata, trailer visuals, and audience sentiment through composite ranking.",
               "url": "https://github.com/IrishMehta/Movie-Recommendation-System-using-Composite-Ranking",
               "image": "https://irishmehta.github.io/img/projects/full/movie_reco-1400.webp",
               "creator": {
@@ -450,6 +450,43 @@
               },
               "keywords": "Python • SciPy • Statistical Modeling • Regression Analysis • Machine Learning • Optimization • Data Science • Predictive Analytics",
               "codeRepository": "https://github.com/IrishMehta/Composite-Manufacturing-Optimization",
+              "programmingLanguage": "Python"
+            },
+            {
+              "@type": "SoftwareSourceCode",
+              "@id": "https://irishmehta.github.io/#project-edgevision",
+              "name": "EdgeVision",
+              "description": "A distributed edge-AI system for real-time face detection and cloud-based recognition.",
+              "image": "https://irishmehta.github.io/img/edge_vision.webp",
+              "creator": {
+                "@id": "https://irishmehta.github.io/#person"
+              },
+              "keywords": "Python, AWS Greengrass, MTCNN, FaceNet, AWS IoT Core, SQS, Lambda, Edge AI",
+              "programmingLanguage": "Python"
+            },
+            {
+              "@type": "SoftwareApplication",
+              "@id": "https://irishmehta.github.io/#project-auto-email-classification",
+              "name": "Auto Email Classification",
+              "description": "A local job-search analytics platform that turns a Gmail inbox into an editable application-management system.",
+              "image": "https://irishmehta.github.io/img/auto_email_classification.webp",
+              "creator": {
+                "@id": "https://irishmehta.github.io/#person"
+              },
+              "keywords": "Python, Gmail API, Anthropic Claude, SQLite, pandas, Plotly Dash, Google Sheets API",
+              "applicationCategory": "BusinessApplication",
+              "operatingSystem": "Desktop"
+            },
+            {
+              "@type": "SoftwareSourceCode",
+              "@id": "https://irishmehta.github.io/#project-uncertainty-quantification",
+              "name": "Uncertainty Quantification",
+              "description": "An evaluation of efficient dropout-based uncertainty estimation for vision models.",
+              "image": "https://irishmehta.github.io/img/uncertainty_estimation.webp",
+              "creator": {
+                "@id": "https://irishmehta.github.io/#person"
+              },
+              "keywords": "Python, PyTorch, MobileViT, Monte Carlo Dropout, Bayesian Deep Learning, CIFAR-10",
               "programmingLanguage": "Python"
             }
           ]
@@ -641,6 +678,9 @@
                         <h3 class="project-title">SudoHint</h3>
                         <div class="project-tech">React • JavaScript • CSS • GitHub Pages • Sudoku • OCR • Computer Vision • Responsive UI</div>
                         <p class="project-description">A client-side Sudoku learning app that manages 81-cell game state in real time and supports browser-only image import with grid detection, perspective correction, cell segmentation, and OCR review. It also includes validation, timers, responsive mobile UI, and auto- or manual-candidate modes without a backend.</p>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>A client-side Sudoku learning app with real-time game state, hints, image import, OCR review, and candidate-note tools.</p></section>
+                        </div>
                         <div class="project-links">
                             <a href="https://irishmehta.github.io/SudokuLearner/" class="project-link">Play Game</a>
                         </div>
@@ -657,7 +697,13 @@
                         <div class="project-content">
                         <h3 class="project-title">Multi-ATS Job Intelligence Platform</h3>
                         <div class="project-tech">Python • LLMs • Qwen • Google Sheets API • GitHub Pages • Job Matching • Information Extraction • Data Pipelines</div>
-                        <p class="project-description">A multi-ATS job intelligence platform that ingests postings across 8.6K+ companies and 7 ATS platforms, filters 3.2K+ relevant ML and data roles, and publishes a searchable dashboard for daily job discovery using LLM-based relevance scoring and structured metadata extraction.</p>
+                        <p class="project-description">A multi-ATS job intelligence platform that ingests postings across 9K+ companies and 7 ATS platforms, filters relevant ML and data roles, and publishes a searchable dashboard for daily job discovery.</p>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>An automated job-discovery system that finds, ranks, and publishes ML and data opportunities, with tailored-resume generation for top matches.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>Searching company-by-company was repetitive and made it difficult to consistently identify roles compatible with location, seniority, and work-authorization constraints.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Scraped and normalized jobs from seven ATS families with throttling, retries, and title/location filtering.</li><li>Used a two-pass LLM pipeline for fit analysis, structured scoring, and eligibility gates.</li><li>Published curated roles to a searchable board and generated tailored LaTeX resumes for highly ranked opportunities.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><ul><li>Aggregated 412K+ postings across 9K+ companies and identified 3.2K relevant ML/data roles.</li><li>Reduced tailored-resume generation to under two minutes per role.</li></ul></section>
+                        </div>
                         <div class="project-links">
                             <a href="https://irishmehta.github.io/daily-job-board/" class="project-link">Dashboard</a>
                         </div>
@@ -675,6 +721,12 @@
                         <h3 class="project-title">AutoFrame</h3>
                         <div class="project-tech">Python • Vertex AI • Gemini • Computer Vision • VLMs • Android • ESP8266 • Automation • Human-in-the-Loop Systems</div>
                         <p class="project-description">AutoFrame is an autonomous photography assistant that captures overview images, proposes better camera poses with Gemini reasoning, and iterates with Android and ESP8266 hardware support to optimize portrait framing.</p>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>An autonomous photography assistant that iteratively improves portrait framing by reasoning about a scene and moving a physical camera rig.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>Getting a well-composed shot requires repeated manual camera adjustments and visual judgment.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Ran a vision loop: capture an overview, retrieve similar examples, propose a pose, capture a candidate, score it, and iterate.</li><li>Used Gemini for scene understanding and scoring, an Android phone for capture, and an ESP8266-controlled rig for pan, height, orientation, and zoom.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><p>Autonomously iterates toward stronger framing for up to 15 steps, stopping when the score reaches a threshold or improvement stalls.</p></section>
+                        </div>
                         <div class="project-links">
                             <a href="https://github.com/IrishMehta/AutoFrame" class="project-link">Source Code</a>
                         </div>
@@ -692,6 +744,12 @@
                         <h3 class="project-title">MOMO</h3>
                         <div class="project-tech">Python • Foundation Models • Remote Sensing • Computer Vision • Vision Transformers • Model Merging • Mars Science • Representation Learning</div>
                         <p class="project-description">MOMO is a multi-sensor foundation model for Mars remote sensing that merges representations from HiRISE, CTX, and THEMIS and supports downstream tasks across a wide range of Martian orbital resolutions.</p>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>A multi-sensor foundation model that unifies Mars orbital imagery from HiRISE, CTX, and THEMIS for downstream remote-sensing tasks.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>Martian sensors capture imagery at dramatically different resolutions, making direct combination of their representations inefficient.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Pre-trained masked autoencoders on roughly 12 million images from the three sensors.</li><li>Merged models using Equal Validation Loss and task arithmetic.</li><li>Built and parallelized downstream evaluation across nine Mars-Bench tasks and strong Earth-observation baselines.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><p>MOMO outperformed ImageNet and Earth-observation baselines, averaging about a 1% mIoU gain on segmentation tasks and up to 4% on the Boulder dataset.</p></section>
+                        </div>
                         <div class="project-links">
                             <a href="https://github.com/kerner-lab/MOMO" class="project-link">Source Code</a>
                             <a href="https://arxiv.org/abs/2604.02719" class="project-link">Paper</a>
@@ -714,6 +772,12 @@
                             <a href="https://github.com/kerner-lab/Mars-Bench" class="project-link">Source Code</a>
                             <a href="https://arxiv.org/abs/2510.24010" class="project-link">Paper</a>
                         </div>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>A standardized benchmark of 20 Mars-vision datasets spanning classification, semantic segmentation, and object detection.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>Martian imagery was difficult to compare across studies because datasets, task definitions, and evaluation conventions were fragmented.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Built a scalable PyTorch benchmarking pipeline and evaluated 13 CNN, Transformer, and Earth-observation model families.</li><li>Tested training from scratch, full fine-tuning, and frozen feature extraction across standard, partitioned, and few-shot splits.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><p>Completed 19K+ model runs and 780 hyperparameter sweeps on ASU HPC infrastructure, establishing reproducible baselines for the benchmark.</p></section>
+                        </div>
                         </div>
                     </div>
                     </div>
@@ -731,6 +795,12 @@
                         <p class="project-description">An adaptive learning system driven by a Multi-Armed Bandit controller to optimize question difficulty in real-time. The architecture uses a Streamlit frontend, a Groq API-based question generator, and JSON for persistent progress saving.</p>
                         <div class="project-links">
                             <a href="https://github.com/IrishMehta/Adaptive-Learning-Platform" class="project-link">Source Code</a>
+                        </div>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>An adaptive learning system that adjusts question difficulty in real time using Multi-Armed Bandit algorithms.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>Fixed-difficulty practice does not respond to an individual learner's changing ability or distinguish long-term learning from a one-off assessment.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Implemented a persistent GradientBandit learning mode and a session-only Adaptive Epsilon-Greedy testing mode.</li><li>Modelled learner ability across four difficulty levels and used cached, topic-filtered questions to avoid repetition.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><p>Provides persistent ability tracking and recommendations for learning, while keeping test sessions independent and resettable.</p></section>
                         </div>
                         </div>
                     </div>
@@ -752,6 +822,12 @@
                         <div class="project-links">
                             <a href="https://github.com/moburk/Dishcovery" class="project-link">Source Code</a>
                         </div>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>A food-discovery app that lets people search restaurant menus in natural language and filter by dietary needs, allergens, macros, and price.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>Menu information is unstructured and makes it difficult to find a meal that satisfies several constraints at once.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Extracted structured dish data from PDFs and images using a multi-document menu-analysis pipeline.</li><li>Converted natural-language requests to Snowflake SQL with Gemini, using Cortex Analyst as a fallback.</li><li>Delivered results through a React frontend and FastAPI service with caching and rate limiting.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><p>Supports complex multi-constraint searches across a Tempe pilot dataset, with cached queries returning in under two seconds.</p></section>
+                        </div>
                         </div>
                     </div>
                     </div>
@@ -768,6 +844,12 @@
                         <p class="project-description">Designed and developed a responsive website for Silkot Silicones, a leading manufacturer of silicone products. The website features a clean, modern design with a focus on usability and SEO.​</p>
                         <div class="project-links">
                             <a href="https://silkot.in/" class="project-link">Website</a>
+                        </div>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>A production corporate website and digital product catalogue for an industrial silicone manufacturer.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>The business needed a discoverable, secure, mobile-friendly way to present its product range and capture customer enquiries.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Built the catalogue with Next.js, TypeScript, SQLite-backed product data, and static product pages.</li><li>Connected quote and contact forms to Zoho CRM, with validation, rate limiting, and security headers.</li><li>Implemented structured data, metadata, sitemaps, and optimized AVIF/WebP imagery and video.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><ul><li>Published 101 products across six categories and generated 118 static pages.</li><li>Reduced hero-video size by 92% and homepage industry-image size by 96%.</li></ul></section>
                         </div>
                         </div>
                     </div>
@@ -786,6 +868,12 @@
                         <p class="project-description">A vulnerability-based strategic counter-narrative system that analyzes social network data to generate targeted counter-narratives based on user vulnerability scores.</p>
                         <div class="project-links">
                             <a href="https://github.com/IrishMehta/CounterEcho-AI/tree/main" class="project-link">Source Code</a>
+                        </div>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>A strategic counter-narrative system that identifies social-media users susceptible to polarization and generates context-aware counter-messages.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>Echo chambers reinforce polarized viewpoints, but a useful intervention needs to account for a user's stance and openness to alternative narratives.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Used a modified HITS algorithm on user-topic graphs to produce vulnerability scores and classify users.</li><li>Detected stance across nine geopolitical dimensions, selected an opposing narrative, and built persona-aware LLM prompts.</li><li>Exposed the workflow through FastAPI and a Flask interface.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><p>Produces a user classification, stance vector, and targeted counter-message from a tweet, user ID, and political-camp context.</p></section>
                         </div>
                         </div>
                     </div>
@@ -806,6 +894,12 @@
                         <p class="project-description">Earnings Call RAG Bot is a Retrieval-Augmented Generation system designed for analyzing and querying financial documents (Currently supports earnings call transcripts)</p>
                         <div class="project-links">
                             <a href="https://github.com/IrishMehta/EarningsCallRAG/" class="project-link">Source Code</a>
+                        </div>
+                        <div class="project-details">
+                            <section class="project-detail-section"><h3>Summary</h3><p>A session-based RAG system for asking grounded questions of earnings-call transcripts and financial documents.</p></section>
+                            <section class="project-detail-section"><h3>Problem Statement</h3><p>Financial documents are lengthy and difficult to query quickly, while sensitive uploads require isolation between users.</p></section>
+                            <section class="project-detail-section"><h3>Methodology</h3><ul><li>Parsed uploads with LlamaParse, created semantic chunks, embedded them with HuggingFace models, and retrieved from session-specific FAISS stores.</li><li>Used FastAPI, Streamlit, LangChain, and Groq to generate source-grounded responses with page and speaker references.</li></ul></section>
+                            <section class="project-detail-section"><h3>Results</h3><p>Each session has an isolated vector store with automatic cleanup after 30 minutes of inactivity, supporting private, attributable document Q&amp;A.</p></section>
                         </div>
                         </div>
                     </div>
@@ -888,10 +982,16 @@
                     <div class="project-content">
                     <h3 class="project-title">Movie Recommendation System</h3>
                     <div class="project-tech">Python • Scikit-learn • Machine Learning • Recommender Systems • Collaborative Filtering • Content-Based Filtering • Hybrid Recommenders • Data Science</div>
-                    <p class="project-description">Hybrid recommender merging content clues, ratings, and composite ranking.</p>
+                    <p class="project-description">A content-based movie recommender that combines metadata, trailer visuals, and audience sentiment through composite ranking.</p>
                     <div class="project-links">
                         <a href="https://github.com/IrishMehta/Movie-Recommendation-System-using-Composite-Ranking" class="project-link">Source Code</a>
                         <a href="https://link.springer.com/chapter/10.1007/978-3-031-35078-8_39" class="project-link">Paper</a>
+                    </div>
+                    <div class="project-details">
+                        <section class="project-detail-section"><h3>Summary</h3><p>A content-based movie recommender that combines metadata, trailer visuals, and audience sentiment to find films with a similar feel.</p></section>
+                        <section class="project-detail-section"><h3>Problem Statement</h3><p>Genre and cast alone do not capture the visual tone and audience reception that shape whether two films feel alike.</p></section>
+                        <section class="project-detail-section"><h3>Methodology</h3><ul><li>Used TF-IDF and cosine similarity on keywords, cast, genres, director, and overview to find candidates.</li><li>Extracted trailer key frames, then used VGG19 features and K-means clustering for visual similarity.</li><li>Added a review-sentiment score to create the final composite ranking.</li></ul></section>
+                        <section class="project-detail-section"><h3>Results</h3><p>The best sentiment classifier, Linear SVC, achieved 90% accuracy and an 89.85% F1 score on IMDb reviews.</p></section>
                     </div>
                     </div>
                 </div>
@@ -914,6 +1014,65 @@
                 </div>
                 </div>
 
+                <!-- Project Card: EdgeVision -->
+                <div class="project-card-wrapper">
+                    <div class="project-card">
+                        <div class="project-image-container full-size">
+                            <img class="project-image" src="img/edge_vision.webp" data-full-src="img/edge_vision.webp" alt="EdgeVision - distributed edge-AI system for real-time face detection and cloud-based recognition" width="1254" height="1254" loading="lazy" decoding="async">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">EdgeVision</h3>
+                            <div class="project-tech">Python • AWS Greengrass • MTCNN • FaceNet • AWS IoT Core • SQS • Lambda • Edge AI</div>
+                            <p class="project-description">A distributed edge-AI system for real-time face detection and cloud-based recognition.</p>
+                            <div class="project-details">
+                                <section class="project-detail-section"><h3>Summary</h3><p>A distributed IoT system that detects faces on an edge device and performs cloud-based recognition.</p></section>
+                                <section class="project-detail-section"><h3>Problem Statement</h3><p>Real-time recognition needs fast local detection without sending every frame through a cloud inference workflow.</p></section>
+                                <section class="project-detail-section"><h3>Methodology</h3><ul><li>Ran MTCNN face detection on an AWS Greengrass edge device.</li><li>Sent recognition requests through AWS IoT Core and SQS to a Lambda service using FaceNet embeddings and cosine similarity.</li><li>Added a 60-second TTL filter to prevent duplicate recognition requests.</li></ul></section>
+                                <section class="project-detail-section"><h3>Results</h3><p>Created a deployable edge-to-cloud recognition pipeline with MQTT, queued request/response handling, and Greengrass artifact deployment.</p></section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card: Auto Email Classification -->
+                <div class="project-card-wrapper">
+                    <div class="project-card">
+                        <div class="project-image-container full-size">
+                            <img class="project-image" src="img/auto_email_classification.webp" data-full-src="img/auto_email_classification.webp" alt="Auto Email Classification - local Gmail job-search analytics dashboard" width="1204" height="810" loading="lazy" decoding="async">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Auto Email Classification</h3>
+                            <div class="project-tech">Python • Gmail API • Anthropic Claude • SQLite • pandas • Plotly Dash • Google Sheets API</div>
+                            <p class="project-description">A local job-search analytics platform that turns a Gmail inbox into an editable application-management system.</p>
+                            <div class="project-details">
+                                <section class="project-detail-section"><h3>Summary</h3><p>A private, local analytics platform that imports Gmail, classifies job-search messages, and turns them into an editable application pipeline.</p></section>
+                                <section class="project-detail-section"><h3>Problem Statement</h3><p>Manual inbox searching and fragmented tracking make it difficult to see application status, next actions, and recruiter activity.</p></section>
+                                <section class="project-detail-section"><h3>Methodology</h3><ul><li>Incrementally synced Gmail into SQLite and classified messages with cached, versioned Claude taxonomies.</li><li>Resolved company identities, derived company-level pipeline analytics, and supported non-destructive user overrides.</li><li>Presented KPIs, funnels, timelines, aging, and action queues in a local Plotly Dash application.</li></ul></section>
+                                <section class="project-detail-section"><h3>Results</h3><p>Processed 13,403 emails into 4,658 job-search classifications, identifying 816 companies applied to and 1,547 distinct roles.</p></section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card: Uncertainty Quantification -->
+                <div class="project-card-wrapper">
+                    <div class="project-card">
+                        <div class="project-image-container full-size">
+                            <img class="project-image" src="img/uncertainty_estimation.webp" data-full-src="img/uncertainty_estimation.webp" alt="Uncertainty Quantification - evaluation of dropout-based uncertainty estimation for vision models" width="1254" height="1254" loading="lazy" decoding="async">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Uncertainty Quantification</h3>
+                            <div class="project-tech">Python • PyTorch • MobileViT • Monte Carlo Dropout • Bayesian Deep Learning • CIFAR-10</div>
+                            <p class="project-description">An evaluation of efficient dropout-based uncertainty estimation for vision models.</p>
+                            <div class="project-details">
+                                <section class="project-detail-section"><h3>Summary</h3><p>An evaluation of practical dropout-based methods for quantifying vision-model uncertainty during inference.</p></section>
+                                <section class="project-detail-section"><h3>Problem Statement</h3><p>Monte Carlo dropout can require up to 1,000 forward passes per image, making uncertainty-aware inference computationally expensive.</p></section>
+                                <section class="project-detail-section"><h3>Methodology</h3><ul><li>Compared six dropout variants on MobileViT-S trained on CIFAR-10.</li><li>Developed an early-stopping criterion based on convergence of the running mean and variance of prediction probabilities.</li></ul></section>
+                                <section class="project-detail-section"><h3>Results</h3><p>Variance-based stopping reduced inference cost by over 95%; variational dropout achieved 89.75% accuracy with about 30 passes instead of 1,000.</p></section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
@@ -956,12 +1115,13 @@
             <div class="project-dialog-layout">
                 <div class="project-dialog-media">
                     <img id="project-dialog-image" src="" alt="">
+                    <div class="project-dialog-placeholder" id="project-dialog-placeholder" hidden></div>
                 </div>
                 <div class="project-dialog-body">
                     <span class="project-dialog-kicker" id="project-dialog-category">Project</span>
                     <h2 id="project-dialog-title"></h2>
                     <div class="project-dialog-tech" id="project-dialog-tech"></div>
-                    <p class="project-dialog-description" id="project-dialog-description"></p>
+                    <div class="project-dialog-description" id="project-dialog-description"></div>
                     <div class="project-dialog-links" id="project-dialog-links"></div>
                 </div>
             </div>

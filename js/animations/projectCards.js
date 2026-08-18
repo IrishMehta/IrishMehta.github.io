@@ -8,6 +8,7 @@ const PROJECT_GROUPS = {
     "DishCovery": "ai-engineering",
     "Earnings Call RAG": "ai-engineering",
     "CounterEcho AI": "ai-engineering",
+    "EdgeVision": "ai-engineering",
     "Prompt Engineering": "ai-engineering",
     "Silkot Silicones": "ai-engineering",
     "MOMO": "machine-learning",
@@ -18,7 +19,9 @@ const PROJECT_GROUPS = {
     "Multi-ATS Job Intelligence Platform": "data-science",
     "Auto Storage Categorization": "data-science",
     "Movie Recommendation System": "data-science",
-    "Predictive Modelling for Composites": "data-science"
+    "Predictive Modelling for Composites": "data-science",
+    "Auto Email Classification": "data-science",
+    "Uncertainty Quantification": "machine-learning"
 };
 
 const PROJECT_GROUP_LABELS = {
@@ -43,6 +46,7 @@ export function initProjectGroups() {
 
         if (target) {
             card.dataset.projectCategory = group;
+            card.dataset.projectTitle = title || 'Project';
             target.appendChild(card);
         }
     });
@@ -65,17 +69,36 @@ function openProjectDialog(card, dialog) {
     const image = card.querySelector('.project-image');
     const tech = card.querySelector('.project-tech');
     const description = card.querySelector('.project-description');
+    const details = card.querySelector('.project-details');
     const links = card.querySelector('.project-links');
     const category = PROJECT_GROUP_LABELS[card.dataset.projectCategory] || 'Project';
 
     document.getElementById('project-dialog-title').textContent = title;
     document.getElementById('project-dialog-category').textContent = category;
     document.getElementById('project-dialog-tech').textContent = tech?.textContent.trim() || '';
-    document.getElementById('project-dialog-description').textContent = description?.textContent.trim() || '';
+    const dialogDetails = document.getElementById('project-dialog-description');
+    dialogDetails.innerHTML = details?.innerHTML || `<section class="project-detail-section"><h3>Summary</h3><p>${description?.textContent.trim() || ''}</p></section>`;
 
     const dialogImage = document.getElementById('project-dialog-image');
-    dialogImage.src = image?.dataset.fullSrc || image?.src || '';
-    dialogImage.alt = image?.alt || title;
+    const imagePlaceholder = card.querySelector('.project-image-placeholder');
+    const dialogMedia = dialogImage.closest('.project-dialog-media');
+    const dialogPlaceholder = document.getElementById('project-dialog-placeholder');
+    const imageSource = image?.dataset.fullSrc || image?.src || '';
+
+    if (imageSource) {
+        dialogImage.src = imageSource;
+        dialogImage.alt = image?.alt || title;
+        dialogImage.hidden = false;
+        dialogPlaceholder.hidden = true;
+        dialogMedia.classList.remove('project-dialog-media--placeholder');
+    } else {
+        dialogImage.removeAttribute('src');
+        dialogImage.alt = '';
+        dialogImage.hidden = true;
+        dialogPlaceholder.textContent = imagePlaceholder?.textContent.trim() || title;
+        dialogPlaceholder.hidden = false;
+        dialogMedia.classList.add('project-dialog-media--placeholder');
+    }
 
     const dialogLinks = document.getElementById('project-dialog-links');
     dialogLinks.innerHTML = links?.innerHTML || '';

@@ -83,12 +83,6 @@
     height: auto;
 }
 
-.project-group-grid .project-content {
-    min-height: 0;
-    flex: 0 0 auto;
-    padding: 0.8rem 1rem 0.9rem;
-}
-
 .project-group-grid .project-card-wrapper {
     width: 100%;
 }
@@ -131,6 +125,24 @@
     opacity: 0;
     transform: translateY(-0.4rem);
     transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.project-card-wrapper::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    padding: 2.7rem 1rem 0.95rem;
+    background: linear-gradient(to top, hsl(var(--clr-bg-start) / 0.92), transparent);
+    color: hsl(var(--clr-text));
+    content: attr(data-project-title);
+    font-family: var(--font-family-display);
+    font-size: clamp(1.3rem, 1rem + 1vw, 1.85rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    pointer-events: none;
 }
 
 .project-card-wrapper:hover::before,
@@ -216,12 +228,39 @@
     transform: scale(1.055);
 }
 
+.project-image-container--placeholder {
+    display: grid;
+    place-items: center;
+    min-height: 100%;
+    background:
+        radial-gradient(circle at 16% 20%, hsl(var(--clr-accent) / 0.3), transparent 30%),
+        radial-gradient(circle at 85% 80%, hsl(var(--clr-text) / 0.12), transparent 32%),
+        linear-gradient(135deg, hsl(var(--clr-bg-start) / 0.92), hsl(var(--clr-bg-end) / 0.92));
+}
+
+.project-image-placeholder {
+    z-index: 1;
+    padding: 1rem;
+    color: hsl(var(--clr-text) / 0.94);
+    font-family: var(--font-family-display);
+    font-size: clamp(1.7rem, 1.2rem + 1.5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    text-align: center;
+}
+
 .project-content {
     display: flex;
     min-height: 5.4rem;
     flex: 1;
     align-items: flex-start;
     padding: 1.1rem 1.2rem 1.25rem;
+}
+
+/* The gallery is visual-only; all project copy appears in the dialog. */
+.project-card .project-content {
+    display: none;
 }
 
 .project-title {
@@ -244,7 +283,8 @@
 /* Details move into the dialog, keeping the gallery intentionally quiet. */
 .project-card .project-tech,
 .project-card .project-description,
-.project-card .project-links {
+.project-card .project-links,
+.project-card .project-details {
     display: none;
 }
 
@@ -314,6 +354,30 @@
     object-fit: contain;
 }
 
+.project-dialog-media img[hidden],
+.project-dialog-placeholder[hidden] {
+    display: none !important;
+}
+
+.project-dialog-media--placeholder {
+    min-height: min(38vh, 340px);
+    background:
+        radial-gradient(circle at 16% 20%, hsl(var(--clr-accent) / 0.32), transparent 30%),
+        radial-gradient(circle at 85% 80%, hsl(var(--clr-text) / 0.12), transparent 32%),
+        linear-gradient(135deg, hsl(var(--clr-bg-start) / 0.92), hsl(var(--clr-bg-end) / 0.92));
+}
+
+.project-dialog-placeholder {
+    padding: 2rem;
+    color: hsl(var(--clr-text) / 0.94);
+    font-family: var(--font-family-display);
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    text-align: center;
+}
+
 .project-dialog-body {
     display: flex;
     flex-direction: column;
@@ -357,6 +421,39 @@
     color: hsl(var(--clr-text) / 0.86);
     font-size: 1.02rem;
     line-height: 1.75;
+}
+
+.project-detail-section {
+    min-height: 0;
+    display: block;
+    text-align: left;
+    padding: 1.1rem 0;
+    border-top: 1px solid hsl(var(--clr-text) / 0.12);
+}
+
+.project-detail-section:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.project-detail-section h3 {
+    margin: 0 0 0.35rem;
+    color: hsl(var(--clr-accent));
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.project-detail-section p,
+.project-detail-section ul {
+    margin: 0;
+}
+
+.project-detail-section ul {
+    display: grid;
+    gap: 0.35rem;
+    padding-left: 1.15rem;
 }
 
 .project-dialog-links {
