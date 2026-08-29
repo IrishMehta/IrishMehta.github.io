@@ -3,45 +3,49 @@
 const STAGGER_DELAY = 110;
 
 const PROJECT_GROUPS = {
-    "SudoHint": "ai-engineering",
-    "AutoFrame": "ai-engineering",
-    "DishCovery": "ai-engineering",
-    "Earnings Call RAG": "ai-engineering",
-    "CounterEcho AI": "ai-engineering",
-    "EdgeVision": "ai-engineering",
-    "Prompt Engineering": "ai-engineering",
-    "Silkot Silicones": "ai-engineering",
-    "MOMO": "machine-learning",
-    "Mars-Bench": "machine-learning",
-    "Adaptive Learning Platform": "machine-learning",
-    "Candidate Recommendation System": "machine-learning",
-    "Machine Learning from Scratch": "machine-learning",
-    "Multi-ATS Job Intelligence Platform": "data-science",
-    "Auto Storage Categorization": "data-science",
-    "Movie Recommendation System": "data-science",
-    "Predictive Modelling for Composites": "data-science",
-    "Auto Email Classification": "data-science",
-    "Uncertainty Quantification": "machine-learning"
+    "Multi-ATS Job Intelligence Platform": "highlights",
+    "AutoFrame": "highlights",
+    "Mars-Bench": "highlights",
+    "MOMO": "highlights",
+    "Nursery Realtime": "highlights",
+    "DishCovery": "prototypes",
+    "CounterEcho AI": "prototypes",
+    "Earnings Call RAG": "prototypes",
+    "Adaptive Learning Platform": "prototypes",
+    "Auto Storage Categorization": "prototypes",
+    "SudoHint": "prototypes",
+    "Silkot Silicones": "in-production",
+    "Auto Email Classification": "in-production",
+    "Movie Recommendation System": "research-academia",
+    "Uncertainty Quantification": "research-academia",
+    "EdgeVision": "research-academia"
 };
 
 const PROJECT_GROUP_LABELS = {
-    "ai-engineering": "AI Engineering",
-    "machine-learning": "Machine Learning",
-    "data-science": "Data Science"
+    "highlights": "Highlights",
+    "prototypes": "Prototypes",
+    "in-production": "In Production",
+    "research-academia": "Research / Academia"
 };
 
-/** Move the existing cards into their three curated gallery groups. */
+const PROJECT_ORDER = Object.keys(PROJECT_GROUPS);
+
+/** Move the existing cards into their four curated gallery groups. */
 export function initProjectGroups() {
     const source = document.getElementById('project-source');
     const groups = document.getElementById('project-groups');
 
     if (!source || !groups) return;
 
-    const cards = [...source.querySelectorAll('.project-card-wrapper')];
+    const cards = [...source.querySelectorAll('.project-card-wrapper')].sort((firstCard, secondCard) => {
+        const firstTitle = firstCard.querySelector('.project-title')?.textContent.trim();
+        const secondTitle = secondCard.querySelector('.project-title')?.textContent.trim();
+        return PROJECT_ORDER.indexOf(firstTitle) - PROJECT_ORDER.indexOf(secondTitle);
+    });
 
     cards.forEach(card => {
         const title = card.querySelector('.project-title')?.textContent.trim();
-        const group = PROJECT_GROUPS[title] || 'machine-learning';
+        const group = PROJECT_GROUPS[title] || 'prototypes';
         const target = groups.querySelector(`[data-project-group="${group}"] .project-group-grid`);
 
         if (target) {
@@ -83,20 +87,63 @@ function openProjectDialog(card, dialog) {
     const imagePlaceholder = card.querySelector('.project-image-placeholder');
     const dialogMedia = dialogImage.closest('.project-dialog-media');
     const dialogPlaceholder = document.getElementById('project-dialog-placeholder');
-    const imageSource = image?.dataset.fullSrc || image?.src || '';
+    const galleryNav = document.getElementById('project-dialog-gallery-nav');
+    const galleryCaption = document.getElementById('project-dialog-image-caption');
+    const galleryThumbnails = document.getElementById('project-dialog-thumbnails');
+    const zoomButton = document.getElementById('project-dialog-zoom');
+    const galleryImages = image ? [image, ...card.querySelectorAll('.project-gallery-image')].map(galleryImage => ({
+        src: galleryImage.dataset.fullSrc || galleryImage.src || '',
+        thumbnail: galleryImage.src || galleryImage.dataset.fullSrc || '',
+        alt: galleryImage.alt || title,
+        caption: galleryImage.dataset.caption || title
+    })).filter(galleryImage => galleryImage.src) : [];
 
-    if (imageSource) {
-        dialogImage.src = imageSource;
-        dialogImage.alt = image?.alt || title;
+    galleryThumbnails.replaceChildren();
+
+    const selectGalleryImage = (galleryImage, activeIndex) => {
+        dialogImage.src = galleryImage.src;
+        dialogImage.alt = galleryImage.alt;
+        galleryCaption.textContent = galleryImage.caption;
+        galleryThumbnails.querySelectorAll('button').forEach((button, index) => {
+            const isActive = index === activeIndex;
+            button.classList.toggle('is-active', isActive);
+            button.setAttribute('aria-pressed', String(isActive));
+        });
+    };
+
+    if (galleryImages.length > 0) {
+        galleryImages.forEach((galleryImage, index) => {
+            const button = document.createElement('button');
+            const thumbnail = document.createElement('img');
+
+            button.type = 'button';
+            button.className = 'project-dialog-thumbnail';
+            button.setAttribute('aria-label', `View ${galleryImage.caption}`);
+            button.setAttribute('aria-pressed', String(index === 0));
+            thumbnail.src = galleryImage.thumbnail;
+            thumbnail.alt = '';
+            thumbnail.loading = 'lazy';
+            button.appendChild(thumbnail);
+            button.addEventListener('click', () => selectGalleryImage(galleryImage, index));
+            galleryThumbnails.appendChild(button);
+        });
+
+        selectGalleryImage(galleryImages[0], 0);
         dialogImage.hidden = false;
         dialogPlaceholder.hidden = true;
+        zoomButton.hidden = false;
+        galleryNav.hidden = galleryImages.length < 2;
+        dialogMedia.classList.toggle('project-dialog-media--gallery', galleryImages.length > 1);
         dialogMedia.classList.remove('project-dialog-media--placeholder');
     } else {
         dialogImage.removeAttribute('src');
         dialogImage.alt = '';
         dialogImage.hidden = true;
+        zoomButton.hidden = true;
         dialogPlaceholder.textContent = imagePlaceholder?.textContent.trim() || title;
         dialogPlaceholder.hidden = false;
+        galleryNav.hidden = true;
+        dialogMedia.classList.remove('project-dialog-media--gallery');
         dialogMedia.classList.add('project-dialog-media--placeholder');
     }
 
@@ -110,6 +157,73 @@ function openProjectDialog(card, dialog) {
     dialog.showModal();
 }
 
+function initProjectImageZoom() {
+    const sourceImage = document.getElementById('project-dialog-image');
+    const openButton = document.getElementById('project-dialog-zoom');
+    const zoomDialog = document.getElementById('project-image-dialog');
+    const zoomedImage = document.getElementById('project-image-zoomed');
+    const stage = document.getElementById('project-image-stage');
+    const closeButton = zoomDialog?.querySelector('.project-image-dialog-close');
+    const zoomOutButton = document.getElementById('project-image-zoom-out');
+    const resetButton = document.getElementById('project-image-zoom-reset');
+    const zoomInButton = document.getElementById('project-image-zoom-in');
+    const zoomLevel = document.getElementById('project-image-zoom-level');
+
+    if (!sourceImage || !openButton || !zoomDialog || !zoomedImage || !stage) return;
+
+    const zoomSteps = [1, 1.5, 2, 3, 4];
+    let zoomIndex = 0;
+
+    const applyZoom = (nextIndex) => {
+        zoomIndex = Math.max(0, Math.min(nextIndex, zoomSteps.length - 1));
+        const scale = zoomSteps[zoomIndex];
+        const isZoomed = scale > 1;
+
+        zoomedImage.classList.toggle('is-zoomed', isZoomed);
+        zoomedImage.style.setProperty('--image-zoom', `${scale * 100}%`);
+        zoomLevel.textContent = isZoomed ? `${Math.round(scale * 100)}%` : 'Fit';
+        zoomOutButton.disabled = zoomIndex === 0;
+        zoomInButton.disabled = zoomIndex === zoomSteps.length - 1;
+
+        if (!isZoomed) {
+            stage.scrollTo({ top: 0, left: 0 });
+        }
+    };
+
+    openButton.addEventListener('click', () => {
+        zoomedImage.src = sourceImage.currentSrc || sourceImage.src;
+        zoomedImage.alt = sourceImage.alt;
+        applyZoom(0);
+        zoomDialog.showModal();
+    });
+
+    closeButton?.addEventListener('click', () => zoomDialog.close());
+    zoomOutButton?.addEventListener('click', () => applyZoom(zoomIndex - 1));
+    zoomInButton?.addEventListener('click', () => applyZoom(zoomIndex + 1));
+    resetButton?.addEventListener('click', () => applyZoom(0));
+
+    stage.addEventListener('dblclick', () => {
+        applyZoom(zoomIndex === 0 ? 2 : 0);
+    });
+
+    zoomDialog.addEventListener('click', event => {
+        if (event.target === zoomDialog) zoomDialog.close();
+    });
+
+    zoomDialog.addEventListener('keydown', event => {
+        if (event.key === '+' || event.key === '=') {
+            event.preventDefault();
+            applyZoom(zoomIndex + 1);
+        } else if (event.key === '-') {
+            event.preventDefault();
+            applyZoom(zoomIndex - 1);
+        } else if (event.key === '0') {
+            event.preventDefault();
+            applyZoom(0);
+        }
+    });
+}
+
 /** Adds keyboard and pointer access to every compact project card. */
 export function initProjectDialog() {
     const dialog = document.getElementById('project-dialog');
@@ -117,6 +231,8 @@ export function initProjectDialog() {
     const projectCards = document.querySelectorAll('.project-card-wrapper');
 
     if (!dialog || projectCards.length === 0) return;
+
+    initProjectImageZoom();
 
     let lastFocusedCard = null;
 

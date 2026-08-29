@@ -1,7 +1,7 @@
 /* css/theme.css */
 :root {
     --gradient-progress: 0;
-    --gradient-light-layer: rgb(218, 198, 226);
+    --gradient-light-layer: rgb(196, 174, 205);
     /* Color Palette */
     --clr-bg-start: 260 50% 5%;        /* Darker purple for gradient start */
     --clr-bg-end: 280 40% 15%;         /* Medium purple for gradient end */
@@ -74,6 +74,6 @@ body::after {
 
 @media (max-width: 768px) {
     :root {
-        --gradient-light-layer: rgb(198, 174, 207);
+        --gradient-light-layer: rgb(184, 160, 194);
     }
 }

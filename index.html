@@ -191,7 +191,7 @@
             "@id": "https://irishmehta.github.io/#project-mars-bench"
           },
           "url": "https://arxiv.org/abs/2510.24010",
-          "image": "https://irishmehta.github.io/img/projects/full/marsbench-1400.webp",
+          "image": "https://irishmehta.github.io/img/marsbench_architecture.png",
           "inLanguage": "en"
         },
         {
@@ -218,7 +218,7 @@
           "@type": "ItemList",
           "@id": "https://irishmehta.github.io/#projects",
           "name": "Irish Mehta - Selected Projects",
-          "numberOfItems": 19,
+          "numberOfItems": 20,
           "itemListOrder": "https://schema.org/ItemListOrderAscending",
           "itemListElement": [
             {
@@ -241,7 +241,10 @@
               "name": "Multi-ATS Job Intelligence Platform",
               "description": "A multi-ATS job intelligence platform that ingests postings across 9K+ companies and 7 ATS platforms, filters relevant ML and data roles, and publishes a searchable dashboard for daily job discovery.",
               "url": "https://irishmehta.github.io/daily-job-board/",
-              "image": "https://irishmehta.github.io/img/projects/full/job_board_v2-1400.webp",
+              "image": [
+                "https://irishmehta.github.io/img/projects/full/multi_ats_architecture-1400.webp",
+                "https://irishmehta.github.io/img/projects/full/multi_ats_frontend-1400.webp"
+              ],
               "creator": {
                 "@id": "https://irishmehta.github.io/#person"
               },
@@ -255,13 +258,21 @@
               "name": "AutoFrame",
               "description": "AutoFrame is an autonomous photography assistant that captures overview images, proposes better camera poses with Gemini reasoning, and iterates with Android and ESP8266 hardware support to optimize portrait framing.",
               "url": "https://github.com/IrishMehta/AutoFrame",
-              "image": "https://irishmehta.github.io/img/projects/full/autoframe-1400.webp",
+              "image": [
+                "https://irishmehta.github.io/img/projects/full/autoframe_architecture-1400.webp",
+                "https://irishmehta.github.io/img/projects/full/autoframe-1400.webp"
+              ],
               "creator": {
                 "@id": "https://irishmehta.github.io/#person"
               },
               "keywords": "Python • Vertex AI • Gemini • Computer Vision • VLMs • Android • ESP8266 • Automation • Human-in-the-Loop Systems",
               "codeRepository": "https://github.com/IrishMehta/AutoFrame",
-              "programmingLanguage": "Python"
+              "programmingLanguage": "Python",
+              "subjectOf": {
+                "@type": "VideoObject",
+                "name": "AutoFrame Demo",
+                "url": "https://youtu.be/1OAwMYPjxnE?si=c_aqMTRELEotQhK1"
+              }
             },
             {
               "@type": "SoftwareSourceCode",
@@ -269,7 +280,10 @@
               "name": "MOMO",
               "description": "MOMO is a multi-sensor foundation model for Mars remote sensing that merges representations from HiRISE, CTX, and THEMIS and supports downstream tasks across a wide range of Martian orbital resolutions.",
               "url": "https://github.com/kerner-lab/MOMO",
-              "image": "https://irishmehta.github.io/img/projects/full/momo-1400.webp",
+              "image": [
+                "https://irishmehta.github.io/img/projects/full/momo-1400.webp",
+                "https://irishmehta.github.io/img/projects/full/momo_architecture-1400.webp"
+              ],
               "creator": {
                 "@id": "https://irishmehta.github.io/#person"
               },
@@ -286,7 +300,7 @@
               "name": "Mars-Bench",
               "description": "Mars-Bench brings 20 standardized datasets for classification, segmentation, and detection of Martian features like craters, cones, boulders, and frost, aiming to make evaluation consistent and to catalyze Mars-specific foundation models.",
               "url": "https://github.com/kerner-lab/Mars-Bench",
-              "image": "https://irishmehta.github.io/img/projects/full/marsbench-1400.webp",
+              "image": "https://irishmehta.github.io/img/marsbench_architecture.png",
               "creator": {
                 "@id": "https://irishmehta.github.io/#person"
               },
@@ -346,7 +360,10 @@
               "name": "CounterEcho AI",
               "description": "A vulnerability-based strategic counter-narrative system that analyzes social network data to generate targeted counter-narratives based on user vulnerability scores.",
               "url": "https://github.com/IrishMehta/CounterEcho-AI/tree/main",
-              "image": "https://irishmehta.github.io/img/projects/full/counterecho-1400.webp",
+              "image": [
+                "https://irishmehta.github.io/img/cai_architecture.png",
+                "https://irishmehta.github.io/img/cai_frontend.png"
+              ],
               "creator": {
                 "@id": "https://irishmehta.github.io/#person"
               },
@@ -366,48 +383,6 @@
               },
               "keywords": "Python • FastAPI • LangChain • RAG • FAISS • Vector Databases • Embeddings • Financial AI • Document Analysis • Retrieval-Augmented Generation",
               "codeRepository": "https://github.com/IrishMehta/EarningsCallRAG/",
-              "programmingLanguage": "Python"
-            },
-            {
-              "@type": "SoftwareSourceCode",
-              "@id": "https://irishmehta.github.io/#project-candidate-recommendation-system",
-              "name": "Candidate Recommendation System",
-              "description": "AI-powered resume ranking system that intelligently matches candidates to job requirements.",
-              "url": "https://github.com/IrishMehta/JobCandidateRecommendation",
-              "image": "https://irishmehta.github.io/img/projects/full/candidate_recommendation-1400.webp",
-              "creator": {
-                "@id": "https://irishmehta.github.io/#person"
-              },
-              "keywords": "Python • LLMs • NLP • Resume Ranking • BERT • Embeddings • Vector Search • ReRanking",
-              "codeRepository": "https://github.com/IrishMehta/JobCandidateRecommendation",
-              "programmingLanguage": "Python"
-            },
-            {
-              "@type": "SoftwareSourceCode",
-              "@id": "https://irishmehta.github.io/#project-prompt-engineering",
-              "name": "Prompt Engineering",
-              "description": "Best-practice prompts and tutorials for large language models.",
-              "url": "https://github.com/IrishMehta/PromptEngineering",
-              "image": "https://irishmehta.github.io/img/projects/full/prompt_engineering-1400.webp",
-              "creator": {
-                "@id": "https://irishmehta.github.io/#person"
-              },
-              "keywords": "Python • Large Language Models • LLMs • Generative AI • Prompt Engineering • OpenAI • GPT • Claude • Prompt Optimization • AI Best Practices",
-              "codeRepository": "https://github.com/IrishMehta/PromptEngineering",
-              "programmingLanguage": "Python"
-            },
-            {
-              "@type": "SoftwareSourceCode",
-              "@id": "https://irishmehta.github.io/#project-machine-learning-from-scratch",
-              "name": "Machine Learning from Scratch",
-              "description": "From-Scratch implementations of classic machine-learning and deep learning algorithms.",
-              "url": "https://github.com/IrishMehta/MachineLearningFromScratch",
-              "image": "https://irishmehta.github.io/img/projects/full/ml_from_scratch-1400.webp",
-              "creator": {
-                "@id": "https://irishmehta.github.io/#person"
-              },
-              "keywords": "Python • NumPy • PyTorch • Deep Learning • Neural Networks • Machine Learning Algorithms • Linear Algebra • Gradient Descent • Backpropagation",
-              "codeRepository": "https://github.com/IrishMehta/MachineLearningFromScratch",
               "programmingLanguage": "Python"
             },
             {
@@ -436,20 +411,6 @@
               },
               "keywords": "Python • Scikit-learn • Machine Learning • Recommender Systems • Collaborative Filtering • Content-Based Filtering • Hybrid Recommenders • Data Science",
               "codeRepository": "https://github.com/IrishMehta/Movie-Recommendation-System-using-Composite-Ranking",
-              "programmingLanguage": "Python"
-            },
-            {
-              "@type": "SoftwareSourceCode",
-              "@id": "https://irishmehta.github.io/#project-predictive-modelling-for-composites",
-              "name": "Predictive Modelling for Composites",
-              "description": "Regression models to optimize composite manufacturing parameters.",
-              "url": "https://github.com/IrishMehta/Composite-Manufacturing-Optimization",
-              "image": "https://irishmehta.github.io/img/projects/full/composite_manufacturing-1400.webp",
-              "creator": {
-                "@id": "https://irishmehta.github.io/#person"
-              },
-              "keywords": "Python • SciPy • Statistical Modeling • Regression Analysis • Machine Learning • Optimization • Data Science • Predictive Analytics",
-              "codeRepository": "https://github.com/IrishMehta/Composite-Manufacturing-Optimization",
               "programmingLanguage": "Python"
             },
             {
@@ -487,6 +448,18 @@
                 "@id": "https://irishmehta.github.io/#person"
               },
               "keywords": "Python, PyTorch, MobileViT, Monte Carlo Dropout, Bayesian Deep Learning, CIFAR-10",
+              "programmingLanguage": "Python"
+            },
+            {
+              "@type": "SoftwareSourceCode",
+              "@id": "https://irishmehta.github.io/#project-nursery-realtime",
+              "name": "Nursery Realtime",
+              "description": "A near-real-time machine-learning system that predicts second-purchase propensity after game-end events and maps players to configurable personalized bonus segments.",
+              "image": "https://irishmehta.github.io/img/projects/full/nursery_realtime-1400.webp",
+              "creator": {
+                "@id": "https://irishmehta.github.io/#person"
+              },
+              "keywords": "Python, XGBoost, RabbitMQ, Snowflake, DynamoDB, AWS EC2, Real-Time Inference, Customer Segmentation, MLOps",
               "programmingLanguage": "Python"
             }
           ]
@@ -692,7 +665,10 @@
                 <div class="project-card-wrapper">
                     <div class="project-card">
                         <div class="project-image-container full-size">
-                        <img class="project-image" src="img/projects/thumbnails/job_board_v2-800.webp" data-full-src="img/projects/full/job_board_v2-1400.webp" alt="Multi-ATS Job Intelligence Platform - Searchable daily ML and data job dashboard powered by multi-ATS ingestion and LLM matching" width="800" height="600" loading="lazy" decoding="async">
+                        <img class="project-image" src="img/projects/thumbnails/multi_ats_architecture-800.webp" data-full-src="img/projects/full/multi_ats_architecture-1400.webp" data-caption="System architecture" alt="Multi-ATS Job Intelligence Platform architecture covering job discovery, extraction, enrichment, relevance assessment, publishing, and monitoring" width="800" height="600" loading="lazy" decoding="async">
+                        </div>
+                        <div class="project-gallery-images" hidden>
+                            <img class="project-gallery-image" data-full-src="img/projects/full/multi_ats_frontend-1400.webp" data-caption="Job discovery frontend" alt="Multi-ATS Job Intelligence Platform frontend with searchable job listings, filters, role summaries, and application details">
                         </div>
                         <div class="project-content">
                         <h3 class="project-title">Multi-ATS Job Intelligence Platform</h3>
@@ -715,7 +691,10 @@
                 <div class="project-card-wrapper">
                     <div class="project-card">
                         <div class="project-image-container full-size">
-                        <img class="project-image" src="img/projects/thumbnails/autoframe-800.webp" data-full-src="img/projects/full/autoframe-1400.webp" alt="AutoFrame - Autonomous photography assistant using Gemini reasoning, Android camera capture, and ESP8266 hardware control" width="800" height="600" loading="lazy" decoding="async">
+                        <img class="project-image" src="img/projects/thumbnails/autoframe_architecture-800.webp" data-full-src="img/projects/full/autoframe_architecture-1400.webp" data-caption="System architecture" alt="AutoFrame architecture showing the iterative capture, scene analysis, example retrieval, next-shot prediction, scoring, and session-memory workflow" width="800" height="600" loading="lazy" decoding="async">
+                        </div>
+                        <div class="project-gallery-images" hidden>
+                            <img class="project-gallery-image" data-full-src="img/projects/full/autoframe-1400.webp" data-caption="Camera hardware" alt="AutoFrame mobile camera mounted on its motorized positioning rig">
                         </div>
                         <div class="project-content">
                         <h3 class="project-title">AutoFrame</h3>
@@ -729,6 +708,7 @@
                         </div>
                         <div class="project-links">
                             <a href="https://github.com/IrishMehta/AutoFrame" class="project-link">Source Code</a>
+                            <a href="https://youtu.be/1OAwMYPjxnE?si=c_aqMTRELEotQhK1" class="project-link">Demo Video</a>
                         </div>
                         </div>
                     </div>
@@ -738,7 +718,10 @@
                 <div class="project-card-wrapper">
                     <div class="project-card">
                         <div class="project-image-container full-size">
-                        <img class="project-image" src="img/projects/thumbnails/momo-800.webp" data-full-src="img/projects/full/momo-1400.webp" alt="MOMO - Multi-sensor Mars remote sensing foundation model built from HiRISE, CTX, and THEMIS orbital data" width="800" height="600" loading="lazy" decoding="async">
+                        <img class="project-image" src="img/projects/thumbnails/momo-800.webp" data-full-src="img/projects/full/momo-1400.webp" data-caption="Mars remote sensing overview" alt="MOMO - Multi-sensor Mars remote sensing foundation model built from HiRISE, CTX, and THEMIS orbital data" width="800" height="600" loading="lazy" decoding="async">
+                        </div>
+                        <div class="project-gallery-images" hidden>
+                            <img class="project-gallery-image" data-full-src="img/projects/full/momo_architecture-1400.webp" data-caption="Basic architecture" alt="MOMO architecture merging HiRISE, CTX, and THEMIS sensor models for Mars remote-sensing tasks">
                         </div>
                         <div class="project-content">
                         <h3 class="project-title">MOMO</h3>
@@ -762,7 +745,7 @@
                 <div class="project-card-wrapper">
                     <div class="project-card">
                         <div class="project-image-container full-size">
-                        <img class="project-image" src="img/projects/thumbnails/marsbench-800.webp" data-full-src="img/projects/full/marsbench-1400.webp" alt="Mars-Bench - Computer vision benchmark dataset for Martian features using PyTorch and Hugging Face" width="800" height="600" loading="lazy" decoding="async">
+                        <img class="project-image" src="img/marsbench_architecture.png" data-full-src="img/marsbench_architecture.png" data-caption="Mars-Bench architecture" alt="Mars-Bench architecture showing the standardized pipeline for classification, segmentation, object detection, model benchmarking, and results" width="1672" height="941" loading="lazy" decoding="async">
                         </div>
                         <div class="project-content">
                         <h3 class="project-title">Mars-Bench</h3>
@@ -860,7 +843,10 @@
                 <div class="project-card-wrapper">
                     <div class="project-card">
                         <div class="project-image-container full-size">
-                        <img class="project-image" src="img/projects/thumbnails/counterecho-800.webp" data-full-src="img/projects/full/counterecho-1400.webp" alt="CounterEcho AI - Vulnerability-based strategic counter-narrative system using NetworkX and LLMs" width="800" height="600" loading="lazy" decoding="async">
+                        <img class="project-image project-image--contain" src="img/cai_architecture.png" data-full-src="img/cai_architecture.png" data-caption="System architecture" alt="CounterEcho AI system architecture and counter-narrative generation workflow" width="1178" height="224" loading="lazy" decoding="async">
+                        </div>
+                        <div class="project-gallery-images" hidden>
+                            <img class="project-gallery-image" data-full-src="img/cai_frontend.png" data-caption="Frontend interface" alt="CounterEcho AI frontend for entering a tweet, user ID, political camp, and topic context">
                         </div>
                         <div class="project-content">
                         <h3 class="project-title">CounterEcho AI</h3>
@@ -905,57 +891,6 @@
                     </div>
                     </div>
 
-                <!-- Project Card 7 -->
-                <div class="project-card-wrapper">
-                    <div class="project-card">
-                        <div class="project-image-container full-size">
-                        <img class="project-image" src="img/projects/thumbnails/candidate_recommendation-800.webp" data-full-src="img/projects/full/candidate_recommendation-1400.webp" alt="Candidate Recommendation System - AI-powered resume ranking system that intelligently matches candidates to job requirements" width="800" height="600" loading="lazy" decoding="async">
-                        </div>
-                        <div class="project-content">
-                        <h3 class="project-title">Candidate Recommendation System</h3>
-                        <div class="project-tech">Python • LLMs • NLP • Resume Ranking • BERT • Embeddings • Vector Search • ReRanking </div>
-                        <p class="project-description">AI-powered resume ranking system that intelligently matches candidates to job requirements.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/IrishMehta/JobCandidateRecommendation" class="project-link">Source Code</a>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-
-                <!-- Project Card 8 -->
-                <div class="project-card-wrapper">
-                <div class="project-card">
-                    <div class="project-image-container full-size">
-                    <img class="project-image" src="img/projects/thumbnails/prompt_engineering-800.webp" data-full-src="img/projects/full/prompt_engineering-1400.webp" alt="Prompt Engineering - Best practice prompts and tutorials for large language models (LLMs)" width="800" height="600" loading="lazy" decoding="async">
-                    </div>
-                    <div class="project-content">
-                    <h3 class="project-title">Prompt Engineering</h3>
-                    <div class="project-tech">Python • Large Language Models • LLMs • Generative AI • Prompt Engineering • OpenAI • GPT • Claude • Prompt Optimization • AI Best Practices</div>
-                    <p class="project-description">Best‑practice prompts and tutorials for large language models.</p>
-                    <div class="project-links">
-                        <a href="https://github.com/IrishMehta/PromptEngineering" class="project-link">Source Code</a>
-                    </div>
-                    </div>
-                </div>
-                </div>
-
-                <!-- Project Card 9: Machine Learning from Scratch -->
-                <div class="project-card-wrapper">
-                <div class="project-card">
-                    <div class="project-image-container full-size">
-                    <img class="project-image" src="img/projects/thumbnails/ml_from_scratch-800.webp" data-full-src="img/projects/full/ml_from_scratch-1400.webp" alt="Machine Learning from Scratch - From-scratch implementations of classic ML and deep learning algorithms using Python, NumPy, and PyTorch" width="800" height="600" loading="lazy" decoding="async">
-                    </div>
-                    <div class="project-content">
-                    <h3 class="project-title">Machine Learning from Scratch</h3>
-                    <div class="project-tech">Python • NumPy • PyTorch • Deep Learning • Neural Networks • Machine Learning Algorithms • Linear Algebra • Gradient Descent • Backpropagation</div>
-                    <p class="project-description">From-Scratch implementations of classic machine‑learning and deep learning algorithms.</p>
-                    <div class="project-links">
-                        <a href="https://github.com/IrishMehta/MachineLearningFromScratch" class="project-link">Source Code</a>
-                    </div>
-                    </div>
-                </div>
-                </div>
-
                 <!-- Project Card 10: File Categorization Bot -->
                 <div class="project-card-wrapper">
                 <div class="project-card">
@@ -992,23 +927,6 @@
                         <section class="project-detail-section"><h3>Problem Statement</h3><p>Genre and cast alone do not capture the visual tone and audience reception that shape whether two films feel alike.</p></section>
                         <section class="project-detail-section"><h3>Methodology</h3><ul><li>Used TF-IDF and cosine similarity on keywords, cast, genres, director, and overview to find candidates.</li><li>Extracted trailer key frames, then used VGG19 features and K-means clustering for visual similarity.</li><li>Added a review-sentiment score to create the final composite ranking.</li></ul></section>
                         <section class="project-detail-section"><h3>Results</h3><p>The best sentiment classifier, Linear SVC, achieved 90% accuracy and an 89.85% F1 score on IMDb reviews.</p></section>
-                    </div>
-                    </div>
-                </div>
-                </div>
-
-                <!-- Project Card 12: Predictive Modelling for Composites -->
-                <div class="project-card-wrapper">
-                <div class="project-card">
-                    <div class="project-image-container full-size">
-                    <img class="project-image" src="img/projects/thumbnails/composite_manufacturing-800.webp" data-full-src="img/projects/full/composite_manufacturing-1400.webp" alt="Predictive Modelling for Composites - Regression models for optimizing composite manufacturing parameters using Python and SciPy" width="800" height="600" loading="lazy" decoding="async">
-                    </div>
-                    <div class="project-content">
-                    <h3 class="project-title">Predictive Modelling for Composites</h3>
-                    <div class="project-tech">Python • SciPy • Statistical Modeling • Regression Analysis • Machine Learning • Optimization • Data Science • Predictive Analytics</div>
-                    <p class="project-description">Regression models to optimize composite manufacturing parameters.</p>
-                    <div class="project-links">
-                        <a href="https://github.com/IrishMehta/Composite-Manufacturing-Optimization" class="project-link">Source Code</a>
                     </div>
                     </div>
                 </div>
@@ -1074,33 +992,62 @@
                     </div>
                 </div>
 
+                <!-- Project Card: Nursery Realtime -->
+                <div class="project-card-wrapper">
+                    <div class="project-card">
+                        <div class="project-image-container full-size">
+                            <img class="project-image" src="img/projects/thumbnails/nursery_realtime-800.webp" data-full-src="img/projects/full/nursery_realtime-1400.webp" alt="Nursery Realtime - architecture of a real-time machine-learning system for personalized bonus decisions" width="800" height="600" loading="lazy" decoding="async">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Nursery Realtime</h3>
+                            <div class="project-tech">Python • XGBoost • RabbitMQ • Snowflake • DynamoDB • AWS EC2 • Real-Time Inference • Customer Segmentation • MLOps</div>
+                            <p class="project-description">A near-real-time machine-learning system that predicts second-purchase propensity after game-end events and maps players to configurable personalized bonus segments.</p>
+                            <div class="project-details">
+                                <section class="project-detail-section"><h3>Summary</h3><p>An event-driven personalization system that scores players at the end of a game and selects an appropriate bonus using predicted second-purchase propensity.</p></section>
+                                <section class="project-detail-section"><h3>Problem Statement</h3><p>Player incentives need to be timely and individualized while remaining configurable by business teams and consistent with the latest gameplay and wallet data.</p></section>
+                                <section class="project-detail-section"><h3>Methodology</h3><ul><li>Consumed game-end events from RabbitMQ and fetched aggregated player features from a Snowflake pipeline refreshed approximately every five minutes.</li><li>Served a versioned XGBoost model on AWS EC2 using 15 ordered gameplay, wallet, purchase, and withdrawal features.</li><li>Converted propensity scores into low, medium, or high probability buckets, applied treatment rules, and resolved the resulting segment through admin-managed bonus mappings.</li></ul></section>
+                                <section class="project-detail-section"><h3>Results</h3><p>Connected event-driven inference, configurable segmentation, and a frontend integration layer into a production flow for near-real-time personalized offers.</p></section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Project groups are populated from the cards above on load. -->
             <div class="project-groups" id="project-groups" hidden>
-                <section class="project-group" data-project-group="ai-engineering">
+                <section class="project-group" data-project-group="highlights">
                     <div class="project-group-heading">
                         <div>
-                            <h3>AI Engineering</h3>
-                            <p>End-to-end AI products, multimodal systems, and intelligent interfaces</p>
+                            <h3>Highlights</h3>
+                            <p>Selected projects that best represent my engineering and research work</p>
                         </div>
                     </div>
                     <div class="projects-container project-group-grid"></div>
                 </section>
-                <section class="project-group" data-project-group="machine-learning">
+                <section class="project-group" data-project-group="prototypes">
                     <div class="project-group-heading">
                         <div>
-                            <h3>Machine Learning</h3>
-                            <p>Models, benchmarks, and learning systems built around real technical problems</p>
+                            <h3>Prototypes</h3>
+                            <p>Exploratory products, experiments, and working concepts</p>
                         </div>
                     </div>
                     <div class="projects-container project-group-grid"></div>
                 </section>
-                <section class="project-group" data-project-group="data-science">
+                <section class="project-group" data-project-group="in-production">
                     <div class="project-group-heading">
                         <div>
-                            <h3>Data Science</h3>
-                            <p>Analytics and predictive systems that turn data into useful decisions</p>
+                            <h3>In Production</h3>
+                            <p>Deployed systems built for ongoing, real-world use</p>
+                        </div>
+                    </div>
+                    <div class="projects-container project-group-grid"></div>
+                </section>
+                <section class="project-group" data-project-group="research-academia">
+                    <div class="project-group-heading">
+                        <div>
+                            <h3>Research / Academia</h3>
+                            <p>Published research and academic machine-learning work</p>
                         </div>
                     </div>
                     <div class="projects-container project-group-grid"></div>
@@ -1114,8 +1061,17 @@
             <button class="project-dialog-close" type="button" aria-label="Close project details">&times;</button>
             <div class="project-dialog-layout">
                 <div class="project-dialog-media">
-                    <img id="project-dialog-image" src="" alt="">
-                    <div class="project-dialog-placeholder" id="project-dialog-placeholder" hidden></div>
+                    <div class="project-dialog-media-frame">
+                        <img id="project-dialog-image" src="" alt="">
+                        <div class="project-dialog-placeholder" id="project-dialog-placeholder" hidden></div>
+                        <button class="project-dialog-zoom" id="project-dialog-zoom" type="button" aria-haspopup="dialog" aria-label="Open image zoom viewer" hidden>
+                            <span aria-hidden="true">&#128269;</span> Zoom
+                        </button>
+                    </div>
+                    <div class="project-dialog-gallery-nav" id="project-dialog-gallery-nav" hidden>
+                        <p class="project-dialog-image-caption" id="project-dialog-image-caption"></p>
+                        <div class="project-dialog-thumbnails" id="project-dialog-thumbnails" aria-label="Project image gallery"></div>
+                    </div>
                 </div>
                 <div class="project-dialog-body">
                     <span class="project-dialog-kicker" id="project-dialog-category">Project</span>
@@ -1124,6 +1080,19 @@
                     <div class="project-dialog-description" id="project-dialog-description"></div>
                     <div class="project-dialog-links" id="project-dialog-links"></div>
                 </div>
+            </div>
+        </dialog>
+
+        <dialog class="project-image-dialog" id="project-image-dialog" aria-label="Expanded project image">
+            <button class="project-image-dialog-close" type="button" aria-label="Close image viewer">&times;</button>
+            <div class="project-image-stage" id="project-image-stage">
+                <img id="project-image-zoomed" src="" alt="" draggable="false">
+            </div>
+            <div class="project-image-controls" aria-label="Image zoom controls">
+                <button id="project-image-zoom-out" type="button" aria-label="Zoom out">&minus;</button>
+                <button id="project-image-zoom-reset" type="button" aria-label="Reset image to fit">Fit</button>
+                <span id="project-image-zoom-level" aria-live="polite">Fit</span>
+                <button id="project-image-zoom-in" type="button" aria-label="Zoom in">&plus;</button>
             </div>
         </dialog>
 
