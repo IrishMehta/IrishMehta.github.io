@@ -2458,6 +2458,10 @@ section#home {
     border-bottom: 0;
 }
 
+.updates-list .updates-recent {
+    display: none;
+}
+
 .updates-list time {
     padding-top: 0.18rem;
     color: hsl(var(--clr-accent));
@@ -2493,27 +2497,31 @@ section#home {
         padding-inline: 4.5%;
     }
 
-    .updates-highlights {
-        display: block;
+    .updates-board {
+        gap: 0;
     }
 
-    .update-highlight,
-    .update-highlight--primary {
-        min-height: 0;
-        margin-bottom: 0;
-        padding: 1.15rem 0;
+    .updates-highlights,
+    .updates-archive-heading {
+        display: none;
     }
 
     .updates-archive {
-        padding-inline: 1rem;
+        padding: 0;
+        border: 0;
     }
 
-    .updates-list li {
+    #updates .updates-list li {
         grid-template-columns: 58px minmax(0, 1fr);
         gap: 0.8rem;
+        margin: 0;
+        padding: 1rem 0;
+    }
+
+    .updates-list .updates-recent {
+        display: grid;
     }
 }
-
 
 
 /* ===== contact.css ===== */
