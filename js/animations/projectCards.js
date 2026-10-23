@@ -155,6 +155,7 @@ function openProjectDialog(card, dialog) {
     });
 
     dialog.showModal();
+    dialog.querySelector('.project-dialog-layout').scrollTop = 0;
 }
 
 function initProjectImageZoom() {
@@ -265,7 +266,7 @@ export function initProjectDialog() {
     });
 
     dialog.addEventListener('close', () => {
-        lastFocusedCard?.focus();
+        lastFocusedCard?.focus({ preventScroll: true });
     });
 }
 

@@ -40,8 +40,8 @@
     <!-- Preconnect for fonts if using Google Fonts, etc. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Typography pairing: modern sans + editorial serif -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Typography pairing: Public Sans + Newsreader -->
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Structured Data (JSON-LD) for SEO -->
     <script type="application/ld+json">
     {
@@ -114,7 +114,7 @@
           "mainEntityOfPage": {
             "@id": "https://irishmehta.github.io/#profile"
           },
-          "image": "https://irishmehta.github.io/img/user-photo3.jpeg",
+          "image": "https://irishmehta.github.io/img/user-photo4.png",
           "email": "ihmehta@asu.edu",
           "alumniOf": [
             {
@@ -469,175 +469,61 @@
     </script>
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
 
     <!-- ===== Navigation (Minimalistic, Top-Right) ===== -->
-    <nav>
+    <nav aria-label="Main navigation">
         <ul>
             <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#timeline">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="#timeline">Experience</a></li>
             <li><a href="#updates">Updates</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
     <!-- ===== Main Content Area ===== -->
-    <main>
+    <main id="main-content" tabindex="-1">
         <!-- Persistent visual thread shared by the page sections. -->
         <canvas id="cluster-canvas" aria-hidden="true"></canvas>
 
-        <!-- ===== Home Section (#home) ===== -->
-        <section id="home">
-            <!-- Content elements for typing animation -->
+        <!-- ===== About-led Home Section (#home) ===== -->
+        <section id="home" aria-labelledby="home-heading">
             <div class="home-content-wrapper">
-                <h1 class="seo-heading">Irish Mehta | Machine Learning Engineer, Applied Scientist & Researcher</h1>
-                <div class="welcome-blur-box">
-                    <div id="home-heading" class="section-heading" aria-hidden="true"></div>
-                    <p id="home-paragraph" class="section-paragraph">
-                        <span id="typing-text"><span class="name-text">I'm Irish Mehta</span><br><span class="title-text">A Machine Learning Engineer</span></span><span class="typing-cursor" aria-hidden="true"></span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Add more introductory content or visuals here if needed, below the typing area -->
-        </section>
-
-        <!-- ===== About Section (#about) ===== -->
-        <section id="about">
-            <div class="about-layout">
-                <div class="about-profile">
-                    <div class="about-image-frame">
-                        <img class="about-headshot about-headshot-new" src="img/user-photo3.jpeg" alt="Irish Mehta - Machine Learning Engineer and AI Researcher" loading="lazy" decoding="async" />
-                        <span class="about-image-caption">ML engineer · applied scientist</span>
+                <div class="home-copy">
+                    <div class="home-identity">
+                        <h1 id="home-heading" class="home-name"><span>Hi, I&rsquo;m</span><span>Irish Mehta</span></h1>
+                        <p class="home-role-line">Machine learning engineer by profession; photographer, designer, and beatboxer by passion.</p>
                     </div>
-                </div>
+                    <p id="home-paragraph" class="home-intro">I&rsquo;ve worked on production ML systems, large-scale research experiments, and projects involving LLMs, retrieval, computer vision, and multimodal AI.</p>
 
-                <div class="about-copy">
-                    <span class="about-section-label">About me</span>
-                    <h2 class="section-heading">I like building things that solve real problems.</h2>
-                    <p class="about-lede">I&rsquo;m a machine learning engineer and applied scientist. I&rsquo;ve worked on production ML systems, large-scale research experiments, and projects involving LLMs, retrieval, computer vision, and multimodal AI.</p>
-
-                    <div class="about-topics">
+                    <div class="about-topics home-topics">
                         <div class="about-topic">
-                            <h3>What interests me</h3>
+                            <h2>What interests me</h2>
                             <p>I enjoy understanding a problem deeply, exploring its data, trying different approaches, and building the system around the solution. I find it especially interesting how engineering and modeling can turn raw data into useful patterns. I&rsquo;m drawn to applied AI, ML systems, and products where machine learning is central.</p>
                         </div>
-
                         <div class="about-topic">
-                            <h3>What I bring</h3>
-                            <p>I&rsquo;m comfortable moving between modeling and engineering. I&rsquo;ve built real-time inference systems, experimentation pipelines, search and retrieval systems, and end-to-end AI projects, and I like owning the work beyond just training the model.</p>
+                            <h2>Why I build</h2>
+                            <p>I&rsquo;ve always liked automating repetitive work and turning ideas into tools that are actually useful.</p>
                         </div>
                     </div>
 
-                    <div class="about-automation">
-                        <span>Why I build</span>
-                        <p>I&rsquo;ve always liked automating repetitive work and turning ideas into tools that are actually useful.</p>
+                    <div class="home-signature">
+                        <a class="home-work-link" href="#projects">Explore my work <span aria-hidden="true">&nearr;</span></a>
+                        <a class="home-contact-link" href="#contact">Get in touch <span aria-hidden="true">&darr;</span></a>
                     </div>
+                </div>
+
+                <div class="home-portrait">
+                    <img class="home-headshot" src="img/user-photo4-cutout.png" alt="Portrait of Irish Mehta" width="1122" height="1402" fetchpriority="high" decoding="async" />
                 </div>
             </div>
-        </section>
-
-        <!-- ===== Timeline Section (#timeline) ===== -->
-        <section id="timeline">
-            <div class="timeline-intro">
-                <span class="timeline-eyebrow">Experience &amp; education</span>
-                <h2 class="section-heading">A track record of applied ML.</h2>
-            </div>
-            <div class="timeline-container-mdp">
-
-                <!-- ===== 2025 – Present | Master's ===== -->
-                <div class="timeline-state">
-                    <div class="timeline-node"></div>
-                    <div class="timeline-state-content">
-                        <span class="timeline-date"> Aug 2024&nbsp;–&nbsp;May 2026</span>
-                        <h3 class="timeline-title">M.S. Computer Science</h3>
-                        <span class="timeline-company">Arizona State University</span>
-                        <div class="timeline-skills">Computer Vision &bull; NLP &bull; Generative AI &bull; Robotics</div>
-
-                    </div>
-                    <button class="timeline-accomplish-toggle" aria-expanded="false" aria-controls="accomplish-1" tabindex="0">
-                        What I've done
-                    </button>
-                    <div class="timeline-accomplish-panel" id="accomplish-1">
-                        <ul>
-                            <li>Graduated with a 4.0 GPA, top-5% marks in all nine courses, and an Engineering Graduate Scholarship.</li>
-                            <li><strong>Mars-Bench &mdash; NeurIPS 2025:</strong> Built benchmark datasets for Martian feature recognition, supported by 20K+ computer-vision experiments on ASU HPC infrastructure.</li>
-                            <li><strong>MOMO &mdash; CVPR 2026:</strong> Developed a multisensor Mars remote-sensing foundation model with the Kerner Lab and NASA.</li>
-                            <li>Built analytical models and dashboards at Decision Theater and researched efficient uncertainty estimation at the ACME Lab.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- ===== 2023 – 2024 | O9 Solutions ===== -->
-                <div class="timeline-state">
-                    <div class="timeline-node"></div>
-                    <div class="timeline-state-content">
-                        <span class="timeline-date">Oct 2023&nbsp;– Jun 2024</span>
-                        <h3 class="timeline-title">Machine Learning Engineer</h3>
-                        <span class="timeline-company">O9 Solutions</span>
-                        <div class="timeline-skills">Python • Spark • Supply-Chain&nbsp;ML • Client Interaction</div>
-                    </div>
-                    <button class="timeline-accomplish-toggle" aria-expanded="false" aria-controls="accomplish-2" tabindex="0">
-                        What I've done
-                    </button>
-                    <div class="timeline-accomplish-panel" id="accomplish-2">
-                        <ul>
-                            <li>Productionised hybrid clustering to optimise inventory for 10 Fortune 500 clients, cutting E2E runtime by 20%.</li>
-                            <li>Delivered ARIMA-based line-speed forecasts for AB InBev, raising accuracy by 10% & plant throughput 5%.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- ===== 2021 – 2023 | Head Digital Works ===== -->
-                <div class="timeline-state">
-                    <div class="timeline-node"></div>
-                    <div class="timeline-state-content">
-                        <span class="timeline-date">Jun 2021&nbsp;&ndash;&nbsp;Oct 2023</span>
-                        <h3 class="timeline-title">Machine Learning Engineer</h3>
-                        <span class="timeline-company">Head Digital Works &middot; promoted from Associate Data Scientist</span>
-                        <div class="timeline-skills">Real-time ML &bull; MLOps &bull; AWS &bull; XGBoost</div>
-                    </div>
-                    <button class="timeline-accomplish-toggle" aria-expanded="false" aria-controls="accomplish-3" tabindex="0">
-                        What I've done
-                    </button>
-                    <div class="timeline-accomplish-panel" id="accomplish-3">
-                        <ul>
-                            <li>Promoted to MLE in 15 months and named Innovator of the Year after improving engagement 30% and reducing fraud 8%.</li>
-                            <li>Built an event-driven AWS model-deployment service that enabled ML marketing campaigns, increasing daily active users 10% and revenue 0.25%.</li>
-                            <li>Shipped real-time retention and 5.8M-user lifetime-value systems, increasing daily transactions 5% and customer retention 15%.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- ===== 2017 – 2021 | B.E. ===== -->
-                <div class="timeline-state">
-                    <div class="timeline-node"></div>
-                    <div class="timeline-state-content">
-                        <span class="timeline-date">2017 – 2021</span>
-                        <h3 class="timeline-title">B.E. Electronics & Communication</h3>
-                        <span class="timeline-company">BITS Pilani</span>
-                        <div class="timeline-skills">
-                            Electronics • Signal &amp; Image Processing<br>
-                        </div>
-                    </div>
-                    <div class="timeline-accomplish-panel">
-                        <ul>
-                            <li>Mentored 8 junior undergraduates across academic, co-curricular, and extracurricular pursuits, supporting their transition from school to college.</li>
-                            <li>Led a 40-member photography team, managing event coverage, inventory, and post-processing during the 2018-2019 academic year.</li>
-                            <li>Co-founded and led a 20-member acapella crew that won competitions across India and performed at campus events.</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-
         </section>
 
         <!-- ===== Projects Section (#projects) ===== -->
         <section id="projects">
             <h2 class="section-heading">Projects</h2>
-            <p class="section-paragraph">Showcasing some of my favorite work and personal projects</p>
+            <p class="section-paragraph">Selected work across production ML, applied AI, and research—built to solve concrete problems.</p>
             
             <div class="projects-container project-source" id="project-source">
 
@@ -1055,7 +941,103 @@
             </div>
             
         
+        </section>        <!-- ===== Timeline Section (#timeline) ===== -->
+        <section id="timeline">
+            <div class="timeline-intro">
+                <span class="timeline-eyebrow">Experience &amp; education</span>
+                <h2 class="section-heading">Research depth. Production experience.</h2>
+            </div>
+            <div class="timeline-container-mdp">
+
+                <!-- ===== 2025 – Present | Master's ===== -->
+                <div class="timeline-state">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-state-content">
+                        <span class="timeline-date"> Aug 2024&nbsp;–&nbsp;May 2026</span>
+                        <h3 class="timeline-title">M.S. Computer Science</h3>
+                        <span class="timeline-company">Arizona State University</span>
+                        <div class="timeline-skills">Computer Vision &bull; NLP &bull; Generative AI &bull; Robotics</div>
+
+                    </div>
+                    <button class="timeline-accomplish-toggle" aria-expanded="false" aria-controls="accomplish-1" tabindex="0">
+                        What I've done
+                    </button>
+                    <div class="timeline-accomplish-panel" id="accomplish-1">
+                        <ul>
+                            <li>Graduated with a 4.0 GPA, top-5% marks in all nine courses, and an Engineering Graduate Scholarship.</li>
+                            <li><strong>Mars-Bench &mdash; NeurIPS 2025:</strong> Built benchmark datasets for Martian feature recognition, supported by 20K+ computer-vision experiments on ASU HPC infrastructure.</li>
+                            <li><strong>MOMO &mdash; CVPR 2026:</strong> Developed a multisensor Mars remote-sensing foundation model with the Kerner Lab and NASA.</li>
+                            <li>Built analytical models and dashboards at Decision Theater and researched efficient uncertainty estimation at the ACME Lab.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ===== 2023 – 2024 | O9 Solutions ===== -->
+                <div class="timeline-state">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-state-content">
+                        <span class="timeline-date">Oct 2023&nbsp;– Jun 2024</span>
+                        <h3 class="timeline-title">Machine Learning Engineer</h3>
+                        <span class="timeline-company">O9 Solutions</span>
+                        <div class="timeline-skills">Python • Spark • Supply-Chain&nbsp;ML • Client Interaction</div>
+                    </div>
+                    <button class="timeline-accomplish-toggle" aria-expanded="false" aria-controls="accomplish-2" tabindex="0">
+                        What I've done
+                    </button>
+                    <div class="timeline-accomplish-panel" id="accomplish-2">
+                        <ul>
+                            <li>Productionised hybrid clustering to optimise inventory for 10 Fortune 500 clients, cutting E2E runtime by 20%.</li>
+                            <li>Delivered ARIMA-based line-speed forecasts for AB InBev, raising accuracy by 10% & plant throughput 5%.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ===== 2021 – 2023 | Head Digital Works ===== -->
+                <div class="timeline-state">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-state-content">
+                        <span class="timeline-date">Jun 2021&nbsp;&ndash;&nbsp;Oct 2023</span>
+                        <h3 class="timeline-title">Machine Learning Engineer</h3>
+                        <span class="timeline-company">Head Digital Works &middot; promoted from Associate Data Scientist</span>
+                        <div class="timeline-skills">Real-time ML &bull; MLOps &bull; AWS &bull; XGBoost</div>
+                    </div>
+                    <button class="timeline-accomplish-toggle" aria-expanded="false" aria-controls="accomplish-3" tabindex="0">
+                        What I've done
+                    </button>
+                    <div class="timeline-accomplish-panel" id="accomplish-3">
+                        <ul>
+                            <li>Promoted to MLE in 15 months and named Innovator of the Year after improving engagement 30% and reducing fraud 8%.</li>
+                            <li>Built an event-driven AWS model-deployment service that enabled ML marketing campaigns, increasing daily active users 10% and revenue 0.25%.</li>
+                            <li>Shipped real-time retention and 5.8M-user lifetime-value systems, increasing daily transactions 5% and customer retention 15%.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ===== 2017 – 2021 | B.E. ===== -->
+                <div class="timeline-state">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-state-content">
+                        <span class="timeline-date">2017 – 2021</span>
+                        <h3 class="timeline-title">B.E. Electronics & Communication</h3>
+                        <span class="timeline-company">BITS Pilani</span>
+                        <div class="timeline-skills">
+                            Electronics • Signal &amp; Image Processing<br>
+                        </div>
+                    </div>
+                    <div class="timeline-accomplish-panel">
+                        <ul>
+                            <li>Mentored 8 junior undergraduates across academic, co-curricular, and extracurricular pursuits, supporting their transition from school to college.</li>
+                            <li>Led a 40-member photography team, managing event coverage, inventory, and post-processing during the 2018-2019 academic year.</li>
+                            <li>Co-founded and led a 20-member acapella crew that won competitions across India and performed at campus events.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
         </section>
+
+
 
         <dialog class="project-dialog" id="project-dialog" aria-labelledby="project-dialog-title">
             <button class="project-dialog-close" type="button" aria-label="Close project details">&times;</button>
@@ -1156,7 +1138,7 @@
             <div class="contact-shell">
                 <div class="contact-primary">
                     <!-- <span class="contact-eyebrow">Open to good problems</span> -->
-                    <h2>Interested in build something useful?</h2>
+                    <h2>Interested in building something useful?</h2>
                     <p>I&rsquo;m open to machine-learning, applied AI, and research-engineering opportunities. If you&rsquo;re building something interesting&mdash;or have a process that should be automated&mdash;send me a note.</p>
                     <a class="contact-email" href="mailto:ihmehta@asu.edu">
                         <span>ihmehta@asu.edu</span>

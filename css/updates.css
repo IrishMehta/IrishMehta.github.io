@@ -50,55 +50,25 @@
 
 .updates-highlights {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr);
 }
 
 .update-highlight {
     position: relative;
     display: flex;
-    min-height: 210px;
+    min-height: 0;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 1.35rem;
-    overflow: hidden;
-    border: 1px solid hsl(var(--clr-accent) / 0.28);
-    border-radius: 18px;
-    background:
-        radial-gradient(circle at 90% 0%, hsl(var(--clr-accent) / 0.23), transparent 42%),
-        linear-gradient(145deg, hsl(var(--clr-surface) / 0.9), hsl(var(--clr-bg-end) / 0.66));
-    box-shadow: 0 14px 32px hsl(var(--clr-bg-start) / 0.24);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.update-highlight::before {
-    position: absolute;
-    top: -4rem;
-    right: -2rem;
-    width: 10rem;
-    height: 10rem;
-    border: 1px solid hsl(var(--clr-accent) / 0.24);
-    border-radius: 50%;
-    box-shadow: 0 0 0 1.3rem hsl(var(--clr-accent) / 0.06), 0 0 0 2.6rem hsl(var(--clr-accent) / 0.04);
-    content: "";
-    pointer-events: none;
-}
-
-.update-highlight:hover {
-    border-color: hsl(var(--clr-accent) / 0.65);
-    box-shadow: 0 20px 40px hsl(var(--clr-bg-start) / 0.3), 0 0 24px hsl(var(--clr-accent) / 0.1);
-    transform: translateY(-4px);
+    justify-content: flex-start;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid hsl(var(--clr-text) / 0.14);
 }
 
 .update-highlight--primary {
-    grid-row: span 2;
-    min-height: 440px;
-    padding: 1.8rem;
-    background:
-        radial-gradient(circle at 85% 5%, hsl(290 75% 72% / 0.3), transparent 36%),
-        radial-gradient(circle at 10% 100%, hsl(320 70% 68% / 0.16), transparent 42%),
-        linear-gradient(145deg, hsl(var(--clr-surface) / 0.94), hsl(var(--clr-bg-end) / 0.72));
+    padding-top: 0;
+}
+
+.update-highlight:last-child {
+    border-bottom: 0;
 }
 
 .update-highlight-date {
@@ -116,11 +86,8 @@
     position: relative;
     z-index: 1;
     align-self: flex-start;
-    margin-bottom: 1rem;
-    padding: 0.35rem 0.6rem;
-    border: 1px solid hsl(var(--clr-accent) / 0.35);
-    border-radius: 999px;
-    color: hsl(var(--clr-text) / 0.8);
+    margin-bottom: 0.65rem;
+    color: hsl(var(--clr-muted));
     font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 0.12em;
@@ -134,15 +101,10 @@
     margin: 0;
     color: hsl(var(--clr-text));
     font-family: var(--font-family-display);
-    font-size: clamp(1.65rem, 1.35rem + 1vw, 2.45rem);
+    font-size: clamp(1.55rem, 1.35rem + 0.7vw, 2rem);
     font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 0.98;
-}
-
-.update-highlight--primary h3 {
-    max-width: 14ch;
-    font-size: clamp(2.05rem, 1.7rem + 1.2vw, 3.15rem);
+    letter-spacing: -0.02em;
+    line-height: 1.08;
     overflow-wrap: break-word;
 }
 
@@ -158,12 +120,8 @@
 
 .updates-archive {
     align-self: stretch;
-    padding: 1.4rem 1.5rem 0.5rem;
-    border: 1px solid hsl(var(--clr-text) / 0.14);
-    border-radius: 18px;
-    background: hsl(var(--clr-surface) / 0.48);
-    box-shadow: 0 14px 32px hsl(var(--clr-bg-start) / 0.2);
-    backdrop-filter: blur(10px);
+    padding: 0 0 0 1.4rem;
+    border-left: 1px solid hsl(var(--clr-text) / 0.16);
 }
 
 .updates-archive-heading {
@@ -234,6 +192,9 @@
 
     .updates-archive {
         width: 100%;
+        padding: 1.25rem 0 0;
+        border-top: 1px solid hsl(var(--clr-text) / 0.16);
+        border-left: 0;
     }
 }
 
@@ -248,13 +209,9 @@
 
     .update-highlight,
     .update-highlight--primary {
-        min-height: 260px;
-        margin-bottom: 1rem;
-        padding: 1.35rem;
-    }
-
-    .update-highlight--primary h3 {
-        font-size: clamp(2.3rem, 11vw, 3.3rem);
+        min-height: 0;
+        margin-bottom: 0;
+        padding: 1.15rem 0;
     }
 
     .updates-archive {
@@ -267,8 +224,3 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .update-highlight {
-        transition: none !important;
-    }
-}

@@ -15,7 +15,6 @@ $sourceFiles = @(
     'timeline.css',
     'projects.css',
     'updates.css',
-    'about.css',
     'contact.css',
     'sectionTransitions.css'
 )

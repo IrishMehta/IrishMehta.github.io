@@ -1,6 +1,6 @@
 /* css/sectionTransitions.css */
 
-/* Give each major section breathing room while preserving the page gradient. */
+/* Give each major section breathing room over the plain page background. */
 main {
     position: relative;
     isolation: isolate;
@@ -11,7 +11,6 @@ main > section {
 }
 
 body.is-scrolling nav,
-body.is-scrolling .welcome-blur-box,
 body.is-scrolling .timeline-state-content,
 body.is-scrolling .timeline-accomplish-toggle,
 body.is-scrolling .timeline-accomplish-panel,

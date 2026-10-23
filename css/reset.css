@@ -13,8 +13,35 @@ html {
     /* Anchor navigation uses a short, controlled animation in main.js. */
     scroll-behavior: auto;
     /* Improve scroll performance on some browsers */
-    scroll-padding-top: 60px; /* Offset for fixed nav, adjust as needed */
-    background: rgb(16, 0, 22);
+    scroll-padding-top: var(--navigation-offset, 112px);
+    scrollbar-gutter: stable;
+    background: #fff;
+}
+
+html:has(dialog[open]) {
+    overflow: hidden;
+}
+
+:focus-visible {
+    outline: 2px solid hsl(var(--clr-accent));
+    outline-offset: 4px;
+}
+
+.skip-link {
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 1100;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    background: #fff;
+    color: hsl(var(--clr-accent));
+    font-weight: 700;
+    transform: translateY(-150%);
+}
+
+.skip-link:focus {
+    transform: none;
 }
 
 body {

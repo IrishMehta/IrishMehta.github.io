@@ -1,19 +1,19 @@
 /* css/theme.css */
 :root {
     --gradient-progress: 0;
-    --gradient-light-layer: rgb(196, 174, 205);
     /* Color Palette */
-    --clr-bg-start: 260 50% 5%;        /* Darker purple for gradient start */
-    --clr-bg-end: 280 40% 15%;         /* Medium purple for gradient end */
-    --clr-text: 0 0% 95%;              /* near-white text on dark background */
-    --clr-heading: 280 70% 80%;         /* light purple headings */
-    --clr-accent: 290 60% 70%;          /* lighter accent for borders, highlights */
-    --clr-muted: 0 0% 70%;             /* lighter muted color for better contrast */
-    --clr-border: 290 60% 50%;          /* accent border color */
+    --clr-bg-start: 0 0% 100%;
+    --clr-bg-end: 0 0% 100%;
+    --clr-text: 270 10% 16%;
+    --clr-heading: 278 28% 23%;
+    --clr-accent: 286 38% 34%;
+    --clr-muted: 270 7% 42%;
+    --clr-border: 284 17% 73%;
     
     /* Card and container backgrounds */
-    --clr-surface: 270 30% 20%;         /* background for cards/containers */
-    --clr-surface-light: 270 20% 30%;   /* lighter background for hovers */
+    --clr-surface: 40 24% 99%;
+    --clr-surface-light: 38 22% 94%;
+    --clr-surface-purple: 278 32% 88%;
 
     /* Spacing Scale (8px grid) */
     --space-xs: 4px;
@@ -24,9 +24,9 @@
     --space-xxl: 48px;
 
     /* Typography Scale */
-    --font-family-base: 'Manrope', system-ui, sans-serif;
-    --font-family-display: 'Cormorant Garamond', Georgia, serif;
-    --font-family-ui: 'Manrope', system-ui, sans-serif;
+    --font-family-base: 'Public Sans', system-ui, sans-serif;
+    --font-family-display: 'Newsreader', Georgia, serif;
+    --font-family-ui: 'Public Sans', system-ui, sans-serif;
     --fs-base: clamp(1rem, 0.98rem + 0.18vw, 1.06rem);
     --fs-h6: clamp(0.8rem, 0.76rem + 0.2vw, 0.92rem);
     --fs-h5: clamp(0.98rem, 0.93rem + 0.3vw, 1.15rem);
@@ -43,11 +43,11 @@
     /* Fluid text clamp for hero can override using --fs-hero if needed */
 }
 
-/* Apply continuous background gradient globally */
+/* Keep a plain white page behind the existing cluster animation. */
 body {
     position: relative;
     isolation: isolate;
-    background: transparent;
+    background: #fff;
     color: hsl(var(--clr-text));
     min-height: 100vh;
 }
@@ -62,18 +62,9 @@ body::after {
 }
 
 body::before {
-    background: linear-gradient(to top right, var(--color-dark-purple), var(--color-anchor-dark));
+    background: #fff;
 }
 
 body::after {
-    z-index: -1;
-    background: linear-gradient(to top right, var(--gradient-light-layer), var(--color-anchor-dark));
-    opacity: var(--gradient-progress);
-    will-change: opacity;
-}
-
-@media (max-width: 768px) {
-    :root {
-        --gradient-light-layer: rgb(184, 160, 194);
-    }
+    display: none;
 }

@@ -1,5 +1,4 @@
 // js/main.js
-import { startTypingSequence, displayTypingImmediately, typingStartDelay } from './animations/typing.js';
 import { init as initClustering, setScrollingState } from './animations/clustering.js';
 import { initGradientScroll } from './gradientBackground.js';
 import { initScrollObserver } from './scrollObserver.js';
@@ -22,8 +21,42 @@ function initScrollPerformanceState() {
 }
 
 function initFastAnchorNavigation(prefersReducedMotion) {
-    const anchorLinks = document.querySelectorAll('nav a[href^="#"]');
+    const nav = document.querySelector('nav');
+    const navLinks = [...nav.querySelectorAll('a[href^="#"]')];
+    const sections = navLinks.map(link => document.querySelector(link.getAttribute('href')));
+    const anchorLinks = document.querySelectorAll('nav a[href^="#"], .home-signature a[href^="#"]');
     let animationFrameId = null;
+    let navigationOffset = 112;
+    let activeFrameId = null;
+
+    const updateCurrentSection = () => {
+        activeFrameId = null;
+        let currentSection = sections[0];
+        sections.forEach(section => {
+            if (section.getBoundingClientRect().top <= navigationOffset + 32) currentSection = section;
+        });
+        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+            currentSection = sections[sections.length - 1];
+        }
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === `#${currentSection.id}`) {
+                link.setAttribute('aria-current', 'location');
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+    };
+
+    const updateNavigationOffset = () => {
+        navigationOffset = Math.ceil(nav.getBoundingClientRect().bottom + 16);
+        document.documentElement.style.setProperty('--navigation-offset', `${navigationOffset}px`);
+        updateCurrentSection();
+    };
+    new ResizeObserver(updateNavigationOffset).observe(nav);
+    updateNavigationOffset();
+    window.addEventListener('scroll', () => {
+        if (activeFrameId === null) activeFrameId = requestAnimationFrame(updateCurrentSection);
+    }, { passive: true });
 
     anchorLinks.forEach(link => {
         link.addEventListener('click', event => {
@@ -39,13 +72,18 @@ function initFastAnchorNavigation(prefersReducedMotion) {
             }
 
             const startY = window.scrollY;
-            const targetY = Math.max(0, target.getBoundingClientRect().top + startY - 60);
+            const targetY = Math.max(0, target.getBoundingClientRect().top + startY - navigationOffset);
             const distance = Math.abs(targetY - startY);
+            const focusTarget = () => {
+                target.setAttribute('tabindex', '-1');
+                target.focus({ preventScroll: true });
+            };
 
             history.pushState(null, '', link.getAttribute('href'));
 
             if (prefersReducedMotion || distance < 4) {
                 window.scrollTo(0, targetY);
+                focusTarget();
                 return;
             }
 
@@ -61,6 +99,7 @@ function initFastAnchorNavigation(prefersReducedMotion) {
                     animationFrameId = requestAnimationFrame(step);
                 } else {
                     animationFrameId = null;
+                    focusTarget();
                 }
             };
 
@@ -76,14 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // === Initialize Features ===
-
-    // --- Typing Animation ---
-    if (!prefersReducedMotion) {
-        // Use the exported delay constant
-        setTimeout(startTypingSequence, typingStartDelay);
-    } else {
-        displayTypingImmediately(); // Show text instantly if reduced motion
-    }
 
     // --- Clustering Animation ---
     if (!prefersReducedMotion && document.getElementById('cluster-canvas')) {

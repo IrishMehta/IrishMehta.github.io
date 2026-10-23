@@ -1,7 +1,7 @@
 /* css/animations.css */
 
 /* ===== Animation Base States & Transitions (for Observer) ===== */
-/* EXCLUDE home typing elements if their animation is fully JS controlled or specific */
+/* Exclude the home hero from section reveal animations. */
 .section-heading:not(#home-heading),
 .section-paragraph:not(#home-paragraph),
 .timeline-event, /* This is a class from your original CSS, used for scroll observer */

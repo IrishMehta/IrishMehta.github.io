@@ -24,7 +24,7 @@
         font-size: 0.75rem; 
         padding: 0.2rem 0.45rem;
         height: auto;
-        min-height: 36px;
+        min-height: 44px;
         justify-content: center;
     }
 
@@ -49,29 +49,6 @@
         width: 100%;
     }
 
-    .welcome-blur-box {
-        width: min(100%, 34rem);
-        max-width: 100%;
-        min-height: 15rem;
-        padding: 1.5rem 1.35rem;
-        border-radius: 22px;
-    }
-
-    #home-paragraph {
-        min-height: 4.6em;
-    }
-
-    #typing-text {
-        font-size: clamp(2.55rem, 9vw, 4.2rem);
-        line-height: 0.78;
-    }
-
-    #typing-text .title-text {
-        font-size: clamp(1.05rem, 0.96rem + 0.65vw, 1.2rem);
-        letter-spacing: 0.1em;
-        line-height: 1.35;
-    }
-
     #about-text-content,
     #updates .updates-container,
     .social-links-container,
@@ -79,7 +56,6 @@
         width: min(100%, 42rem);
     }
 
-    #about .section-paragraph,
     #updates .updates-list li,
     .project-description,
     .timeline-company,
@@ -113,11 +89,6 @@
         transform: translateX(-50%);
         top: 15px; /* Adjust vertical */
     }
-    /* Adjust hover transform for mobile - applies to both odd/even now */
-    .timeline-state:hover .timeline-node {
-        transform: translateX(-50%) scale(1.2);
-    }
-
     /* Hover info box for main timeline content (if you re-add it) */
     /*
     .timeline-state-content::after,
@@ -218,16 +189,17 @@
     }
     nav ul { 
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 0.2rem 0.35rem;
         width: 100%;
     }
-    nav li { min-width: 0; }
+    nav li { min-width: 0; grid-column: span 2; }
+    nav li:nth-last-child(-n+2) { grid-column: span 3; }
     nav a { 
         font-size: 0.68rem; 
         padding: 0.2rem 0.25rem;
         height: auto;
-        min-height: 30px;
+        min-height: 44px;
         width: 100%;
         text-align: center;
         letter-spacing: 0.12em;
@@ -247,39 +219,6 @@
         min-height: 100svh;
         padding-top: 8.5rem;
         padding-bottom: 2rem;
-    }
-
-    .welcome-blur-box {
-        width: min(100%, 25.75rem);
-        min-height: 13.75rem;
-        padding: 1.35rem 1.15rem;
-        border-radius: 20px;
-    }
-
-    #home h1 {
-        margin-bottom: 0.2rem;
-    }
-
-    #home-paragraph {
-        min-height: 4.1em;
-        margin-top: 0.75rem;
-    }
-
-    #typing-text {
-        font-size: clamp(3rem, 11vw, 3.35rem);
-        line-height: 0.8;
-        margin-bottom: 0.25rem;
-    }
-
-    #typing-text .title-text {
-        display: inline-block;
-        font-size: clamp(1.1rem, 4.2vw, 1.05rem);
-        letter-spacing: 0.08em;
-        line-height: 1.45;
-    }
-
-    #about .about-headshot {
-        width: clamp(145px, 42vw, 200px);
     }
 
     #about-text-content,
@@ -307,8 +246,6 @@
         border-width: 1.5px;
         top: 12px;
     }
-    /* Hover transform is already translateX(-50%) scale(1.2) from 768px breakpoint */
-
     .timeline-title { font-size: 1.05rem; }
     .timeline-company, .timeline-skills { font-size: 0.85rem; }
     .timeline-date { font-size: 0.68rem; }
@@ -424,7 +361,6 @@
   .project-placeholder,
   .update-placeholder,
   .contact-links,
-  /* .typing-cursor, */
   .about-content,
   .timeline-accomplish-toggle,
   .timeline-accomplish-panel
@@ -480,11 +416,4 @@
    */
 
 
-  /* Ensure typing cursor is not animated and potentially hidden if it relies on animation to be seen */
-  .typing-cursor {
-      opacity: 0 !important; /* If it should not be visible at all with reduced motion */
-      animation: none !important;
-  }
-  /* If you have a "displayTypingImmediately()" JS function, it should handle showing text
-     and hiding the cursor. */
 }
