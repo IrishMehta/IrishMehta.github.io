@@ -1312,7 +1312,6 @@ section#home {
     margin: -1.15rem 1.8rem 0;
     padding: 1.15rem 1.8rem 0.2rem;
     border: 0;
-    border-top: 1px solid hsl(var(--clr-accent) / 0.17);
     border-radius: 0;
     background: transparent;
     box-shadow: none;
