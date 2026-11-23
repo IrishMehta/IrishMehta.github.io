@@ -506,11 +506,6 @@
                             <p>I&rsquo;ve always been fascinated by automating repetitive work and building tools that help people solve problems. That interest extends beyond coding to how systems can support reasoning and decision-making. I want to build systems that handle tedious work, help people make better decisions, and give them more time to focus on complex problems</p>
                         </div>
                     </div>
-
-                    <div class="home-signature">
-                        <a class="home-work-link" href="#projects">Explore my work <span aria-hidden="true">&nearr;</span></a>
-                        <a class="home-contact-link" href="#contact">Get in touch <span aria-hidden="true">&darr;</span></a>
-                    </div>
                 </div>
 
                 <div class="home-portrait">
@@ -520,11 +515,13 @@
         </section>
 
         <!-- ===== Projects Section (#projects) ===== -->
-        <section id="projects">
-            <h2 class="section-heading">Projects</h2>
-            <p class="section-paragraph">Selected work across production ML, applied AI, and research</p>
+        <section id="projects" class="portfolio-section">
+            <header class="section-intro">
+                <h2 class="section-heading">Projects</h2>
+                <p class="section-paragraph">Selected work across production ML, applied AI, and research</p>
+            </header>
             
-            <div class="projects-container project-source" id="project-source">
+            <div class="section-content centered-grid projects-container project-source" id="project-source">
 
                 <!-- Project Card: SudoHint -->
                 <div class="project-card-wrapper">
@@ -900,15 +897,15 @@
             </div>
 
             <!-- Project groups are populated from the cards above on load. -->
-            <div class="project-groups" id="project-groups" hidden>
+            <div class="section-content project-groups" id="project-groups" hidden>
                 <section class="project-group" data-project-group="highlights">
                     <div class="project-group-heading">
                         <div>
                             <h3>Highlights</h3>
-                            <p>Selected projects that best represent my engineering and research work</p>
+                            <p>Selected work that best represent my engineering and research work</p>
                         </div>
                     </div>
-                    <div class="projects-container project-group-grid"></div>
+                    <div class="centered-grid projects-container project-group-grid"></div>
                 </section>
                 <section class="project-group" data-project-group="prototypes">
                     <div class="project-group-heading">
@@ -917,7 +914,7 @@
                             <p>Exploratory products, experiments, and working concepts</p>
                         </div>
                     </div>
-                    <div class="projects-container project-group-grid"></div>
+                    <div class="centered-grid projects-container project-group-grid"></div>
                 </section>
                 <section class="project-group" data-project-group="in-production">
                     <div class="project-group-heading">
@@ -926,7 +923,7 @@
                             <p>Deployed systems built for ongoing, real-world use</p>
                         </div>
                     </div>
-                    <div class="projects-container project-group-grid"></div>
+                    <div class="centered-grid projects-container project-group-grid"></div>
                 </section>
                 <section class="project-group" data-project-group="research-academia">
                     <div class="project-group-heading">
@@ -935,18 +932,17 @@
                             <p>Published research and academic machine-learning work</p>
                         </div>
                     </div>
-                    <div class="projects-container project-group-grid"></div>
+                    <div class="centered-grid projects-container project-group-grid"></div>
                 </section>
             </div>
             
         
         </section>        <!-- ===== Timeline Section (#timeline) ===== -->
-        <section id="timeline">
-            <div class="timeline-intro">
-                <span class="timeline-eyebrow">Experience &amp; education</span>
-                <h2 class="section-heading">Research + Production experience</h2>
-            </div>
-            <div class="timeline-container-mdp">
+        <section id="timeline" class="portfolio-section">
+            <header class="section-intro">
+                <h2 class="section-heading">Background</h2>
+            </header>
+            <div class="section-content timeline-container-mdp">
 
                 <!-- ===== 2025 – Present | Master's ===== -->
                 <div class="timeline-state">
@@ -1078,149 +1074,62 @@
         </dialog>
 
         <!-- ===== Updates Section (#updates) ===== -->
-        <section id="updates">
-            <div class="updates-intro">
-                <span class="updates-eyebrow">Signals of progress</span>
-                <h2 class="section-heading">What&rsquo;s new</h2>
-                <p class="updates-summary">A few recent milestones from my work across applied machine learning, research, and AI engineering</p>
-            </div>
+        <section id="updates" class="portfolio-section">
+            <header class="section-intro">
+                <h2 class="section-heading">Milestones</h2>
+                <p class="section-paragraph">A few recent milestones from my work across applied machine learning, research, and AI engineering</p>
+            </header>
 
-            <div class="updates-board">
-                <div class="updates-highlights">
-                    <article class="update-highlight update-highlight--primary">
-                        <time datetime="2026-05" class="update-highlight-date">May 2026</time>
-                        <span class="update-highlight-label">Milestone</span>
-                        <h3>Completed my M.S. in Computer Science at ASU</h3>
-                        <p>Graduated with a 4.0 GPA after earning top-5% marks in all 9 courses.</p>
-                    </article>
-                    <article class="update-highlight">
-                        <time datetime="2026-04" class="update-highlight-date">Apr 2026</time>
-                        <span class="update-highlight-label">Recognition</span>
-                        <h3>AutoFrame received a best course project award</h3>
-                        <p>A software-assisted hardware system for automated photography.</p>
-                    </article>
-                    <article class="update-highlight">
-                        <time datetime="2026-02" class="update-highlight-date">Feb 2026</time>
-                        <span class="update-highlight-label">Research</span>
-                        <h3>MOMO accepted at CVPR 2026</h3>
-                        <p>A multisensor foundation model for Mars remote sensing.</p>
-                    </article>
-                </div>
-
-                <div class="updates-archive">
-                    <div class="updates-archive-heading">
-                        <h3>Earlier milestones</h3>
-                        <span>2025</span>
-                    </div>
-                    <ol class="updates-list">
-                        <li class="updates-recent"><time datetime="2026-05">May 2026</time><p>Completed my M.S. in Computer Science at ASU with a 4.0 GPA and top-5% marks in all nine courses.</p></li>
-                        <li class="updates-recent"><time datetime="2026-04">Apr 2026</time><p>AutoFrame received a best course project award for a software-assisted hardware system for automated photography.</p></li>
-                        <li class="updates-recent"><time datetime="2026-02">Feb 2026</time><p>MOMO, a multisensor foundation model for Mars remote sensing, was accepted at CVPR 2026.</p></li>
-                        <li><time datetime="2025-12">Dec 2025</time><p>Received the Best Poster Award at the NeurIPS ML for Physical Sciences Workshop.</p></li>
-                        <li><time datetime="2025-11">Nov 2025</time><p>Submitted a CVPR 2026 paper under the guidance of Dr. Hannah Kerner.</p></li>
-                        <li><time datetime="2025-09">Sep 2025</time><p>Built DishCovery, a food discovery app, at Sunhacks 2025.</p></li>
-                        <li><time datetime="2025-09">Sep 2025</time><p>Received acceptance for a NeurIPS paper in the Datasets and Benchmarks track.</p></li>
-                        <li><time datetime="2025-06">Jun 2025</time><p>Completed a summer internship at ASU&rsquo;s ACME Lab focused on efficient uncertainty estimation in deep learning.</p></li>
-                        <li><time datetime="2025-05">May 2025</time><p>Submitted a NeurIPS 2025 paper in the Datasets and Benchmarks track.</p></li>
-                        <li><time datetime="2025-05">May 2025</time><p>Completed the Spring 2025 semester with a 4.22 GPA and top-5% marks in two courses.</p></li>
-                        <li><time datetime="2025-04">Apr 2025</time><p>Started working at Decision Theater at ASU.</p></li>
-                        <li><time datetime="2025-03">Mar 2025</time><p>Started volunteering at the Kerner Lab at ASU.</p></li>
-                    </ol>
-                </div>
-            </div>
+            <ol class="section-content updates-list" role="list">
+                <li><time datetime="2026-05">May 2026</time><p>Completed my M.S. in Computer Science at ASU with a 4.0 GPA and top-5% marks in all nine courses.</p></li>
+                <li><time datetime="2026-04">Apr 2026</time><p>AutoFrame received a best course project award for a software-assisted hardware system for automated photography.</p></li>
+                <li><time datetime="2026-02">Feb 2026</time><p>MOMO, a multisensor foundation model for Mars remote sensing, was accepted at CVPR 2026.</p></li>
+                <li><time datetime="2025-12">Dec 2025</time><p>Received the Best Poster Award at the NeurIPS ML for Physical Sciences Workshop.</p></li>
+                <li><time datetime="2025-11">Nov 2025</time><p>Submitted a CVPR 2026 paper under the guidance of Dr. Hannah Kerner.</p></li>
+                <li><time datetime="2025-09">Sep 2025</time><p>Built DishCovery, a food discovery app, at Sunhacks 2025.</p></li>
+                <li><time datetime="2025-09">Sep 2025</time><p>Received acceptance for a NeurIPS paper in the Datasets and Benchmarks track.</p></li>
+                <li><time datetime="2025-06">Jun 2025</time><p>Completed a summer internship at ASU&rsquo;s ACME Lab focused on efficient uncertainty estimation in deep learning.</p></li>
+                <li><time datetime="2025-05">May 2025</time><p>Submitted a NeurIPS 2025 paper in the Datasets and Benchmarks track.</p></li>
+                <li><time datetime="2025-05">May 2025</time><p>Completed the Spring 2025 semester with a 4.22 GPA and top-5% marks in two courses.</p></li>
+                <li><time datetime="2025-04">Apr 2025</time><p>Started working at Decision Theater at ASU.</p></li>
+                <li><time datetime="2025-03">Mar 2025</time><p>Started volunteering at the Kerner Lab at ASU.</p></li>
+            </ol>
         </section>
 
         <!-- ===== Contact Section (#contact) ===== -->
-        <section id="contact">
-            <div class="contact-section-header">
-                <span>Contact</span>
-                <h2>Let&rsquo;s talk</h2>
-            </div>
+        <section id="contact" class="portfolio-section">
+            <header class="section-intro">
+                <h2 class="section-heading">Contact</h2>
+                <p class="section-paragraph">I&rsquo;m open to machine-learning, applied AI, and research-engineering opportunities. If you&rsquo;re building something interesting or have a process that should be automated, just reach out!</p>
+            </header>
 
-            <div class="contact-shell">
-                <div class="contact-primary">
-                    <!-- <span class="contact-eyebrow">Open to good problems</span> -->
-                    <h2>Interested in collaborating?</h2>
-                    <p>I&rsquo;m open to machine-learning, applied AI, and research-engineering opportunities. If you&rsquo;re building something interesting or have a process that should be automated, just reach out!</p>
-                    <a class="contact-email" href="mailto:ihmehta@asu.edu">
-                        <span>ihmehta@asu.edu</span>
-                        <span aria-hidden="true">&nearr;</span>
-                    </a>
-                </div>
-
-                <div class="contact-network">
-                    <div class="contact-network-heading">
-                        <span>Find me online</span>
-                    </div>
-                    <div class="contact-links-grid">
-                        <a class="contact-link" href="https://www.linkedin.com/in/irishmehta/" target="_blank" rel="noopener noreferrer">
-                            <span class="contact-link-type">Professional</span>
-                            <strong>LinkedIn</strong>
-                            <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
-                        </a>
-                        <a class="contact-link" href="https://github.com/IrishMehta" target="_blank" rel="noopener noreferrer">
-                            <span class="contact-link-type">Code</span>
-                            <strong>GitHub</strong>
-                            <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
-                        </a>
-                        <a class="contact-link" href="https://scholar.google.com/citations?hl=en&user=O9nBOl8AAAAJ" target="_blank" rel="noopener noreferrer">
-                            <span class="contact-link-type">Research</span>
-                            <strong>Google Scholar</strong>
-                            <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
-                        </a>
-                        <a class="contact-link" href="https://x.com/IrishMehta" target="_blank" rel="noopener noreferrer">
-                            <span class="contact-link-type">Writing &amp; updates</span>
-                            <strong>X / Twitter</strong>
-                            <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- <p class="contact-closing-note">Usually quickest by email. I&rsquo;ll get back to you as soon as I can.</p> -->
-<!-- 
-            <h2 class="section-heading">Let's Connect!</h2>
-            <p class="section-paragraph">
-                Feel free to reach out for collaborations, opportunities, or just to say hello. I'm always open to connecting with fellow data enthusiasts and developers!
-            </p>
-            
-            <div class="social-links-container">
-
-                
-                <a href="https://www.linkedin.com/in/irishmehta/" class="social-link" target="_blank" rel="noopener noreferrer">
-                    <div class="social-icon linkedin">
-                        <i class="fab fa-linkedin-in"></i>
-                    </div>
-                    <span class="social-name">LinkedIn</span>
+            <div class="section-content centered-grid contact-links-grid">
+                <a class="contact-link" href="mailto:ihmehta@asu.edu">
+                    <span class="contact-link-type">Email</span>
+                    <strong>ihmehta@asu.edu</strong>
+                    <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
                 </a>
-
-                <a href="https://github.com/IrishMehta" class="social-link" target="_blank" rel="noopener noreferrer">
-                    <div class="social-icon github">
-                        <i class="fab fa-github"></i>
-                    </div>
-                    <span class="social-name">GitHub</span>
+                <a class="contact-link" href="https://www.linkedin.com/in/irishmehta/" target="_blank" rel="noopener noreferrer">
+                    <span class="contact-link-type">Professional</span>
+                    <strong>LinkedIn</strong>
+                    <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
                 </a>
-                
-                <a href="https://scholar.google.com/citations?hl=en&user=O9nBOl8AAAAJ" class="social-link" target="_blank" rel="noopener noreferrer">
-                    <div class="social-icon google-scholar">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <span class="social-name">Google Scholar</span>
+                <a class="contact-link" href="https://github.com/IrishMehta" target="_blank" rel="noopener noreferrer">
+                    <span class="contact-link-type">Code</span>
+                    <strong>GitHub</strong>
+                    <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
                 </a>
-                
-                <a href="https://x.com/IrishMehta" class="social-link" target="_blank" rel="noopener noreferrer">
-                    <div class="social-icon twitter">
-                        <i class="fab fa-twitter"></i>
-                    </div>
-                    <span class="social-name">Twitter</span>
+                <a class="contact-link" href="https://scholar.google.com/citations?hl=en&user=O9nBOl8AAAAJ" target="_blank" rel="noopener noreferrer">
+                    <span class="contact-link-type">Research</span>
+                    <strong>Google Scholar</strong>
+                    <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
+                </a>
+                <a class="contact-link" href="https://x.com/IrishMehta" target="_blank" rel="noopener noreferrer">
+                    <span class="contact-link-type">Writing &amp; updates</span>
+                    <strong>X / Twitter</strong>
+                    <span class="contact-link-arrow" aria-hidden="true">&nearr;</span>
                 </a>
             </div>
-            
-            <p class="section-paragraph">
-                Alternatively, drop me an email at <a href="mailto:ihmehta@asu.edu" class="email-link">ihmehta@asu.edu</a>
-            </p>
-            
-            <div style="height: 40vh;"></div> Extra space -->
         </section>
 
     </main>

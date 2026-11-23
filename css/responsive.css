@@ -30,7 +30,6 @@
 
     /* Typography */
     h1 { font-size: 2.2rem; } /* Was: clamp(2.5rem, 6vw, 4rem) */
-    h2 { font-size: 1.9rem; } /* Was: clamp(2rem, 5vw, 3rem) */
 
     /* Layout */
     section {
@@ -50,99 +49,14 @@
     }
 
     #about-text-content,
-    #updates .updates-container,
-    .social-links-container,
-    .projects-container {
+    .social-links-container {
         width: min(100%, 42rem);
     }
 
-    #updates .updates-list li,
     .project-description,
     .timeline-company,
     .timeline-skills {
         overflow-wrap: anywhere;
-    }
-
-    /* MDP Timeline Responsive Adjustments */
-    .timeline-container-mdp::after {
-        left: 20px;
-        transform: none;
-    }
-
-    .timeline-state,
-    .timeline-state:nth-child(even) { /* Also applies to odd now for stacking */
-        width: 100%;
-        left: 0;
-        padding-left: 55px;
-        padding-right: 15px;
-        text-align: left !important; /* Force left align for all stacked items */
-    }
-    .timeline-state:nth-child(odd) { /* Ensure odd items also stack left */
-        text-align: left !important; /* Force left align */
-    }
-
-
-    .timeline-node,
-    .timeline-state:nth-child(odd) .timeline-node, /* Consolidate for stacked view */
-    .timeline-state:nth-child(even) .timeline-node {
-        left: 10px; /* Position relative to new line */
-        transform: translateX(-50%);
-        top: 15px; /* Adjust vertical */
-    }
-    /* Hover info box for main timeline content (if you re-add it) */
-    /*
-    .timeline-state-content::after,
-    .timeline-state:nth-child(odd) .timeline-state-content::after {
-        left: 0;
-        right: auto;
-        max-width: calc(100% - 20px);
-        text-align: left;
-    }
-    */
-
-    /* Node Icon position on mobile */
-    .node-icon,
-    .timeline-state:nth-child(odd) .node-icon,
-    .timeline-state:nth-child(even) .node-icon {
-        left: 35px;
-        right: auto;
-        top: 18px;
-    }
-
-    /* Accomplishments Panel and Toggle on mobile */
-    .timeline-accomplish-panel,
-    .timeline-state:nth-child(odd) .timeline-accomplish-panel,
-    .timeline-state:nth-child(even) .timeline-accomplish-panel {
-        position: relative; /* Stack below content */
-        left: auto;
-        right: auto;
-        top: auto;
-        width: calc(100% - 20px); /* Adjust width to fit within padded .timeline-state */
-        margin: 10px auto 20px auto; /* Center and add margin */
-        float: none;
-        transform: translateY(0); /* Reset transform */
-        max-width: none; /* Allow it to fill available width */
-    }
-
-    .timeline-state {
-        padding-block-end: 0;
-    }
-
-    .timeline-state-content {
-        padding: 0.95rem 1rem;
-    }
-
-    .timeline-accomplish-panel ul {
-        padding-left: 1rem;
-    }
-
-    .timeline-state:nth-child(odd) .timeline-accomplish-toggle,
-    .timeline-state:nth-child(even) .timeline-accomplish-toggle {
-        float: none; /* Stack button */
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 200px; /* Or adjust as needed */
     }
 
     /* Older .timeline-event responsive styles from original CSS */
@@ -207,7 +121,6 @@
 
     /* Typography */
     h1 { font-size: 3rem; }
-    h2 { font-size: 3rem; }
     p { font-size: 0.95rem; } /* General paragraph */
 
     /* Layout */
@@ -222,49 +135,8 @@
     }
 
     #about-text-content,
-    #updates .updates-container,
-    .social-links-container,
-    .projects-container,
-    .timeline-container-mdp {
+    .social-links-container {
         width: 100%;
-    }
-
-    /* MDP Timeline on small mobile */
-    .timeline-container-mdp::after {
-        left: 15px;
-    }
-    .timeline-state { /* Applies to both odd and even due to stacking */
-        padding-left: 45px; /* Less padding for smaller screens */
-        margin-bottom: 30px; /* Reduce space between items */
-    }
-     .timeline-node, /* Applies to both odd and even */
-     .timeline-state:nth-child(odd) .timeline-node,
-     .timeline-state:nth-child(even) .timeline-node {
-        left: 5px; /* Closer to the very edge for the line */
-        width: 18px;
-        height: 18px;
-        border-width: 1.5px;
-        top: 12px;
-    }
-    .timeline-title { font-size: 1.05rem; }
-    .timeline-company, .timeline-skills { font-size: 0.85rem; }
-    .timeline-date { font-size: 0.68rem; }
-    .timeline-state-content { padding: 0.85rem 0.9rem; }
-    .timeline-accomplish-panel { width: calc(100% - 8px); padding: 0.85rem; }
-    .timeline-accomplish-toggle { width: 100%; max-width: none; }
-    /* .timeline-state-content::after { font-size: 0.8rem; } */ /* If hover info is re-added */
-
-    /* Node Icon position on small mobile */
-     .node-icon,
-     .timeline-state:nth-child(odd) .node-icon,
-     .timeline-state:nth-child(even) .node-icon {
-         left: 30px;
-         top: 15px;
-     }
-
-    .projects-container {
-        grid-template-columns: 1fr;
-        gap: 1.4rem;
     }
 
     .project-card-wrapper {
@@ -298,25 +170,6 @@
     .project-link {
         width: 100%;
         text-align: center;
-    }
-
-    #updates .updates-container {
-        padding: 1rem 0.9rem;
-        border-radius: 14px;
-    }
-
-    #updates .updates-list {
-        font-size: 0.94rem;
-    }
-
-    #updates .updates-list li {
-        padding-left: 22px;
-        margin-bottom: 0.9rem;
-    }
-
-    #updates .updates-list li::before {
-        top: 0.8em;
-        transform: none;
     }
 
     .social-links-container {
@@ -391,16 +244,6 @@
         transform: none !important;
         visibility: visible !important;
     }
-
-
-  /* Ensure timeline nodes are as intended */
-  .timeline-node { /* Changed from .timeline-dot */
-      transform: scale(1) !important; /* Reset any hover/focus scale */
-      /* If it was translateX for positioning, that needs to be preserved or handled differently */
-      box-shadow: none !important;
-  }
-   .timeline-state:nth-child(odd) .timeline-node { transform: translateX(50%) scale(1) !important; }
-   .timeline-state:nth-child(even) .timeline-node { transform: translateX(-50%) scale(1) !important; }
 
 
   /* Ensure canvas is hidden if its visibility relies on animation/transition */

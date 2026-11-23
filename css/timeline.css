@@ -2,41 +2,11 @@
 
 /* ===== Experience Timeline ===== */
 
-#timeline {
-    align-items: stretch;
-    text-align: left;
-    padding-inline: 5%;
-}
-
-.timeline-intro {
-    width: min(100%, 760px);
-    margin-inline: auto;
-    text-align: center;
-}
-
-.timeline-eyebrow {
-    display: inline-block;
-    margin-bottom: 0.9rem;
-    color: hsl(var(--clr-accent));
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    line-height: 1.2;
-    text-transform: uppercase;
-}
-
-#timeline .section-heading {
-    max-width: none;
-    margin-inline: auto;
-    font-size: clamp(2.7rem, 2.2rem + 2vw, 4.5rem);
-    text-align: center;
-}
-
 .timeline-container-mdp {
+    --timeline-rail-position: calc(-1 * min(1.5rem, var(--section-gutter) / 2));
+    --timeline-content-inset: clamp(1rem, 2.5vw, 1.55rem);
     position: relative;
-    width: min(100%, 1020px);
-    margin: clamp(2.25rem, 5vw, 4rem) auto 0;
-    padding-block: 0.5rem;
+    text-align: left;
 }
 
 /* The rail stays quiet so the cards remain the main focus. */
@@ -45,8 +15,9 @@
     position: absolute;
     top: 1.35rem;
     bottom: 1.35rem;
-    left: 13px;
+    left: var(--timeline-rail-position);
     width: 1px;
+    transform: translateX(-50%);
     background: linear-gradient(
         to bottom,
         transparent,
@@ -59,13 +30,8 @@
 
 .timeline-state {
     position: relative;
-    left: 0 !important;
     z-index: 1;
-    display: block;
-    width: 100% !important;
     margin: 0 0 1.6rem;
-    padding-left: 42px !important;
-    text-align: left !important;
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
@@ -80,11 +46,10 @@
     transform: translateY(0);
 }
 
-.timeline-node,
-.timeline-state:nth-child(n) .timeline-node {
+.timeline-node {
     position: absolute;
     top: 1.35rem;
-    left: 13px;
+    left: var(--timeline-rail-position);
     width: 13px;
     height: 13px;
     border: 3px solid hsl(var(--clr-bg-start));
@@ -97,7 +62,7 @@
 
 .timeline-state-content {
     min-width: 0;
-    padding: 1.35rem 1.55rem 1.25rem;
+    padding: 1.35rem var(--timeline-content-inset) 1.25rem;
     border: 1px solid hsl(var(--clr-heading) / 0.16);
     border-left: 3px solid hsl(var(--clr-accent) / 0.72);
     border-radius: 14px;
@@ -161,8 +126,9 @@
     display: block !important;
     width: auto !important;
     max-width: none !important;
-    margin: -1.15rem 1.8rem 0;
-    padding: 1.15rem 1.8rem 0.2rem;
+    margin: 0;
+    padding-block: 0.4rem 0.2rem;
+    padding-inline: calc(var(--timeline-content-inset) + 3px) calc(var(--timeline-content-inset) + 1px);
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -187,7 +153,7 @@
 .timeline-accomplish-panel li {
     position: relative;
     margin: 0;
-    padding: 0.34rem 0 0.34rem 1.25rem;
+    padding-block: 0.34rem;
     color: hsl(var(--clr-text) / 0.82);
     font-size: 0.94rem;
     line-height: 1.55;
@@ -196,7 +162,7 @@
 .timeline-accomplish-panel li::before {
     position: absolute;
     top: 0.95rem;
-    left: 0;
+    left: -0.75rem;
     width: 5px;
     height: 5px;
     border-radius: 50%;
@@ -206,31 +172,17 @@
 }
 
 @media (max-width: 768px) {
-    #timeline {
-        padding-inline: 4.5%;
-    }
-
-    .timeline-container-mdp {
-        width: 100%;
-        margin-top: 3.25rem;
-        padding-left: 0.1rem;
-    }
-
     .timeline-container-mdp::after {
         top: 1rem;
         bottom: 1rem;
-        left: 0.35rem;
     }
 
     .timeline-state {
         margin-bottom: 2rem;
-        padding-left: 1.35rem !important;
     }
 
-    .timeline-node,
-    .timeline-state:nth-child(n) .timeline-node {
+    .timeline-node {
         top: 1.05rem;
-        left: 0.35rem;
     }
 
     .timeline-date {
@@ -240,18 +192,11 @@
     }
 
     .timeline-state-content {
-        padding: 1.25rem 1.15rem 1.1rem;
+        padding-block: 1.25rem 1.1rem;
     }
 
     .timeline-title {
         font-size: clamp(1.85rem, 7vw, 2.35rem);
-    }
-
-    .timeline-accomplish-panel,
-    .timeline-state:nth-child(odd) .timeline-accomplish-panel,
-    .timeline-state:nth-child(even) .timeline-accomplish-panel {
-        margin: -0.8rem 0.8rem 0;
-        padding: 1rem 0.5rem 0.15rem;
     }
 
     .timeline-accomplish-panel li {
@@ -260,11 +205,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .timeline-state:nth-child(n) .timeline-node {
-        transform: translateX(-50%) !important;
-    }
-
     .timeline-state {
         transition: none !important;
+    }
+
+    .timeline-node {
+        box-shadow: none;
     }
 }

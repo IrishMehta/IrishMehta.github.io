@@ -20,3 +20,57 @@ section {
 section:last-child {
     border-bottom: none;
 }
+
+main > .portfolio-section {
+    --section-width: 1120px;
+    --section-gutter: clamp(1.25rem, 5vw, 4rem);
+    min-height: auto;
+    margin-block-start: clamp(2.5rem, 4vw, 4rem);
+    padding-block: clamp(3.25rem, 5vw, 4.75rem);
+    padding-inline: var(--section-gutter);
+    gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.section-intro,
+.section-content {
+    width: min(100%, var(--section-width));
+    max-width: none;
+}
+
+.section-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.section-intro .section-heading {
+    max-width: none;
+    margin: 0;
+}
+
+.section-intro .section-paragraph {
+    margin: 0;
+    color: hsl(var(--clr-text) / 0.76);
+}
+
+@media (scripting: none) {
+    .section-intro .section-heading,
+    .section-intro .section-paragraph {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.centered-grid {
+    --column-gap: clamp(1rem, 2vw, 1.35rem);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--row-gap, var(--column-gap)) var(--column-gap);
+}
+
+.centered-grid > * {
+    flex: 0 0 calc((100% + var(--column-gap)) / var(--columns) - var(--column-gap));
+    min-width: 0;
+}
