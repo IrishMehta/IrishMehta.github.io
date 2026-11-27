@@ -1,12 +1,8 @@
 /* css/sectionTransitions.css */
 
-/* Give each major section breathing room over the plain page background. */
+/* Keep the main content above the decorative canvas. */
 main {
     position: relative;
-    isolation: isolate;
-}
-
-main > section {
     z-index: 1;
 }
 

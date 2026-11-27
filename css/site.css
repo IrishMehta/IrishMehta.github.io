@@ -487,7 +487,6 @@ nav a:focus-visible {
 /* About-led hero */
 section#home {
     position: relative;
-    isolation: isolate;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -611,7 +610,6 @@ section#home {
     pointer-events: none;
     opacity: 0.2;
     transition: opacity 0.9s ease;
-    will-change: opacity;
 }
 
 #cluster-canvas[data-cluster-section="home"] { opacity: 0.38; }
@@ -2167,13 +2165,9 @@ section#home {
 
 /* css/sectionTransitions.css */
 
-/* Give each major section breathing room over the plain page background. */
+/* Keep the main content above the decorative canvas. */
 main {
     position: relative;
-    isolation: isolate;
-}
-
-main > section {
     z-index: 1;
 }
 

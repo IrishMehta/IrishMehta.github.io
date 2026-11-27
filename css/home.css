@@ -3,7 +3,6 @@
 /* About-led hero */
 section#home {
     position: relative;
-    isolation: isolate;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -127,7 +126,6 @@ section#home {
     pointer-events: none;
     opacity: 0.2;
     transition: opacity 0.9s ease;
-    will-change: opacity;
 }
 
 #cluster-canvas[data-cluster-section="home"] { opacity: 0.38; }
